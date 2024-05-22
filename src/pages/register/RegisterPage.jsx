@@ -5,15 +5,21 @@ import Button from "../../components/shared/button/Button";
 import InputLabel from "../../components/shared/inputandLabel/InputLabel";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { userActions } from "../../store/reducers/userReducer";
 const RegisterPage = () => {
+  const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
+    reset,
+    watch,
   } = useForm({
     defaultValues: {
-      Name: "",
-      Email: "",
+      name: "",
+      email: "",
       phone: "",
       password: "",
       confirmPassword: "",
@@ -23,6 +29,8 @@ const RegisterPage = () => {
 
   const handleSubmitData = (data) => {
     console.log(data, "form data");
+    dispatch(userActions.setUserInfo(data));
+    reset();
   };
   return (
     <MainLayout searchArea={false}>
@@ -36,6 +44,7 @@ const RegisterPage = () => {
             name="name"
             label={"Club / Area Name"}
             placeholder={"Enter Name"}
+            value={2}
           />
           <InputLabel
             register={register}
@@ -43,13 +52,16 @@ const RegisterPage = () => {
             name={"email"}
             label={"Email Address"}
             placeholder={"Enter Email"}
+            // type="email"
           />
           <InputLabel
             register={register}
+            type="tel"
             errors={errors}
             name={"phone"}
             label={"Phone No."}
             placeholder={"Enter Phone"}
+            value={11}
           />
           <InputLabel
             register={register}
@@ -57,6 +69,9 @@ const RegisterPage = () => {
             name={"password"}
             label={"Password"}
             placeholder={"Enter Password"}
+            type="password"
+            value={6}
+            watch={watch}
           />
           <InputLabel
             register={register}
@@ -64,6 +79,9 @@ const RegisterPage = () => {
             name={"confirmPassword"}
             label={"Confirm Password"}
             placeholder={"Enter Password"}
+            type="password"
+            value={6}
+            watch={watch}
           />
 
           <Button type={"submit"} btnName={"Register"} />

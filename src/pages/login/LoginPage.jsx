@@ -1,16 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import MainLayout from "../../components/MainLayout";
 import InputLabel from "../../components/shared/inputandLabel/InputLabel";
 import { useForm } from "react-hook-form";
 import Button from "../../components/shared/button/Button";
 import { Link } from "react-router-dom";
+import { detectInputType } from "../../utils/detectInputType";
+import toast from "react-hot-toast";
+import { useMutation } from "@tanstack/react-query";
+import { login } from "../../service/user";
 const LoginPage = () => {
+  const { mutate } = useMutation({
+    mutationFn: ({ valueType, value, password }) => {
+      return login({ valueType, value, password });
+    },
+    onSuccess: (data) => {
+      console.log(data);
+    },
+
+    mutationKey: ["userInfo"],
+  });
+
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
-    watch,
   } = useForm({
     defaultValues: {
       value: "",
@@ -20,10 +34,17 @@ const LoginPage = () => {
   });
 
   const handleSubmitData = (data) => {
-    console.log(data, "form data");
+    const { value, password } = data;
+    const valueType = detectInputType(value);
+    if (valueType === "invalid") {
+      toast.error("please enter valid email or password");
+      return;
+    }
+
+    mutate({ valueType, value, password });
   };
   return (
-    <MainLayout searchArea={false}>
+    <MainLayout>
       <Container>
         <h2>Sign In</h2>
 
@@ -34,7 +55,7 @@ const LoginPage = () => {
             name={"value"}
             label={"Email Or Phone"}
             placeholder={"Enter Email Or Phone"}
-            textMsg=" "
+            textMsg="Enter valid Email Or password"
             // type="email"
           />
 

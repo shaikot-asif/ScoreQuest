@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/Home/HomePage";
 import RegisterPage from "./pages/register/RegisterPage";
 import LoginPage from "./pages/login/LoginPage";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
         <Route path="/signup" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>
+      <Toaster />
     </div>
   );
 };

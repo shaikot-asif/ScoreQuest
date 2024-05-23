@@ -2,8 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import images from "../constants/images";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-const Header = ({ searchArea = true }) => {
+const Header = () => {
+  const userState = useSelector((state) => state.user);
   return (
     <Container>
       <div className="container">
@@ -12,14 +14,24 @@ const Header = ({ searchArea = true }) => {
             <img src={images.ScoreQuest} alt="logo" />
           </Link>
         </div>
-        {searchArea && (
-          <div className="searchArea">
-            <input type="text" placeholder="Search match by club name" />
-            <button type="button">search</button>
-          </div>
-        )}
+
         <div className="menu">
-          <Link to={"/signup"}>Sign in</Link>
+          {userState.userInfo ? (
+            <ul>
+              <li>
+                <Link to={"/profile"}>Profile</Link>
+              </li>
+              <li>
+                <button>Logout</button>
+              </li>
+            </ul>
+          ) : (
+            <ul>
+              <li>
+                <Link to={"/signup"}>Sign in</Link>
+              </li>
+            </ul>
+          )}
         </div>
       </div>
     </Container>
@@ -35,7 +47,7 @@ const Container = styled.div`
   width: 100%;
   padding: 1rem 0px;
   .container {
-    max-width: 1140px;
+    max-width: 1240px;
     margin: auto;
     display: flex;
     flex-wrap: wrap;
@@ -49,40 +61,6 @@ const Container = styled.div`
   .logoArea img {
     width: 100%;
   }
-  .searchArea {
-    position: relative;
-  }
-  .searchArea input {
-    width: 530px;
-    height: 60px;
-    border-radius: 30px;
-    outline: none;
-    background: inherit;
-    border: 1px solid white;
-    font-size: 18px;
-    padding: 0 20px;
-    color: white;
-  }
-  .searchArea input::placeholder {
-    color: #c3cad9;
-    font-weight: 200;
-  }
-
-  .searchArea button {
-    height: 60px;
-    width: 130px;
-    border-radius: 30px;
-    outline: none;
-    background: transparent;
-    border: 1px solid white;
-    font-size: 18px;
-    padding: 0 20px;
-    color: white;
-    text-transform: capitalize;
-    position: absolute;
-    right: 0;
-    cursor: pointer;
-  }
 
   .menu a {
     display: block;
@@ -94,6 +72,32 @@ const Container = styled.div`
     outline: none;
     background: transparent;
     border: 1px solid white;
+    font-size: 18px;
+    color: white;
+    text-transform: capitalize;
+    text-decoration: none;
+
+    cursor: pointer;
+  }
+
+  .menu ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    gap: 1rem;
+  }
+
+  .menu button {
+    display: block;
+    text-align: center;
+    padding: 10px 0;
+    width: 130px !important;
+    height: 48px !important;
+
+    outline: none;
+    background: transparent;
+    border: none;
     font-size: 18px;
     color: white;
     text-transform: capitalize;

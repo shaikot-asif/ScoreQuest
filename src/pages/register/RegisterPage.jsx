@@ -1,14 +1,41 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import MainLayout from "../../components/MainLayout";
 import Button from "../../components/shared/button/Button";
 import InputLabel from "../../components/shared/inputandLabel/InputLabel";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../../store/reducers/userReducer";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-hot-toast";
+import { signup } from "../../service/user.js";
 const RegisterPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const userState = useSelector((state) => state.user);
+
+  console.log(userState, "userState");
+
+  const { mutate } = useMutation({
+    mutationFn: ({ name, email, phone, password }) => {
+      return signup({ name, email, phone, password });
+    },
+    onSuccess: (data) => {
+      dispatch(userActions.setUserInfo(data));
+      localStorage.setItem("userAccount", JSON.stringify(data));
+      toast.success("Account created Successfully");
+      console.log(data, "data");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    mutationKey: ["userInfo"],
+  });
+
+  useEffect(() => {
+    if (userState.userInfo) navigate("/");
+  }, [navigate, userState.userInfo]);
 
   const {
     register,
@@ -28,12 +55,13 @@ const RegisterPage = () => {
   });
 
   const handleSubmitData = (data) => {
-    console.log(data, "form data");
-    dispatch(userActions.setUserInfo(data));
+    const { name, email, phone, password } = data;
+    mutate({ name, email, phone, password });
+
     reset();
   };
   return (
-    <MainLayout searchArea={false}>
+    <MainLayout>
       <Container>
         <h2>Sign Up</h2>
 

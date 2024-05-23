@@ -19,7 +19,6 @@ const registerUser = async (req, res, next) => {
     });
 
     await user.save();
-    console.log(user, "user have or not");
 
     return res.status(201).json({
       _id: user._id,
@@ -36,4 +35,28 @@ const registerUser = async (req, res, next) => {
   }
 };
 
-module.exports = { registerUser };
+const login = async (req, res, next) => {
+  try {
+    const { valueType, value, password } = req.body;
+
+    let user = await User.findOne({ [valueType]: value });
+    if (!user) {
+      throw new Error("Email or Phone are not found");
+    }
+    if (await user.comparePassword(password)) {
+      return res.status(201).json({
+        _id: user._id,
+        avatar: user.avatar,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        admin: user.admin,
+        token: await user.generateJWT(),
+      });
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+module.exports = { registerUser, login };

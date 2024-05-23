@@ -27,13 +27,13 @@ UserSchema.pre("save", async function (next) {
 });
 
 UserSchema.methods.generateJWT = async function () {
-  return jwt.sign({ id: this._id }, process.env.JWT_TOKEN, {
+  return await jwt.sign({ id: this._id }, process.env.JWT_TOKEN, {
     expiresIn: "30d",
   });
 };
 
 UserSchema.methods.comparePassword = async function (enteredPassword) {
-  return bcrypt.compare(enteredPassword, this.password);
+  return await bcrypt.compare(enteredPassword, this.password);
 };
 
 const User = model("User", UserSchema);

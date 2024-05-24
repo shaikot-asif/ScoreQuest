@@ -1,30 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import MainLayout from "../../components/MainLayout";
 import InputLabel from "../../components/shared/inputandLabel/InputLabel";
 import { useForm } from "react-hook-form";
 import Button from "../../components/shared/button/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { detectInputType } from "../../utils/detectInputType";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../service/user";
+import { userActions } from "../../store/reducers/userReducer";
 const LoginPage = () => {
+  const dispatch = useDispatch();
+  const userState = useSelector((state) => state.user);
+  const navigate = useNavigate();
   const { mutate } = useMutation({
     mutationFn: ({ valueType, value, password }) => {
       return login({ valueType, value, password });
     },
     onSuccess: (data) => {
-      console.log(data);
+      dispatch(userActions.setUserInfo(data));
+      localStorage.setItem("userAccount", JSON.stringify(data));
+      toast.success("Account Login Successfully");
+      console.log(data, "data");
+    },
+    onError: (error) => {
+      toast.error(error.message);
     },
 
     mutationKey: ["userInfo"],
   });
 
+  useEffect(() => {
+    if (userState.userInfo) navigate("/");
+    console.log("from useEffect");
+  }, [navigate, userState.userInfo]);
+
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
+    reset,
   } = useForm({
     defaultValues: {
       value: "",
@@ -42,6 +59,7 @@ const LoginPage = () => {
     }
 
     mutate({ valueType, value, password });
+    reset();
   };
   return (
     <MainLayout>

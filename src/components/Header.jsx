@@ -2,10 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import images from "../constants/images";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../store/reducers/userAction";
 
 const Header = () => {
   const userState = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   return (
     <Container>
       <div className="container">
@@ -22,7 +24,7 @@ const Header = () => {
                 <Link to={"/profile"}>Profile</Link>
               </li>
               <li>
-                <button>Logout</button>
+                <button onClick={() => dispatch(logout())}>Logout</button>
               </li>
             </ul>
           ) : (

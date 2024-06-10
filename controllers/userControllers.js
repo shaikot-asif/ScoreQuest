@@ -40,8 +40,9 @@ const login = async (req, res, next) => {
     const { valueType, value, password } = req.body;
 
     let user = await User.findOne({ [valueType]: value });
+    console.log(user, "user");
     if (!user) {
-      throw new Error("Email or Phone are not found");
+      return res.status(404).json({ message: `${valueType} not found` });
     }
     if (await user.comparePassword(password)) {
       return res.status(201).json({
@@ -53,9 +54,12 @@ const login = async (req, res, next) => {
         admin: user.admin,
         token: await user.generateJWT(),
       });
+    } else {
+      return res.status(404).json({ message: "Invalid password" });
     }
   } catch (e) {
-    console.log(e);
+    console.log(e, "catch");
+    next(e);
   }
 };
 

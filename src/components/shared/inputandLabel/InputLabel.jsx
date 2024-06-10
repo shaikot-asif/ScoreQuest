@@ -40,7 +40,7 @@ const InputLabel = ({
   }
 
   return (
-    <Container className={errors[name]?.message}>
+    <Container className={errors[name]?.message ? errors[name]?.message : ""}>
       <label htmlFor={name}>{label}</label>
 
       <input

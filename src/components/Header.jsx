@@ -46,6 +46,7 @@ const Container = styled.div`
   position: fixed;
   top: 0;
   background: #041434;
+  border-bottom: 1px solid red;
   width: 100%;
   padding: 1rem 0px;
   .container {

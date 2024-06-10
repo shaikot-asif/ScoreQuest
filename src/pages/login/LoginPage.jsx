@@ -59,7 +59,7 @@ const LoginPage = () => {
     }
 
     mutate({ valueType, value, password });
-    reset();
+    // reset();
   };
   return (
     <MainLayout>

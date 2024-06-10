@@ -36,6 +36,7 @@ const Container = styled.div`
     outline: none;
     background: inherit;
     border: 1px solid #041434;
+    color: #041434 !important;
     font-size: 18px;
     padding: 0 20px;
     color: white;

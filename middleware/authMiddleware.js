@@ -1,7 +1,7 @@
-import jwt from "jsonwebtoken";
-import User from "../models/User.js";
+const jwt = require("jsonwebtoken");
+const User = require("../models/User.js");
 
-export const authGuard = async (req, res, next) => {
+const authGuard = async (req, res, next) => {
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
@@ -22,3 +22,5 @@ export const authGuard = async (req, res, next) => {
     next(error);
   }
 };
+
+module.exports = { authGuard };

@@ -38,7 +38,7 @@ const SideBar = () => {
           {show && (
             <ul className="dropdownContent">
               <li>
-                <Link>Manage Player</Link>
+                <Link to={"managePlayer"}>Manage Player</Link>
               </li>
               <li>
                 <Link to={"addPlayer"}>Add Player</Link>

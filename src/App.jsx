@@ -7,8 +7,9 @@ import LoginPage from "./pages/login/LoginPage";
 import { Toaster } from "react-hot-toast";
 import UserProfile from "./pages/userProfile/UserProfile";
 import MainContent from "./pages/userProfile/mainContent/MainContent";
-import Player from "./pages/userProfile/player/Player";
+import ManagePlayer from "./pages/userProfile/player/manage/ManagePlayer";
 import AddPlayer from "./pages/userProfile/player/addPlayer/AddPlayer";
+import UpdatePlayer from "./pages/userProfile/player/manage/update/UpdatePlayer";
 
 const App = () => {
   return (
@@ -20,6 +21,8 @@ const App = () => {
         <Route path="/profile" element={<UserProfile />}>
           <Route index element={<MainContent />} />
           <Route path="addPlayer" element={<AddPlayer />} />
+          <Route path="managePlayer" element={<ManagePlayer />} />
+          <Route path="update/:playerId" element={<UpdatePlayer />} />
         </Route>
       </Routes>
       <Toaster />

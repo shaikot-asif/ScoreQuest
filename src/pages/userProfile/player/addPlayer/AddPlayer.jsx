@@ -1,18 +1,47 @@
 import React from "react";
 import styled from "styled-components";
-import InputLabel from "../../../../components/shared/inputandLabel/InputLabel";
+import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import images from "../../../../constants/images";
 import { useState } from "react";
 import { useRef } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { addPlayer } from "../../../../service/player";
+import { useSelector } from "react-redux";
+import AddAndManagePlayer from "../components/AddAndManagePlayer";
 const AddPlayer = () => {
-  const [defaultImage, setDefaultImage] = useState(images.Shaikot);
+  const [AvatarUrl, setAvatarUrl] = useState(images.Profile);
+  const [uploadProfile, setUploadProfile] = useState();
+
+  const userState = useSelector((state) => state.user);
 
   const profileUseRef = useRef(null);
+
+  const { mutate } = useMutation({
+    mutationFn: ({ formData, token }) => {
+      return addPlayer({
+        formData,
+        token,
+      });
+    },
+
+    onSuccess: (data) => {
+      console.log("mutation Data: ", data);
+      reset();
+      setAvatarUrl(images.Profile);
+      toast.success("Player added successfully");
+    },
+    onError: (error) => {
+      console.log("mutation error", error);
+      toast.error(error);
+    },
+    mutationKey: ["player"],
+  });
 
   const {
     register,
     watch,
+    reset,
     formState: { errors },
     handleSubmit,
   } = useForm({
@@ -29,107 +58,43 @@ const AddPlayer = () => {
 
   const handleChange = () => {
     const uploadImage = profileUseRef.current.files[0];
+
+    setUploadProfile(uploadImage);
     const cachedImageUrl = URL.createObjectURL(uploadImage);
-    setDefaultImage(cachedImageUrl);
+    setAvatarUrl(cachedImageUrl);
   };
 
   const submitHandle = (data) => {
-    console.log(data);
-    console.log(defaultImage);
+    const { firstName, lastName, birthday, role } = data;
+    const formData = new FormData();
+    formData.append("profilePicture", uploadProfile);
+    formData.append("firstName", firstName);
+    formData.append("lastName", lastName);
+    formData.append("birthday", birthday);
+    formData.append("role", role);
+    formData.append("userId", userState.userInfo._id);
+
+    mutate({
+      formData,
+      token: userState.userInfo.token,
+    });
   };
 
   return (
-    <Container>
-      <div>
-        <h2>Add Player Details</h2>
-        <div>
-          <form onSubmit={handleSubmit(submitHandle)}>
-            <div className="InputLabel">
-              <InputLabel
-                className="InputLabel"
-                label={"First Name"}
-                name="firstName"
-                placeholder={"Enter First Name"}
-                type="text"
-                register={register}
-                errors={errors}
-              />
-
-              <InputLabel
-                className="InputLabel"
-                label={"Last Name"}
-                name="lastName"
-                placeholder={"Enter Last Name"}
-                type="text"
-                register={register}
-                errors={errors}
-              />
-
-              <InputLabel
-                className="InputLabel"
-                label={"Birthday"}
-                name="birthday"
-                placeholder={"30/01/2001"}
-                type="date"
-                register={register}
-                errors={errors}
-              />
-            </div>
-
-            <div className="radio">
-              <span>
-                <input
-                  {...register("role")}
-                  name="role"
-                  type="radio"
-                  id="batsman"
-                  value={"Batsman"}
-                />
-                <label htmlFor="batsman">Batsman</label>
-              </span>
-              <span>
-                <input
-                  {...register("role")}
-                  name="role"
-                  type="radio"
-                  id="bowler"
-                  value={"Bowler"}
-                />
-                <label htmlFor="bowler">Bowler</label>
-              </span>
-              <span>
-                <input
-                  {...register("role")}
-                  name="role"
-                  type="radio"
-                  id="allRounder"
-                  value={"All Rounder"}
-                />
-                <label htmlFor="allRounder">All Rounder</label>
-              </span>
-            </div>
-
-            <div className="photo">
-              <button type="submit" onClick={handleClick}>
-                <img width={50} height={50} src={defaultImage} alt="profile" />
-              </button>
-
-              <input
-                type="file"
-                id="avatar"
-                ref={profileUseRef}
-                onChange={handleChange}
-                hidden
-              />
-            </div>
-
-            <button className="btn" type="submit">
-              add player
-            </button>
-          </form>
-        </div>
-      </div>
-    </Container>
+    <div>
+      <AddAndManagePlayer
+        AvatarUrl={AvatarUrl}
+        buttonTitle={"Add Plyer"}
+        errors={errors}
+        handleChange={handleChange}
+        handleClick={handleClick}
+        handleSubmit={handleSubmit}
+        profileUseRef={profileUseRef}
+        register={register}
+        submitHandle={submitHandle}
+        title={"Add"}
+      />
+    </div>
   );
 };
 
@@ -166,7 +131,9 @@ const Container = styled.div`
     justify-content: center;
     gap: 5px;
   }
-  .radio input {
+  .radio input,
+  .radio label {
+    cursor: pointer;
     accent-color: #041434;
   }
 

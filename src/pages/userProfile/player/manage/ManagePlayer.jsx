@@ -1,157 +1,65 @@
 import React, { useState } from "react";
-import styled from "styled-components";
-import images from "../../../../constants/images";
 import { useQuery } from "@tanstack/react-query";
-import { getPlayers } from "../../../../service/player";
+import { deletePlayer, getPlayers } from "../../../../service/player";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { toast } from "react-hot-toast";
-import stables from "../../../../constants/stable";
-import { Link } from "react-router-dom";
+
+import PlayerTable from "../components/PlayerTable";
 
 const ManagePlayer = () => {
   const userState = useSelector((state) => state.user);
+  const [deletePlayerId, setDeletePlayerId] = useState(null);
 
-  const [players, setPlayers] = useState();
+  const [players, setPlayers] = useState([]);
 
-  console.log(stables, stables);
+  const deletePlayerById = async ({ playerId }) => {
+    if (window.confirm("are you sure to delete this player?")) {
+      const data = deletePlayer({
+        token: userState.userInfo.token,
+        playerId,
+      });
 
-  const { data, isPending, error, isLoading } = useQuery({
-    queryFn: async () =>
-      await getPlayers({
+      setDeletePlayerId(await data);
+    }
+  };
+
+  const { data, error, isLoading, refetch } = useQuery({
+    queryFn: () =>
+      getPlayers({
         userId: userState.userInfo._id,
+        token: userState.userInfo.token,
       }),
-    queryKey: ["player"],
+    queryKey: ["player", userState.userInfo._id],
   });
 
   useEffect(() => {
-    // toast.error(error);
-    setPlayers(data);
-  }, [data]);
+    if (data) {
+      if (Array.isArray(data)) {
+        setPlayers(data);
+      } else {
+        setPlayers([data]);
+      }
+    }
+  }, [data, players]);
 
-  console.log("data: ", players, isLoading);
+  useEffect(() => {
+    if (deletePlayerId) {
+      toast.success(deletePlayerId.message);
+    }
+    setDeletePlayerId(null);
 
-  if (!players) {
-    return <div>loading...</div>;
-  }
+    refetch();
+  }, [deletePlayerId]);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <Container>
-      <div>
-        <h2 className="title">Manage Player</h2>
-
-        <table id="table">
-          <tr className="header">
-            <thead>Name</thead>
-            <thead>Action</thead>
-          </tr>
-
-          {isLoading ? (
-            <div className="loading">loading...</div>
-          ) : (
-            <div>
-              {players.map((item) => (
-                <tr className="items">
-                  <tbody>
-                    <img
-                      height={50}
-                      width={50}
-                      src={
-                        item.avatar
-                          ? stables.UPLOAD_FOLDER_BASE_URL + item.avatar
-                          : images.Profile
-                      }
-                      alt="img"
-                    />
-
-                    {console.log(stables.UPLOAD_FOLDER_BASE_URL + item.avatar)}
-
-                    <h3>
-                      {item.firstName} {item.lastName}{" "}
-                    </h3>
-                  </tbody>
-                  <tbody>
-                    <span>
-                      <Link to={`/profile/update/${item._id}`}>
-                        <button>Edit</button>
-                      </Link>
-                    </span>
-                    <span>
-                      <button>Delete</button>
-                    </span>
-                  </tbody>
-                </tr>
-              ))}
-            </div>
-          )}
-        </table>
-      </div>
-    </Container>
+    <div>
+      <PlayerTable players={players} deletePlayerById={deletePlayerById} />
+    </div>
   );
 };
 
 export default ManagePlayer;
-
-const Container = styled.div`
-  width: 90%;
-  margin: 5rem auto;
-
-  .title {
-    text-align: center;
-    padding-bottom: 20px;
-  }
-
-  #table {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    border-collapse: collapse;
-  }
-  #table .header {
-    display: flex;
-    justify-content: space-between;
-    padding: 20px;
-    border: 1px solid black;
-    border-top-right-radius: 5px;
-    border-top-left-radius: 5px;
-    margin-bottom: 3px;
-    font-weight: 800;
-  }
-
-  tr.items {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    border: 1px solid black;
-    margin-bottom: 3px;
-  }
-
-  .items tbody img {
-    border-radius: 50px;
-  }
-  .items h3 {
-    font-size: 16px;
-  }
-
-  .items tbody {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    gap: 15px;
-  }
-
-  .items button {
-    background: inherit;
-    border: none;
-    color: #1565d8;
-    font-size: 16px;
-    font-family: sans-serif;
-    font-weight: 600;
-    cursor: pointer;
-  }
-
-  .items tbody span:nth-child(2) button {
-    color: red;
-    padding-right: 5px;
-  }
-`;

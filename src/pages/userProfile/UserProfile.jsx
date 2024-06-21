@@ -2,7 +2,7 @@ import React from "react";
 import MainLayout from "../../components/MainLayout";
 import styled from "styled-components";
 import SideBar from "./sidebar/SideBar";
-import MainContent from "./mainContent/MainContent";
+import MainContent from "./Dashboard/Squad";
 import { Outlet, useNavigate } from "react-router-dom";
 import Header from "../../components/Header";
 import { useSelector } from "react-redux";

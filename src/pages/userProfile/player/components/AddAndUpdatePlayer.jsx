@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import InputLabel from "../../../../components/shared/inputandLabel/InputLabel";
 
-const AddAndManagePlayer = ({
+const AddAndUpdatePlayer = ({
   handleSubmit,
   submitHandle,
   register,
@@ -17,7 +17,7 @@ const AddAndManagePlayer = ({
   return (
     <Container>
       <div>
-        <h2>{title} Player Details</h2>
+        <h2>{title}</h2>
         <div>
           <form onSubmit={handleSubmit(submitHandle)}>
             <div className="InputLabel">
@@ -110,7 +110,7 @@ const AddAndManagePlayer = ({
   );
 };
 
-export default AddAndManagePlayer;
+export default AddAndUpdatePlayer;
 
 const Container = styled.div`
   width: 360px;

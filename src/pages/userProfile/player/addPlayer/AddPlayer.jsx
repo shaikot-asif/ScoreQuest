@@ -8,7 +8,7 @@ import { useRef } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { addPlayer } from "../../../../service/player";
 import { useSelector } from "react-redux";
-import AddAndManagePlayer from "../components/AddAndManagePlayer";
+import AddAndUpdatePlayer from "../components/AddAndUpdatePlayer";
 const AddPlayer = () => {
   const [AvatarUrl, setAvatarUrl] = useState(images.Profile);
   const [uploadProfile, setUploadProfile] = useState();
@@ -82,7 +82,7 @@ const AddPlayer = () => {
 
   return (
     <div>
-      <AddAndManagePlayer
+      <AddAndUpdatePlayer
         AvatarUrl={AvatarUrl}
         buttonTitle={"Add Plyer"}
         errors={errors}
@@ -99,75 +99,3 @@ const AddPlayer = () => {
 };
 
 export default AddPlayer;
-
-const Container = styled.div`
-  width: 360px;
-  display: block;
-  margin: auto;
-  padding-top: 2.5rem;
-  padding-bottom: 2.5rem;
-
-  h2 {
-    text-align: center;
-    padding-bottom: 20px;
-  }
-
-  .InputLabel {
-    display: flex;
-    flex-wrap: wrap;
-    row-gap: 13px;
-  }
-
-  .radio {
-    display: flex;
-    flex-direction: row;
-    gap: 15px;
-    padding-bottom: 26px;
-    padding-top: 13px;
-  }
-  .radio span {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-  }
-  .radio input,
-  .radio label {
-    cursor: pointer;
-    accent-color: #041434;
-  }
-
-  .photo {
-    padding-bottom: 26px;
-  }
-
-  .btn {
-    display: block;
-    margin: auto;
-    text-align: center;
-    padding: 10px 0;
-    width: 130px !important;
-    height: 48px !important;
-    border-radius: 30px;
-    outline: none;
-    background: transparent;
-    border: 1px solid #041434;
-    font-size: 18px;
-    color: #041434;
-    text-transform: capitalize;
-    text-decoration: none;
-
-    cursor: pointer;
-  }
-
-  .photo button {
-    margin: auto;
-    display: block;
-    border: none;
-    cursor: pointer;
-    border-radius: 50px;
-  }
-  .photo button img {
-    border-radius: 50px;
-  }
-`;

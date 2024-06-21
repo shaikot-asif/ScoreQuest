@@ -6,10 +6,10 @@ import RegisterPage from "./pages/register/RegisterPage";
 import LoginPage from "./pages/login/LoginPage";
 import { Toaster } from "react-hot-toast";
 import UserProfile from "./pages/userProfile/UserProfile";
-import MainContent from "./pages/userProfile/mainContent/MainContent";
 import ManagePlayer from "./pages/userProfile/player/manage/ManagePlayer";
 import AddPlayer from "./pages/userProfile/player/addPlayer/AddPlayer";
 import UpdatePlayer from "./pages/userProfile/player/manage/update/UpdatePlayer";
+import Squad from "./pages/userProfile/Dashboard/Squad";
 
 const App = () => {
   return (
@@ -19,7 +19,7 @@ const App = () => {
         <Route path="/signup" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/profile" element={<UserProfile />}>
-          <Route index element={<MainContent />} />
+          <Route index element={<Squad />} />
           <Route path="addPlayer" element={<AddPlayer />} />
           <Route path="managePlayer" element={<ManagePlayer />} />
           <Route path="update/:playerId" element={<UpdatePlayer />} />

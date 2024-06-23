@@ -37,8 +37,6 @@ const UpdatePlayer = () => {
     queryKey: ["player"],
   });
 
-  console.log(playerData, "data");
-
   useEffect(() => {
     setPlayerData(data);
   }, [data]);

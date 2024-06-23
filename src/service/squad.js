@@ -1,22 +1,22 @@
 import axios from "axios";
 
-export const addPlayer = async ({ formData, token }) => {
+export const addSquad = async ({ userId, token, selectedPlayer }) => {
   try {
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
-        "Content-Type": "multipart/form-data",
       },
     };
     const { data } = await axios.post(
-      "http://localhost:4000/api/players/addPlayer",
-
-      formData,
+      `http://localhost:4000/api/squad/addSquad`,
+      { selectedPlayer, userId },
       config
     );
 
+    console.log(data, "found json msg");
     return data;
   } catch (error) {
+    console.log(error, "error");
     if (error.response && error.response.data.message) {
       throw new Error(error.response.data.message);
     }
@@ -24,7 +24,7 @@ export const addPlayer = async ({ formData, token }) => {
   }
 };
 
-export const getPlayers = async ({ userId, token }) => {
+export const getSquad = async ({ userId, token }) => {
   try {
     const config = {
       headers: {
@@ -32,7 +32,7 @@ export const getPlayers = async ({ userId, token }) => {
       },
     };
     const { data } = await axios.get(
-      `http://localhost:4000/api/players/getPlayers?userId=${userId}`,
+      `http://localhost:4000/api/squad/getSquad?userId=${userId}`,
       config
     );
 
@@ -46,55 +46,7 @@ export const getPlayers = async ({ userId, token }) => {
   }
 };
 
-export const getPlayer = async ({ playerId, token }) => {
-  try {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-    const { data } = await axios.get(
-      `http://localhost:4000/api/players/getPlayer?playerId=${playerId}`,
-      config
-    );
-
-    console.log(data, " playerData");
-
-    return data;
-  } catch (error) {
-    console.log(error, "error");
-    if (error.response && error.response.data.message) {
-      throw new Error(error.response.data.message);
-    }
-    throw new Error(error.message);
-  }
-};
-
-export const updatePlayer = async ({ formData, token }) => {
-  try {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "multipart/form-data",
-      },
-    };
-    const { data } = await axios.put(
-      "http://localhost:4000/api/players/updatePlayer",
-
-      formData,
-      config
-    );
-
-    return data;
-  } catch (error) {
-    if (error.response && error.response.data.message) {
-      throw new Error(error.response.data.message);
-    }
-    throw new Error(error.message);
-  }
-};
-
-export const deletePlayer = async ({ playerId, token }) => {
+export const deleteSquad = async ({ squadId, token }) => {
   try {
     const config = {
       headers: {
@@ -102,7 +54,29 @@ export const deletePlayer = async ({ playerId, token }) => {
       },
     };
     const { data } = await axios.delete(
-      `http://localhost:4000/api/players/deletePlayer?playerId=${playerId}`
+      `http://localhost:4000/api/squad/deleteSquad?squadId=${squadId}`
+    );
+
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.log(error, "error");
+    if (error.response && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    }
+    throw new Error(error.message);
+  }
+};
+
+export const getSquadById = async ({ _id, token }) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const { data } = await axios.get(
+      `http://localhost:4000/api/squad/getSquadById?_id=${_id}`
     );
 
     return data;

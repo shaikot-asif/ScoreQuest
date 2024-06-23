@@ -4,64 +4,100 @@ import stables from "../../../../constants/stable";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import images from "../../../../constants/images";
-const PlayerTable = ({ players, deletePlayerById }) => {
+import Button from "../../../../components/shared/button/Button";
+const PlayerTable = ({
+  players,
+  deletePlayerById = "",
+  checkBox = false,
+  handleSubmit,
+  handleChange,
+  title = "",
+  buttons = true,
+  closeSquad,
+}) => {
   return (
     <div>
       <Container>
         <div>
-          <h2 className="title">Manage Player</h2>
+          <h2 className="title">{title}</h2>
 
-          <table id="table">
-            <thead className="header">
-              <tr>
-                <td>Name</td>
-                <td>Action</td>
-              </tr>
-            </thead>
-
-            {players?.map((item) => (
-              <div key={item._id}>
-                <tbody className="items" key={item._id}>
-                  <tr>
-                    <td>
-                      <img
-                        height={50}
-                        width={50}
-                        src={
-                          item.avatar
-                            ? stables.UPLOAD_FOLDER_BASE_URL + item.avatar
-                            : images.Profile
-                        }
-                        alt="img"
-                      />
-
-                      <h3>
-                        {item.firstName} {item.lastName}{" "}
-                      </h3>
+          <form onSubmit={handleSubmit}>
+            <table id="table">
+              <thead className="header">
+                <tr>
+                  <td>Name</td>
+                  {buttons ? (
+                    <td>Action</td>
+                  ) : (
+                    <td className="tdBtn" onClick={closeSquad}>
+                      X
                     </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <span>
-                        <Link to={`/profile/update/${item._id}`}>
-                          <button>Edit</button>
-                        </Link>
-                      </span>
-                      <span>
-                        <button
-                          onClick={() =>
-                            deletePlayerById({ playerId: item._id })
+                  )}
+                </tr>
+              </thead>
+
+              {players?.map((item) => (
+                <div key={item._id}>
+                  <tbody className="items" key={item._id}>
+                    <tr>
+                      <td>
+                        <img
+                          height={50}
+                          width={50}
+                          src={
+                            item.avatar
+                              ? stables.UPLOAD_FOLDER_BASE_URL + item.avatar
+                              : images.Profile
                           }
-                        >
-                          Delete
-                        </button>
-                      </span>
-                    </td>
-                  </tr>
-                </tbody>
-              </div>
-            ))}
-          </table>
+                          alt="img"
+                        />
+
+                        <h3>
+                          {item.firstName} {item.lastName}{" "}
+                        </h3>
+                      </td>
+                    </tr>
+                    <tr>
+                      {checkBox ? (
+                        <td className="checkBox">
+                          <span>
+                            <input
+                              type="checkbox"
+                              onChange={handleChange}
+                              value={item._id}
+                            />
+                          </span>
+                        </td>
+                      ) : (
+                        buttons && (
+                          <td>
+                            <span>
+                              <Link to={`/profile/update/${item._id}`}>
+                                <button>Edit</button>
+                              </Link>
+                            </span>
+                            <span>
+                              <button
+                                onClick={() =>
+                                  deletePlayerById({ playerId: item._id })
+                                }
+                              >
+                                Delete
+                              </button>
+                            </span>
+                          </td>
+                        )
+                      )}
+                    </tr>
+                  </tbody>
+                </div>
+              ))}
+            </table>
+
+            <div className="btnDiv">
+              {checkBox && <Button btnName={"Submit"} type={"submit"} />}
+            </div>
+          </form>
         </div>
       </Container>
     </div>
@@ -89,7 +125,7 @@ const Container = styled.div`
     display: flex;
     justify-content: space-between;
     padding: 20px;
-    border: 1px solid black;
+    border: 1px solid #041434;
     border-top-right-radius: 5px;
     border-top-left-radius: 5px;
     margin-bottom: 3px;
@@ -122,6 +158,13 @@ const Container = styled.div`
     gap: 15px;
   }
 
+  .checkBox {
+    margin-right: 20px;
+  }
+
+  .checkBox input {
+    cursor: pointer;
+  }
   .items button {
     background: inherit;
     border: none;
@@ -135,5 +178,13 @@ const Container = styled.div`
   .items span:nth-child(2) button {
     color: red;
     padding-right: 5px;
+  }
+
+  .btnDiv {
+    margin-top: 15px;
+  }
+
+  .tdBtn {
+    cursor: pointer;
   }
 `;

@@ -13,7 +13,7 @@ const SideBar = () => {
       <Container>
         <ul className="menu">
           <li>
-            <Link to={"/profile"}>Dashboard</Link>
+            <Link to={"/profile"}>Squad</Link>
           </li>
           <li>
             <Link to={"#"}>Notification</Link>

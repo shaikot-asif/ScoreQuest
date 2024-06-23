@@ -57,7 +57,11 @@ const ManagePlayer = () => {
 
   return (
     <div>
-      <PlayerTable players={players} deletePlayerById={deletePlayerById} />
+      <PlayerTable
+        players={players}
+        deletePlayerById={deletePlayerById}
+        title={"Manage Player"}
+      />
     </div>
   );
 };

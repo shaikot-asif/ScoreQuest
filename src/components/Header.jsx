@@ -4,8 +4,9 @@ import images from "../constants/images";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../store/reducers/userAction";
+import Search from "./Search";
 
-const Header = () => {
+const Header = ({ searchVisible = false }) => {
   const userState = useSelector((state) => state.user);
   const dispatch = useDispatch();
   return (

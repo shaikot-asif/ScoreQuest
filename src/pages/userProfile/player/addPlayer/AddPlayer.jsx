@@ -92,7 +92,7 @@ const AddPlayer = () => {
         profileUseRef={profileUseRef}
         register={register}
         submitHandle={submitHandle}
-        title={"Add"}
+        title={"Add Player"}
       />
     </div>
   );

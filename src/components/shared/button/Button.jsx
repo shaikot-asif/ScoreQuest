@@ -4,7 +4,9 @@ import styled from "styled-components";
 const Button = ({ btnName, type = "button" }) => {
   return (
     <Container>
-      <button type={type}>{btnName}</button>
+      <button className="btn" type={type}>
+        {btnName}
+      </button>
     </Container>
   );
 };
@@ -12,16 +14,22 @@ const Button = ({ btnName, type = "button" }) => {
 export default Button;
 
 const Container = styled.div`
-  width: 360px;
-  button {
-    width: 100%;
-    height: 56px;
-    color: white;
-    font-weight: 600;
-    font-size: 18px;
-    background: #041434;
-    border-radius: 6px;
+  .btn {
+    display: block;
+    margin: auto;
+    text-align: center;
+    padding: 10px 0;
+    width: 130px !important;
+    height: 48px !important;
+    border-radius: 30px;
+    outline: none;
+    background: transparent;
     border: 1px solid #041434;
+    font-size: 18px;
+    color: #041434;
+    text-transform: capitalize;
+    text-decoration: none;
+
     cursor: pointer;
   }
 `;

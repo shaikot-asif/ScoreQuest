@@ -34,9 +34,29 @@ const addPlayer = async (req, res, next) => {
 
 const getAllPlayersByUserId = async (req, res, next) => {
   try {
-    const { userId } = req.body;
+    const { userId } = req.query;
 
-    const player = await Player.find(userId);
+    const players = await Player.find({ userId });
+
+    if (!players) {
+      return res.status(404).json({ message: "invalid user" });
+    }
+
+    res.status(200).send(players);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getPlayerByPlayerId = async (req, res, next) => {
+  try {
+    const { playerId } = req.query;
+
+    const player = await Player.findById(playerId);
+
+    if (!player) {
+      return res.status(404).json({ message: "Player not found" });
+    }
 
     res.send(player);
   } catch (error) {
@@ -50,8 +70,6 @@ const updatePlayerById = async (req, res, next) => {
     const avatar = req.file ? req.file.filename : "";
 
     let player = await Player.findById(playerId);
-
-    console.log("updatePlayer: ", player, "avatar: ", avatar);
 
     if (!player) {
       throw new Error("player not found");
@@ -85,4 +103,29 @@ const updatePlayerById = async (req, res, next) => {
   }
 };
 
-module.exports = { addPlayer, getAllPlayersByUserId, updatePlayerById };
+const deletePlayer = async (req, res, next) => {
+  try {
+    const { playerId } = req.query;
+
+    const player = await Player.findById({ _id: playerId });
+
+    if (!player) {
+      return res.status(404).json({ message: "Player not found" });
+    }
+
+    await player.deleteOne();
+    fileRemover(player.avatar);
+
+    res.json({ message: "Player deleted successfully" });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = {
+  addPlayer,
+  getAllPlayersByUserId,
+  updatePlayerById,
+  getPlayerByPlayerId,
+  deletePlayer,
+};

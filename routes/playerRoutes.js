@@ -6,6 +6,8 @@ const {
   addPlayer,
   getAllPlayersByUserId,
   updatePlayerById,
+  getPlayerByPlayerId,
+  deletePlayer,
 } = require("../controllers/playerController.js");
 const { authGuard } = require("../middleware/authMiddleware");
 const { uploadPicture } = require("../middleware/uploadPictureMiddleware.js");
@@ -16,6 +18,7 @@ router.post(
   uploadPicture.single("profilePicture"),
   addPlayer
 );
+router.get("/getPlayer", getPlayerByPlayerId);
 router.get("/getPlayers", getAllPlayersByUserId);
 
 router.put(
@@ -23,4 +26,6 @@ router.put(
   uploadPicture.single("profilePicture"),
   updatePlayerById
 );
+
+router.delete("/deletePlayer", deletePlayer);
 module.exports = router;

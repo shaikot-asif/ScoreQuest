@@ -63,4 +63,30 @@ const login = async (req, res, next) => {
   }
 };
 
-module.exports = { registerUser, login };
+const getAllUsers = async (req, res, next) => {
+  try {
+    const page = parseInt(req.query.page) - 1 || 0;
+    const limit = parseInt(req.query.limit) || 2;
+    const search = req.query.search || "";
+
+    let users = await User.find({ name: { $regex: search, $options: "i" } })
+      .skip(page * limit)
+      .limit(limit);
+
+    const response = {
+      error: false,
+      page: page + 1,
+      limit,
+      users,
+    };
+
+    console.log("response: ", response);
+
+    res.status(200).json(response);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
+module.exports = { registerUser, login, getAllUsers };

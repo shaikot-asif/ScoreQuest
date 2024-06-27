@@ -13,7 +13,6 @@ export const addSquad = async ({ userId, token, selectedPlayer }) => {
       config
     );
 
-    console.log(data, "found json msg");
     return data;
   } catch (error) {
     console.log(error, "error");
@@ -56,8 +55,6 @@ export const deleteSquad = async ({ squadId, token }) => {
     const { data } = await axios.delete(
       `http://localhost:4000/api/squad/deleteSquad?squadId=${squadId}`
     );
-
-    console.log(data);
     return data;
   } catch (error) {
     console.log(error, "error");

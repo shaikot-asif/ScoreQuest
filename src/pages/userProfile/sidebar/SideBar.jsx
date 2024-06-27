@@ -16,7 +16,13 @@ const SideBar = () => {
             <Link to={"/profile"}>Squad</Link>
           </li>
           <li>
-            <Link to={"#"}>Notification</Link>
+            <Link to={"allUsers"}>All User</Link>
+          </li>
+          <li>
+            <Link to={"#"}>
+              Notification {"  "}
+              <span>0</span>
+            </Link>
           </li>
           <li>
             <Link to={"#"}>Match</Link>

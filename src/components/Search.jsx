@@ -1,16 +1,35 @@
 import React from "react";
+import { useState } from "react";
 import styled from "styled-components";
 
-const Search = () => {
+const Search = ({ placeholder = "", setSearchKeywords }) => {
+  const [search, setSearch] = useState();
+  const handleClick = (e) => {
+    e.preventDefault();
+    setSearchKeywords(search);
+  };
+
+  const handleChange = (e) => {
+    const { value } = e.target;
+
+    setSearch(value);
+  };
+
   return (
     <Container>
       <div className="searchArea">
-        <div className="input">
-          <input type="text" placeholder="Search match by club name" />
+        <form onSubmit={handleClick} className="input">
+          <input
+            name="search"
+            value={search}
+            onChange={handleChange}
+            type="text"
+            placeholder={placeholder}
+          />
           <div className="btn">
-            <button type="button">search</button>
+            <button type="submit">search</button>
           </div>
-        </div>
+        </form>
       </div>
     </Container>
   );
@@ -23,7 +42,6 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 9rem;
   }
   .input {
     display: flex;

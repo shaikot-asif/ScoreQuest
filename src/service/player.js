@@ -58,8 +58,6 @@ export const getPlayer = async ({ playerId, token }) => {
       config
     );
 
-    console.log(data, " playerData");
-
     return data;
   } catch (error) {
     console.log(error, "error");

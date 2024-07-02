@@ -1,7 +1,7 @@
 import React from "react";
 
-const AddMatch = () => {
+const Match = () => {
   return <div>Place a match</div>;
 };
 
-export default AddMatch;
+export default Match;

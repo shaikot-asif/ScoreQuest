@@ -11,6 +11,7 @@ import AddPlayer from "./pages/userProfile/player/addPlayer/AddPlayer";
 import UpdatePlayer from "./pages/userProfile/player/manage/update/UpdatePlayer";
 import Squad from "./pages/userProfile/Dashboard/Squad";
 import GetAllUser from "./pages/userProfile/player/getAllUser";
+import Match from "./pages/userProfile/match/Match";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
         <Route path="/profile" element={<UserProfile />}>
           <Route index element={<Squad />} />
           <Route path="allUsers" element={<GetAllUser />} />
+          <Route path="match" element={<Match />} />
           <Route path="addPlayer" element={<AddPlayer />} />
           <Route path="managePlayer" element={<ManagePlayer />} />
           <Route path="update/:playerId" element={<UpdatePlayer />} />

@@ -8,6 +8,7 @@ import { useState } from "react";
 import { styled } from "styled-components";
 import Search from "../../../components/Search";
 import Pagination from "../../../components/Pagination";
+import AddMatch from "../match/components/AddMatch";
 
 const GetAllUser = () => {
   const userState = useSelector((state) => state.user);
@@ -17,15 +18,22 @@ const GetAllUser = () => {
   const [userLength, setUserLength] = useState();
   const [currentPage, setCurrentPage] = useState();
   const [pageChange, setPageChange] = useState();
+  const [loading, setLoading] = useState(false);
+  const [playMatchBtn, setPlayMatchBtn] = useState(false);
+  const [requestedTeamId, setRequestedTeamId] = useState();
   const limit = 10;
 
   const handlePageChange = (page) => {
     setPageChange(page);
   };
 
-  console.log(pageChange, "change Page");
+  const handleClickPlayMatchBtn = ({ requestedTeam }) => {
+    setRequestedTeamId(requestedTeam);
+    setPlayMatchBtn(true);
+  };
 
   useEffect(() => {
+    setLoading(true);
     async function get() {
       const data = await getUsers({
         token: userState.userInfo.token,
@@ -37,6 +45,7 @@ const GetAllUser = () => {
         get();
       }
       setData(data);
+      setLoading(false);
     }
     get();
   }, [searchKeywords, pageChange]);
@@ -46,6 +55,7 @@ const GetAllUser = () => {
       setUsers(data.users);
       setUserLength(data?.users?.length);
       setCurrentPage(data?.page);
+      setLoading(false);
     }
   }, [data, searchKeywords]);
   return (
@@ -61,42 +71,52 @@ const GetAllUser = () => {
             <thead className="header">
               <tr>
                 <td>Club / Area name</td>
-
-                <td>X</td>
               </tr>
             </thead>
 
-            {users?.map(
-              (item) =>
-                item._id !== userState.userInfo._id && (
-                  <div key={item._id}>
-                    <tbody className="items" key={item._id}>
-                      <tr>
-                        <td>
-                          <img
-                            height={50}
-                            width={50}
-                            src={
-                              item.avatar
-                                ? stables.UPLOAD_FOLDER_BASE_URL + item.avatar
-                                : images.Profile
-                            }
-                            alt="img"
-                          />
+            {loading ? (
+              <p>Loading ...</p>
+            ) : (
+              users?.map(
+                (item) =>
+                  item._id !== userState.userInfo._id && (
+                    <div key={item._id}>
+                      <tbody className="items" key={item._id}>
+                        <tr>
+                          <td>
+                            <img
+                              height={50}
+                              width={50}
+                              src={
+                                item.avatar
+                                  ? stables.UPLOAD_FOLDER_BASE_URL + item.avatar
+                                  : images.Profile
+                              }
+                              alt="img"
+                            />
 
-                          <h3>{item?.name}</h3>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <span>
-                            <button>Lets Play a match?</button>
-                          </span>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </div>
-                )
+                            <h3>{item?.name}</h3>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <span>
+                              <button
+                                onClick={() =>
+                                  handleClickPlayMatchBtn({
+                                    requestedTeam: item?._id,
+                                  })
+                                }
+                              >
+                                Lets Play a match?
+                              </button>
+                            </span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </div>
+                  )
+              )
             )}
           </table>
           {users?.length > limit && (
@@ -105,6 +125,15 @@ const GetAllUser = () => {
               totalPageCount={userLength}
               currentPage={currentPage}
               onPageChange={(page) => handlePageChange(page)}
+            />
+          )}
+        </div>
+
+        <div>
+          {playMatchBtn && (
+            <AddMatch
+              requestedTeam={requestedTeamId}
+              setPlayMatchBtn={setPlayMatchBtn}
             />
           )}
         </div>
@@ -118,6 +147,7 @@ export default GetAllUser;
 const Container = styled.div`
   width: 90%;
   margin: 3rem auto;
+  position: relative;
 
   .title {
     text-align: center;

@@ -1,10 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 
-const Button = ({ btnName, type = "button" }) => {
+const Button = ({ btnName, type = "button", disabled = false }) => {
   return (
     <Container>
-      <button className="btn" type={type}>
+      <button
+        disabled={disabled}
+        className={`btn ${disabled ? "btnDisabled" : ""}`}
+        type={type}
+      >
         {btnName}
       </button>
     </Container>
@@ -31,5 +35,9 @@ const Container = styled.div`
     text-decoration: none;
 
     cursor: pointer;
+  }
+
+  .btnDisabled {
+    cursor: not-allowed;
   }
 `;

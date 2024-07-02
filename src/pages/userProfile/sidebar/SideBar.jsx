@@ -18,14 +18,9 @@ const SideBar = () => {
           <li>
             <Link to={"allUsers"}>All User</Link>
           </li>
+
           <li>
-            <Link to={"#"}>
-              Notification {"  "}
-              <span>0</span>
-            </Link>
-          </li>
-          <li>
-            <Link to={"#"}>Match</Link>
+            <Link to={"match"}>Match</Link>
           </li>
           <li className="dropdown" onClick={() => setShow(!show)}>
             <button>

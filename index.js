@@ -12,6 +12,7 @@ const {
 const userRoutes = require("./routes/userRoutes.js");
 const playerRoutes = require("./routes/playerRoutes.js");
 const squadRoutes = require("./routes/squadRoute.js");
+const matchRoutes = require("./routes/matchRoutes.js");
 
 dotenv.config();
 mongoConnect();
@@ -27,6 +28,7 @@ app.get("/", (req, res) => {
 app.use("/api/users", userRoutes);
 app.use("/api/players", playerRoutes);
 app.use("/api/squad", squadRoutes);
+app.use("/api/match", matchRoutes);
 
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 

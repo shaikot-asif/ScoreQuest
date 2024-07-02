@@ -80,8 +80,6 @@ const getAllUsers = async (req, res, next) => {
       users,
     };
 
-    console.log("response: ", response);
-
     res.status(200).json(response);
   } catch (error) {
     console.log(error);

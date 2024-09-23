@@ -5,7 +5,7 @@ const PlayerStatSchema = new Schema(
     playerId: { type: Types.ObjectId, ref: "Player", required: true },
     runs: { type: Number, default: 0 },
     wickets: { type: Number, default: 0 },
-    overs: { type: String, default: "0.0" },
+    overs: { type: String, default: 0.0 },
   },
   { _id: false }
 );
@@ -15,7 +15,7 @@ const ScoreSchema = new Schema(
     playerStats: [PlayerStatSchema],
     totalRuns: { type: Number, default: 0 },
     totalWickets: { type: Number, default: 0 },
-    totalOvers: { type: String, default: "0.0" },
+    totalOvers: { type: String, default: 0.0 },
   },
   { _id: false }
 );
@@ -49,9 +49,16 @@ const MatchSchema = new Schema(
       requestingTeamSquad: { type: SquadSchema, default: {} },
       requestedTeamSquad: { type: SquadSchema, default: {} },
     },
+    // toss: {
+    //   tossWinner: { type: Types.ObjectId, ref: "User", default: null },
+    //   inningsType: { type: String, enum: ["Bat", "Bowl"], default: "" },
+    // },
+
+    // switchPermission: {},
+
     status: {
       type: String,
-      enum: ["pending", "accepted", "rejected", "completed"],
+      enum: ["pending", "accepted", "rejected", "cancel", "completed"],
       default: "pending",
     },
   },

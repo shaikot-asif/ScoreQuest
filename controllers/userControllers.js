@@ -87,4 +87,23 @@ const getAllUsers = async (req, res, next) => {
   }
 };
 
-module.exports = { registerUser, login, getAllUsers };
+const getUser = async (req, res, next) => {
+  try {
+    const { userId } = req.query;
+
+    console.log(userId, "userId");
+
+    let user = await User.findById(userId);
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
+module.exports = { registerUser, login, getAllUsers, getUser };

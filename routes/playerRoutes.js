@@ -18,14 +18,15 @@ router.post(
   uploadPicture.single("profilePicture"),
   addPlayer
 );
-router.get("/getPlayer", getPlayerByPlayerId);
-router.get("/getPlayers", getAllPlayersByUserId);
+router.get("/getPlayer", authGuard, getPlayerByPlayerId);
+router.get("/getPlayers", authGuard, getAllPlayersByUserId);
 
 router.put(
   "/updatePlayer",
   uploadPicture.single("profilePicture"),
+  authGuard,
   updatePlayerById
 );
 
-router.delete("/deletePlayer", deletePlayer);
+router.delete("/deletePlayer", authGuard, deletePlayer);
 module.exports = router;

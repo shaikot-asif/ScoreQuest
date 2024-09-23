@@ -1,6 +1,7 @@
 const express = require("express");
 
 const router = express.Router();
+const { authGuard } = require("../middleware/authMiddleware");
 
 const {
   addSquad,
@@ -9,11 +10,11 @@ const {
   getSquadBySquadId,
 } = require("../controllers/squadController.js");
 
-router.post("/addSquad", addSquad);
+router.post("/addSquad", authGuard, addSquad);
 
-router.get("/getSquad", getSquad);
+router.get("/getSquad", authGuard, getSquad);
 
-router.delete("/deleteSquad", deleteSquad);
+router.delete("/deleteSquad", authGuard, deleteSquad);
 
-router.get("/getSquadById", getSquadBySquadId);
+router.get("/getSquadById", authGuard, getSquadBySquadId);
 module.exports = router;

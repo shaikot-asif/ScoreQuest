@@ -54,7 +54,7 @@ const deleteSquad = async (req, res, next) => {
     if (!squad) {
       let error = new Error("squad not found");
       error.statusCode = 404;
-      next(error);
+      return next(error);
     }
 
     await squad.deleteOne();

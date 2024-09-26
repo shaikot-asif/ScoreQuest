@@ -8,13 +8,22 @@ const {
   updateMatch,
   getMatchByRequestingTeamId,
   getMatchByRequestedTeamId,
-  cancelMatch,
+  cancelMatchByRequestingUser,
+  rejectMatchByRequestedUser,
 } = require("../controllers/matchController.js");
 
 router.post("/addMatch", authGuard, addANewMatch);
-router.put("/updateMatch", authGuard, updateMatch);
 router.get("/requestingTeam", authGuard, getMatchByRequestingTeamId);
 router.get("/requestedTeam", authGuard, getMatchByRequestedTeamId);
-router.delete("/deleteMatch", authGuard, cancelMatch);
+router.put(
+  "/rejectMatchByRequestedUser",
+  authGuard,
+  rejectMatchByRequestedUser
+);
+router.delete(
+  "/cancelMatchByRequestingUser",
+  authGuard,
+  cancelMatchByRequestingUser
+);
 
 module.exports = router;

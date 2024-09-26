@@ -61,6 +61,7 @@ const MatchSchema = new Schema(
       enum: ["pending", "accepted", "rejected", "cancel", "completed"],
       default: "pending",
     },
+    note: { type: String, default: "" },
   },
   { timestamps: true }
 );

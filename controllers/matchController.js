@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const Match = require("../models/match.js");
+const User = require("../models/User.js");
+const Squad = require("../models/squad.js");
 
 const checkForExistingMatches = async (requestedTeam, date) => {
   const dateToDateString = new Date(date).toDateString();
@@ -20,8 +22,6 @@ const checkForExistingMatches = async (requestedTeam, date) => {
     return date.toDateString() === dateToDateString && matches;
   });
 
-  console.log("match function: ", matches);
-
   return hasMatchValue;
 };
 
@@ -34,20 +34,50 @@ const addANewMatch = async (req, res, next) => {
 
     const date = matchValues.date;
     const requestingTeamSquad = matchValues.squads.requestingTeamSquad.squadId;
+    const venue = matchValues.venue;
 
     const requestedTeamHasMatch = await checkForExistingMatches(
       requestedTeam,
       date
     );
 
-    let hasMatch = false;
+    const dateToDateString = new Date(date);
 
-    console.log(requestedTeamHasMatch, "match");
+    const todayDate = new Date();
+
+    dateToDateString.setHours(0, 0, 0, 0);
+    todayDate.setHours(0, 0, 0, 0);
+
+    console.log(dateToDateString, "dateToDateString", "todayDate", todayDate);
+
+    if (todayDate > dateToDateString) {
+      const error = new Error("Invalid Date, please add a valid date");
+      error.statusCode = 406;
+      return next(error);
+    }
+
+    let hasMatch = false;
 
     if (requestedTeamHasMatch.length === 0) {
       hasMatch = false;
     } else {
       hasMatch = true;
+    }
+
+    const requestingUser = await User.findById({ _id: requestingTeam });
+    const requestedUser = await User.findById({ _id: requestedTeam });
+    const squad = await Squad.findById({ _id: requestingTeamSquad });
+
+    if (!requestingUser || !requestedUser) {
+      const error = new Error("User not found");
+      error.statusCode = 404;
+      return next(error);
+    }
+
+    if (!squad) {
+      const error = new Error("squad not found");
+      error.statusCode = 404;
+      return next(error);
     }
 
     if (hasMatch) {
@@ -65,6 +95,7 @@ const addANewMatch = async (req, res, next) => {
       squads: {
         requestingTeamSquad: { squadId: requestingTeamSquad },
       },
+      venue,
     });
 
     await match.save();
@@ -203,7 +234,6 @@ const rejectMatchByRequestedUser = async (req, res, next) => {
       error.statusCode = 404;
       return next(error);
     }
-    console.log(match, "requestedUser");
 
     match.teams.requestedTeam.userId = removeRequestedUserId;
     match.status = "rejected";
@@ -216,6 +246,32 @@ const rejectMatchByRequestedUser = async (req, res, next) => {
   }
 };
 
+const acceptMatchByRequestedUser = async (req, res, next) => {
+  try {
+    const { matchId, squadId } = req.body;
+
+    const match = await Match.findById(matchId);
+    const squad = await Squad.findById(squadId);
+
+    console.log("matchId", match, "squadId:", squad);
+
+    if (!match || !squad) {
+      const error = new Error("There are no match found or squadId not found");
+      error.statusCode = 404;
+      return next(error);
+    }
+
+    match.squads.requestedTeamSquad.squadId = squadId;
+    match.status = "accepted";
+
+    await match.save();
+
+    res.json({ message: "Match Accepted Successfully", match });
+  } catch (error) {
+    return next(error);
+  }
+};
+
 module.exports = {
   addANewMatch,
   updateMatch,
@@ -223,4 +279,5 @@ module.exports = {
   getMatchByRequestedTeamId,
   cancelMatchByRequestingUser,
   rejectMatchByRequestedUser,
+  acceptMatchByRequestedUser,
 };

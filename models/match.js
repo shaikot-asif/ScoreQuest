@@ -62,6 +62,7 @@ const MatchSchema = new Schema(
       default: "pending",
     },
     note: { type: String, default: "" },
+    venue: { type: String, default: "", required: true },
   },
   { timestamps: true }
 );

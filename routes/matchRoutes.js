@@ -10,6 +10,7 @@ const {
   getMatchByRequestedTeamId,
   cancelMatchByRequestingUser,
   rejectMatchByRequestedUser,
+  acceptMatchByRequestedUser,
 } = require("../controllers/matchController.js");
 
 router.post("/addMatch", authGuard, addANewMatch);
@@ -19,6 +20,11 @@ router.put(
   "/rejectMatchByRequestedUser",
   authGuard,
   rejectMatchByRequestedUser
+);
+router.put(
+  "/acceptMatchByRequestedUser",
+  authGuard,
+  acceptMatchByRequestedUser
 );
 router.delete(
   "/cancelMatchByRequestingUser",

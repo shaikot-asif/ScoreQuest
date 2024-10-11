@@ -5,12 +5,13 @@ const { authGuard } = require("../middleware/authMiddleware");
 
 const {
   addANewMatch,
-  updateMatch,
   getMatchByRequestingTeamId,
   getMatchByRequestedTeamId,
   cancelMatchByRequestingUser,
   rejectMatchByRequestedUser,
   acceptMatchByRequestedUser,
+  updateOverAndTosWinner,
+  updateMatch,
 } = require("../controllers/matchController.js");
 
 router.post("/addMatch", authGuard, addANewMatch);
@@ -26,6 +27,8 @@ router.put(
   authGuard,
   acceptMatchByRequestedUser
 );
+router.put("/updateOverAndTosWinner", authGuard, updateOverAndTosWinner);
+router.put("/updateMatch", updateMatch);
 router.delete(
   "/cancelMatchByRequestingUser",
   authGuard,

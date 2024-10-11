@@ -2,12 +2,14 @@ const mongoose = require("mongoose");
 const Match = require("../models/match.js");
 const User = require("../models/User.js");
 const Squad = require("../models/squad.js");
+const Player = require("../models/Player.js");
+const client = require("../utils/redisClient.js");
 
 const checkForExistingMatches = async (requestedTeam, date) => {
   const dateToDateString = new Date(date).toDateString();
 
   const matches = await Match.find({
-    status: { $in: ["pending", "accepted"] },
+    // status: { $in: ["pending", "accepted"] },
     $or: [
       { "teams.requestingTeam.userId": requestedTeam },
       { "teams.requestedTeam.userId": requestedTeam },
@@ -17,12 +19,10 @@ const checkForExistingMatches = async (requestedTeam, date) => {
   const hasMatchValue = matches.map((item, index) => {
     let date = new Date(item.date.toDateString());
 
-    console.log(item);
-
-    return date.toDateString() === dateToDateString && matches;
+    return date.toDateString() === dateToDateString ? true : false;
   });
 
-  return hasMatchValue;
+  return hasMatchValue.includes(true);
 };
 
 const addANewMatch = async (req, res, next) => {
@@ -48,20 +48,10 @@ const addANewMatch = async (req, res, next) => {
     dateToDateString.setHours(0, 0, 0, 0);
     todayDate.setHours(0, 0, 0, 0);
 
-    console.log(dateToDateString, "dateToDateString", "todayDate", todayDate);
-
     if (todayDate > dateToDateString) {
       const error = new Error("Invalid Date, please add a valid date");
       error.statusCode = 406;
       return next(error);
-    }
-
-    let hasMatch = false;
-
-    if (requestedTeamHasMatch.length === 0) {
-      hasMatch = false;
-    } else {
-      hasMatch = true;
     }
 
     const requestingUser = await User.findById({ _id: requestingTeam });
@@ -80,9 +70,9 @@ const addANewMatch = async (req, res, next) => {
       return next(error);
     }
 
-    if (hasMatch) {
+    if (requestedTeamHasMatch) {
       const error = new Error("They have a match on this day");
-      error.statusCode = 400; // Set custom status code
+      error.statusCode = 400;
       return next(error);
     }
 
@@ -95,52 +85,16 @@ const addANewMatch = async (req, res, next) => {
       squads: {
         requestingTeamSquad: { squadId: requestingTeamSquad },
       },
+      score: {
+        requestingTeam: { userId: requestingTeam },
+        requestedTeam: { userId: requestedTeam },
+      },
       venue,
     });
 
     await match.save();
 
     res.status(201).json(match);
-  } catch (e) {
-    next(e);
-  }
-};
-
-const updateMatch = async (req, res, next) => {
-  try {
-    const {
-      requestingTeam,
-      requestedTeam,
-      requestingTeamSquad,
-      requestedTeamSquad,
-      accepted,
-      rejected,
-    } = req.body;
-
-    const { matchId } = req.query;
-
-    console.log(rejected, matchId);
-
-    let match = await Match.findById({ _id: matchId });
-
-    if (!match) {
-      let error = new Error("Match not found");
-      error.statusCode = 404;
-      return next(error);
-    }
-
-    if (accepted) {
-      match.status = "accepted";
-      await match.save();
-    } else if (rejected) {
-      match.status = "rejected";
-      await match.save();
-      res.send(match);
-    }
-
-    await match.save();
-
-    res.send(match);
   } catch (e) {
     next(e);
   }
@@ -272,12 +226,232 @@ const acceptMatchByRequestedUser = async (req, res, next) => {
   }
 };
 
+const updateOverAndTosWinner = async (req, res, next) => {
+  try {
+    const { matchId, tossWinnerId, tossLooserId, inningsType, overs } =
+      req.body;
+
+    const match = await Match.findById(matchId);
+    if (!match) {
+      const error = new Error("There are no match found");
+      error.statusCode = 404;
+      return next(error);
+    }
+
+    if (overs) {
+      match.totalOvers = overs;
+    }
+
+    if (tossWinnerId) {
+      match.toss.tossWinner = tossWinnerId;
+      match.tossLoserInfo.tossLoser = tossLooserId;
+    }
+
+    if (inningsType) {
+      match.toss.inningsType = inningsType;
+
+      if (inningsType === "Bowl") {
+        match.tossLoserInfo.inningsType = "Bat";
+        match.battingUser.userId = tossLooserId;
+        match.bowlingUser.userId = tossWinnerId;
+      } else if (inningsType === "Bat") {
+        match.tossLoserInfo.inningsType = "Bowl";
+        match.battingUser.userId = tossWinnerId;
+        match.bowlingUser.userId = tossLooserId;
+      } else {
+        const error = new Error("Please add a valid innings type, bat/bowl");
+        error.statsCode = 406;
+        return next(error);
+      }
+    }
+
+    await match.save();
+
+    res.json({ message: "Update successfully", match });
+  } catch (e) {
+    return next(e);
+  }
+};
+
+const updateMatch = async (req, res, next) => {
+  try {
+    const { matchId, selectedBatterId, selectedBowlerId, perBallOccurs } =
+      req.body;
+
+    const match = await Match.findById(matchId);
+    if (!match) {
+      const error = new Error("Match not found");
+      error.statusCode = 406;
+      return next(error);
+    }
+
+    const getBatting = match.battingUser.userId.toString();
+
+    const battingTeam =
+      match.score.requestingTeam.userId.toString() === getBatting
+        ? "requestingTeam"
+        : match.score.requestedTeam.userId.toString() === getBatting
+        ? "requestedTeam"
+        : "something is Wrong";
+
+    const bowlingTeam =
+      battingTeam === "requestingTeam" ? "requestedTeam" : "requestingTeam";
+
+    if (match) {
+      const cacheMatch = await client.get(`match:${matchId}`);
+      const Match = JSON.parse(cacheMatch);
+      if (match && !Match) {
+        console.log("cached successfully");
+        await client.set(`match:${matchId}`, JSON.stringify(match));
+      }
+    }
+
+    const cacheMatch = await client.get(`match:${matchId}`);
+    const cacheDataParse = JSON.parse(cacheMatch);
+
+    const batting = cacheDataParse.score[battingTeam];
+    const bowling = cacheDataParse.score[bowlingTeam];
+
+    // Function for batting player check
+
+    function foundBattingPlayerStats(playerId) {
+      const hasPlayerStats = batting.playerStats.map((item, index) => {
+        return item.playerId === playerId ? true : false;
+      });
+
+      return hasPlayerStats.includes(true);
+    }
+    // Function for bowling player check
+    function foundBowlingPlayerStats(playerId) {
+      const hasPlayerStats = bowling.playerStats.map((item, index) => {
+        return item.playerId === playerId ? true : false;
+      });
+
+      return hasPlayerStats.includes(true);
+    }
+
+    //function for all player stats (return object)
+
+    function playerObj({
+      playerId,
+      runs,
+      playBalls,
+      wicketTaken,
+      throwBall,
+      givenRun,
+      givenWide,
+      givenNo,
+      catchKeeperId,
+      runOutThrowerId,
+      wicketKeeperId,
+      BowlerId,
+      outType,
+      out,
+    }) {
+      const playerObj = {
+        playerId: playerId,
+        runs: runs || 0,
+        playBalls: playBalls || 0,
+        wicketTaken: {
+          totalWickets: wicketTaken || 0,
+        },
+        overs: {
+          ball: throwBall || 0,
+          givenRun: givenRun || 0,
+          extra: {
+            wideBall: givenWide || 0,
+            noBall: givenNo || 0,
+          },
+        },
+        out: {
+          catchKeeper: catchKeeperId || null,
+          runOut: runOutThrowerId || null,
+          stumpPingOut: wicketKeeperId || null,
+          outTaken: BowlerId || null,
+          outType: outType || "",
+          out: out || false,
+        },
+      };
+
+      return playerObj;
+    }
+
+    async function DotOneToSix({ run }) {
+      batting.totalOvers += 1;
+      batting.totalRuns += run;
+      if (foundBattingPlayerStats(selectedBatterId)) {
+        batting.playerStats.map((item) => {
+          if (item.playerId === selectedBatterId) {
+            item.playBalls += 1;
+            item.runs += run;
+          }
+        });
+      } else {
+        const playerInit = playerObj({
+          playerId: selectedBatterId,
+          playBalls: 1,
+          runs: run,
+        });
+        batting.playerStats.push(playerInit);
+      }
+
+      if (foundBowlingPlayerStats(selectedBowlerId)) {
+        bowling.playerStats.map((item) => {
+          if (item.playerId === selectedBowlerId) {
+            item.overs.ball += 1;
+            item.overs.givenRun += run;
+          }
+        });
+      } else {
+        const playerInit = playerObj({
+          playerId: selectedBowlerId,
+          throwBall: 1,
+          givenRun: run,
+        });
+        bowling.playerStats.push(playerInit);
+      }
+      await client.set(`match:${matchId}`, JSON.stringify(cacheDataParse));
+    }
+
+    switch (perBallOccurs.ballOccurs) {
+      case "Dot":
+        DotOneToSix({ run: 0 });
+        break;
+      case "1":
+        DotOneToSix({ run: 1 });
+        break;
+      case "2":
+        DotOneToSix({ run: 2 });
+        break;
+      case "3":
+        DotOneToSix({ run: 3 });
+        break;
+      case "4":
+        DotOneToSix({ run: 4 });
+        break;
+      case "6":
+        DotOneToSix({ run: 6 });
+        break;
+    }
+
+    // if (batting.totalOvers === 6) {
+    //   match.score = cacheDataParse.score;
+    //   await match.save();
+    // }
+
+    res.json({ message: "match from update", cacheDataParse });
+  } catch (err) {
+    return next(err);
+  }
+};
+
 module.exports = {
   addANewMatch,
-  updateMatch,
   getMatchByRequestingTeamId,
   getMatchByRequestedTeamId,
   cancelMatchByRequestingUser,
   rejectMatchByRequestedUser,
   acceptMatchByRequestedUser,
+  updateOverAndTosWinner,
+  updateMatch,
 };

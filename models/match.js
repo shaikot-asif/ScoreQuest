@@ -2,20 +2,45 @@ const { Schema, model, Types } = require("mongoose");
 
 const PlayerStatSchema = new Schema(
   {
-    playerId: { type: Types.ObjectId, ref: "Player", required: true },
+    playerId: { type: Types.ObjectId, ref: "Player", default: null },
     runs: { type: Number, default: 0 },
-    wickets: { type: Number, default: 0 },
-    overs: { type: String, default: 0.0 },
+    playBalls: { type: Number, default: 0 },
+    wicketTaken: {
+      totalWickets: { type: Number, default: 0 },
+    },
+    overs: {
+      ball: { type: Number, default: 0 },
+      givenRun: { type: Number, default: 0 },
+      extra: {
+        wideBall: { type: Number, default: 0 },
+        noBall: { type: Number, default: 0 },
+      },
+    },
+    out: {
+      catchKeeper: { type: Types.ObjectId, default: null },
+      runOut: { type: Types.ObjectId, default: null },
+      stumpPingOut: { type: Types.ObjectId, default: null },
+      outTaken: { type: Types.ObjectId, default: null },
+      outType: { type: String, default: "" },
+      out: { type: Boolean, default: false },
+    },
   },
   { _id: false }
 );
 
 const ScoreSchema = new Schema(
   {
+    userId: { type: Types.ObjectId, ref: "User", required: true },
     playerStats: [PlayerStatSchema],
     totalRuns: { type: Number, default: 0 },
+    extraRun: {
+      legBye: { type: Number, default: 0 },
+      wideBall: { type: Number, default: 0 },
+      noBall: { type: Number, default: 0 },
+      bye: { type: Number, default: 0 },
+    },
     totalWickets: { type: Number, default: 0 },
-    totalOvers: { type: String, default: 0.0 },
+    totalOvers: { type: Number, default: 0 },
   },
   { _id: false }
 );
@@ -49,12 +74,24 @@ const MatchSchema = new Schema(
       requestingTeamSquad: { type: SquadSchema, default: {} },
       requestedTeamSquad: { type: SquadSchema, default: {} },
     },
-    // toss: {
-    //   tossWinner: { type: Types.ObjectId, ref: "User", default: null },
-    //   inningsType: { type: String, enum: ["Bat", "Bowl"], default: "" },
-    // },
+    totalOvers: { type: Number, default: 0 },
+    toss: {
+      tossWinner: { type: Types.ObjectId, ref: "User", default: null },
+      inningsType: { type: String, enum: ["Bat", "Bowl"] },
+    },
+    tossLoserInfo: {
+      tossLoser: { type: Types.ObjectId, ref: "User", default: null },
+      inningsType: { type: String, enum: ["Bat", "Bowl"] },
+    },
 
-    // switchPermission: {},
+    battingUser: {
+      userId: { type: Types.ObjectId, ref: "User", default: null },
+    },
+    bowlingUser: {
+      userId: { type: Types.ObjectId, ref: "User", default: null },
+    },
+
+    permissionRequestedScoreUpdate: { type: Boolean, default: false },
 
     status: {
       type: String,

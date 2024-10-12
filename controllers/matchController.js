@@ -376,6 +376,8 @@ const updateMatch = async (req, res, next) => {
       return playerObj;
     }
 
+    //Dot One To Six
+
     async function DotOneToSix({ run }) {
       batting.totalOvers += 1;
       batting.totalRuns += run;
@@ -413,6 +415,82 @@ const updateMatch = async (req, res, next) => {
       await client.set(`match:${matchId}`, JSON.stringify(cacheDataParse));
     }
 
+    async function byeLegBye() {
+      batting.totalRuns += perBallOccurs.byeRun;
+      batting.extraRun[perBallOccurs.ballOccurs] += perBallOccurs.byeRun;
+      batting.totalOvers += 1;
+
+      console.log(perBallOccurs);
+
+      if (foundBowlingPlayerStats(selectedBowlerId)) {
+        bowling.playerStats.map((item) => {
+          if (item.playerId === selectedBowlerId) {
+            item.overs.ball += 1;
+          }
+        });
+      } else {
+        const playerInit = playerObj({
+          playerId: selectedBowlerId,
+          throwBall: 1,
+        });
+        bowling.playerStats.push(playerInit);
+      }
+      await client.set(`match:${matchId}`, JSON.stringify(cacheDataParse));
+    }
+
+    async function out({ caught = false, runOut = false, stumped = false }) {
+      batting.totalWickets += 1;
+      batting.totalOvers += 1;
+
+      if (foundBattingPlayerStats(selectedBatterId)) {
+        batting.playerStats.map((item) => {
+          if (item.playerId === selectedBatterId) {
+            item.out.out = true;
+            item.out.outType = perBallOccurs.ballOccurs;
+            item.out.outTaken = selectedBowlerId;
+            if (caught) {
+              item.out.catchKeeper = perBallOccurs.catchKeeperId;
+            } else if (runOut) {
+              item.out.runOut = perBallOccurs.runOutThrowerId;
+            } else if (stumped) {
+              item.out.stumpPingOut = perBallOccurs.wicketKeeperId;
+            }
+          }
+        });
+      } else {
+        const playerInit = playerObj({
+          playerId: selectedBatterId,
+          out: true,
+          outType: perBallOccurs.ballOccurs,
+          BowlerId: selectedBowlerId,
+          catchKeeperId: perBallOccurs.catchKeeperId || null,
+          runOutThrowerId: perBallOccurs.runOutThrowerId || null,
+          wicketKeeperId: perBallOccurs.wicketKeeperId || null,
+        });
+        batting.playerStats.push(playerInit);
+      }
+
+      if (foundBowlingPlayerStats(selectedBowlerId)) {
+        bowling.playerStats.map((item) => {
+          if (item.playerId === selectedBowlerId) {
+            if (!runOut) {
+              item.overs.ball += 1;
+            }
+            item.wicketTaken.totalWickets += 1;
+          }
+        });
+      } else {
+        const playerInit = playerObj({
+          playerId: selectedBowlerId,
+          wicketTaken: !runOut && 1,
+          throwBall: 1,
+        });
+        bowling.playerStats.push(playerInit);
+      }
+
+      await client.set(`match:${matchId}`, JSON.stringify(cacheDataParse));
+    }
+
     switch (perBallOccurs.ballOccurs) {
       case "Dot":
         DotOneToSix({ run: 0 });
@@ -432,12 +510,105 @@ const updateMatch = async (req, res, next) => {
       case "6":
         DotOneToSix({ run: 6 });
         break;
+      case "wide":
+        let runs = 1 + (perBallOccurs.wideBye || 0);
+        batting.totalRuns += runs;
+        batting.extraRun.bye += perBallOccurs.wideBye || 0;
+
+        if (foundBowlingPlayerStats(selectedBowlerId)) {
+          bowling.playerStats.map((item) => {
+            if (item.playerId === selectedBowlerId) {
+              item.overs.givenRun += 1;
+              item.overs.extra.wideBall += 1;
+            }
+          });
+        } else {
+          const playerInit = playerObj({
+            playerId: selectedBowlerId,
+            givenRun: 1,
+            givenWide: 1,
+          });
+          bowling.playerStats.push(playerInit);
+        }
+        await client.set(`match:${matchId}`, JSON.stringify(cacheDataParse));
+        break;
+
+      case "noBall":
+        let noBallRuns =
+          1 + (perBallOccurs.batterScore || 0) + (perBallOccurs.byeScore || 0);
+        batting.totalRuns += noBallRuns;
+        batting.extraRun.noBall += 1;
+        batting.extraRun.bye += perBallOccurs.byeScore || 0;
+
+        if (foundBattingPlayerStats(selectedBatterId)) {
+          batting.playerStats.map((item) => {
+            if (item.playerId === selectedBatterId) {
+              // item.playBalls += 1;
+              item.runs += perBallOccurs.batterScore || 0;
+            }
+          });
+        } else {
+          const playerInit = playerObj({
+            playerId: selectedBatterId,
+            playBalls: 1,
+            runs: perBallOccurs.batterScore || 0,
+          });
+          batting.playerStats.push(playerInit);
+        }
+
+        if (foundBowlingPlayerStats(selectedBowlerId)) {
+          bowling.playerStats.map((item) => {
+            if (item.playerId === selectedBowlerId) {
+              const batterScore = (perBallOccurs.batterScore || 0) + 1;
+              console.log(batterScore, "batterScore + 1", perBallOccurs);
+              item.overs.givenRun += batterScore;
+              item.overs.extra.noBall += 1;
+            }
+          });
+        } else {
+          const playerInit = playerObj({
+            playerId: selectedBowlerId,
+            givenRun: 1,
+            givenNo: 1,
+          });
+          bowling.playerStats.push(playerInit);
+        }
+        await client.set(`match:${matchId}`, JSON.stringify(cacheDataParse));
+        break;
+
+      case "bye":
+        byeLegBye();
+        break;
+
+      case "legBye":
+        byeLegBye();
+        break;
+
+      case "bowled":
+        out();
+        break;
+
+      case "caught":
+        out({ caught: true });
+        break;
+      case "lbw":
+        out();
+        break;
+      case "runOut":
+        out({ runOut: true });
+        break;
+      case "stumped":
+        out({ stumped: true });
+        break;
+
+      default:
+        const error = new Error("Please give a valid ball");
+        error.statusCode = 406;
+        return next(error);
     }
 
-    // if (batting.totalOvers === 6) {
-    //   match.score = cacheDataParse.score;
-    //   await match.save();
-    // }
+    if (batting.totalOvers / 6 === cacheDataParse.totalOvers) {
+    }
 
     res.json({ message: "match from update", cacheDataParse });
   } catch (err) {

@@ -12,11 +12,13 @@ const {
   acceptMatchByRequestedUser,
   updateOverAndTosWinner,
   updateMatch,
+  getMatchDetails,
 } = require("../controllers/matchController.js");
 
 router.post("/addMatch", authGuard, addANewMatch);
 router.get("/requestingTeam", authGuard, getMatchByRequestingTeamId);
 router.get("/requestedTeam", authGuard, getMatchByRequestedTeamId);
+router.get("/getMatchDetails", getMatchDetails);
 router.put(
   "/rejectMatchByRequestedUser",
   authGuard,

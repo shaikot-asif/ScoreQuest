@@ -84,6 +84,7 @@ const MatchSchema = new Schema(
       inningsType: { type: String, enum: ["Bat", "Bowl"] },
     },
 
+    inningsCount: { type: Number, default: 1 },
     battingUser: {
       userId: { type: Types.ObjectId, ref: "User", default: null },
     },

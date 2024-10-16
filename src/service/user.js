@@ -42,7 +42,6 @@ export const getUsers = async ({
   limit = 10,
   page = 1,
 }) => {
-  console.log("search: ", searchKeywords);
   try {
     const config = {
       headers: {
@@ -52,6 +51,27 @@ export const getUsers = async ({
     const { data } = await axios.get(
       `http://localhost:4000/api/users/getAllUsers?search=${searchKeywords}&limit=${limit}&page=${page}`,
       config
+    );
+
+    return data;
+  } catch (error) {
+    console.log(error, "error");
+    if (error.response && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    }
+    throw new Error(error.message);
+  }
+};
+
+export const getUser = async ({ userId, token }) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const { data } = await axios.get(
+      `http://localhost:4000/api/users/getUser?userId=${userId}`
     );
 
     return data;

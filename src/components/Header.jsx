@@ -1,112 +1,75 @@
-import React from "react";
-import styled from "styled-components";
 import images from "../constants/images";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../store/reducers/userAction";
-import Search from "./Search";
 
-const Header = ({ searchVisible = false }) => {
+const navItem = [
+  { name: "Home", link: "/" },
+  { name: "Today Match", link: "/todayMatch" },
+  { name: "Finished Match", link: "/finishedMatch" },
+  { name: "Upcoming Match", link: "/upcomingMatch" },
+  { name: "Statistics", link: "/playerStatistics" },
+  { name: "Contact Us", link: "/contact" },
+];
+
+const Header = () => {
   const userState = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const location = useLocation();
   return (
-    <Container>
-      <div className="container">
-        <div className="logoArea">
+    <div className=" bg-primary-darkNavy block m-auto py-4">
+      <div className="container m-auto flex flex-row justify-between">
+        <div className="">
           <Link to={"/"}>
-            <img src={images.ScoreQuest} alt="logo" />
+            <img width={160} src={images.ScoreQuest} alt="logo" />
           </Link>
         </div>
 
-        <div className="menu">
+        <div className="flex flex-row gap-6 items-center">
+          <ul className="flex flex-row gap-6">
+            {navItem.map((item, index) => (
+              <li
+                className={` text-natural-white transition-all font-semibold duration-500 hover:text-primary-brightOrange ${
+                  location.pathname === item.link && "text-primary-brightOrange"
+                }`}
+                key={index}
+              >
+                <Link to={item.link}>{item.name}</Link>
+              </li>
+            ))}
+          </ul>
+
           {userState.userInfo ? (
             <ul>
-              <li>
+              <li
+                className={` text-natural-white transition-all font-semibold duration-500 hover:text-primary-brightOrange ${
+                  location.pathname === "/profile" &&
+                  "text-primary-brightOrange"
+                }`}
+              >
                 <Link to={"/profile"}>Profile</Link>
               </li>
-              <li>
+              <li className="text-natural-white font-semibold transition-all duration-500 hover:text-primary-brightOrange">
                 <button onClick={() => dispatch(logout())}>Logout</button>
               </li>
             </ul>
           ) : (
             <ul>
-              <li>
+              <li
+                className={` text-natural-white font-semibold transition-all duration-500 hover:text-primary-brightOrange ${
+                  (location.pathname === "/signup" ||
+                    location.pathname === "/login") &&
+                  "text-primary-brightOrange"
+                }`}
+              >
                 <Link to={"/signup"}>Sign in</Link>
               </li>
             </ul>
           )}
         </div>
       </div>
-    </Container>
+    </div>
   );
 };
 
 export default Header;
-
-const Container = styled.div`
-  position: fixed;
-  top: 0;
-  background: #041434;
-  border-bottom: 1px solid red;
-  width: 100%;
-  padding: 1rem 0px;
-  .container {
-    max-width: 1240px;
-    margin: auto;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .logoArea {
-    width: 155px;
-    height: 68px;
-  }
-  .logoArea img {
-    width: 100%;
-  }
-
-  .menu a {
-    display: block;
-    text-align: center;
-    padding: 10px 0;
-    width: 130px !important;
-    height: 48px !important;
-    border-radius: 30px;
-    outline: none;
-    background: transparent;
-    border: 1px solid white;
-    font-size: 18px;
-    color: white;
-    text-transform: capitalize;
-    text-decoration: none;
-
-    cursor: pointer;
-  }
-
-  .menu ul {
-    list-style: none;
-    display: flex;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    gap: 1rem;
-  }
-
-  .menu button {
-    display: block;
-    text-align: center;
-    padding: 10px 0;
-    width: 130px !important;
-    height: 48px !important;
-
-    outline: none;
-    background: transparent;
-    border: none;
-    font-size: 18px;
-    color: white;
-    text-transform: capitalize;
-    text-decoration: none;
-
-    cursor: pointer;
-  }
-`;

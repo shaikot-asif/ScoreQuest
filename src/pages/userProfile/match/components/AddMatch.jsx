@@ -10,9 +10,11 @@ import { addMatch } from "../../../../service/match";
 const InitValue = {
   teams: {
     requestingTeam: {
+      userName: "",
       userId: "",
     },
     requestedTeam: {
+      userName: "",
       userId: "",
     },
   },
@@ -30,11 +32,14 @@ const AddMatch = ({ requestedTeam, setPlayMatchBtn }) => {
   const [matchValues, setMatchValues] = useState({ ...InitValue });
   const [isDisabled, setIsDisabled] = useState(true);
 
+  console.log(matchValues, "matchValues");
   useEffect(() => {
     setMatchValues({
       ...matchValues,
       teams: {
-        requestingTeam: { userId: userState.userInfo._id },
+        requestingTeam: {
+          userId: userState.userInfo._id,
+        },
         requestedTeam: { userId: requestedTeam },
       },
     });

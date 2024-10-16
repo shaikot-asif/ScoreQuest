@@ -53,7 +53,8 @@ export const deleteSquad = async ({ squadId, token }) => {
       },
     };
     const { data } = await axios.delete(
-      `http://localhost:4000/api/squad/deleteSquad?squadId=${squadId}`
+      `http://localhost:4000/api/squad/deleteSquad?squadId=${squadId}`,
+      config
     );
     return data;
   } catch (error) {
@@ -73,7 +74,8 @@ export const getSquadById = async ({ _id, token }) => {
       },
     };
     const { data } = await axios.get(
-      `http://localhost:4000/api/squad/getSquadById?_id=${_id}`
+      `http://localhost:4000/api/squad/getSquadById?_id=${_id}`,
+      config
     );
 
     return data;

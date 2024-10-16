@@ -1,20 +1,13 @@
 import React from "react";
 import MainLayout from "../../components/MainLayout";
-import styled from "styled-components";
-import Search from "../../components/Search";
+import Hero from "./container/Hero";
+
 const HomePage = () => {
   return (
     <MainLayout>
-      <Container>
-        <Search />
-        <h1>Home page will be here</h1>
-      </Container>
+      <Hero />
     </MainLayout>
   );
 };
 
 export default HomePage;
-
-const Container = styled.div`
-  margin-top: 6rem;
-`;

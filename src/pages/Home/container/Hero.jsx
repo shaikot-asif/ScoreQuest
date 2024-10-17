@@ -8,7 +8,7 @@ const Hero = () => {
     <div className="container block m-auto overflow-x-hidden text-center">
       <div className="flex flex-row justify-between mt-24 mb-[200px]">
         <div className="translate-x-[-45px] translate-y-[130px]">
-          <img width={300} src={images.hero} alt="" />
+          <img width={300} loading="lazy" src={images.hero} alt="" />
         </div>
         <div>
           <h1 className="text-primary-brightOrange text-5xl leading-tight font-bold">
@@ -21,10 +21,10 @@ const Hero = () => {
           </p>
         </div>
         <div className="translate-x-[45px] translate-y-[130px]">
-          <img width={300} src={images.hero} alt="" />
+          <img width={300} loading="lazy" src={images.hero} alt="" />
         </div>
       </div>
-      <div className="justify-center translate-y-[-200px] flex items-center gap-4 ">
+      <div className="justify-center translate-y-[-185px] flex items-center gap-4 ">
         <PrimaryButton text={"Get Started"} />
         <SecondaryButton text={"Explore Live Match"} />
       </div>

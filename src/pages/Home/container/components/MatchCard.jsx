@@ -1,25 +1,37 @@
 import React from "react";
 
-const MatchCard = () => {
+const MatchCard = ({ match, parentClass }) => {
   return (
-    <div className="[box-shadow:0px_0px_10px_-2px_rgba(255,_255,_255,_0.7);] px-6 py-8 rounded-md">
-      <div className="flex flex-col gap-y-3">
-        <h4 className="text-center font-bold text-[22px] text-accentColor-skyBlur ">
-          Team1 vs Team2
-        </h4>
+    <div
+      className={`${parentClass} p-6 rounded-md shadow hover:shadow-sm transition-all duration-150`}
+    >
+      <h3 className="text-xl font-semibold text-primary-brightOrange text-center mb-2">
+        {match.team1} vs {match.team2}
+      </h3>
+      <div className="border-t border-secondary-slateGray py-4">
+        <div className="flex justify-between mb-2">
+          <span className="font-bold text-primary-darkNavy">Batting Team:</span>
+          <span className="text-secondary-slateGray">{match.battingTeam}</span>
+        </div>
+        <div className="mb-4">
+          <div className="text-secondary-slateGray">
+            <span className="font-semibold">Player 1:</span> {match.player1.run}{" "}
+            runs / {match.player1.ball} balls
+          </div>
+          <div className="text-secondary-slateGray">
+            <span className="font-semibold">Player 2:</span> {match.player2.run}{" "}
+            runs / {match.player2.ball} balls
+          </div>
+        </div>
 
-        <h5>Batting Team : Team1</h5>
-        <span>
-          <strong>Batting player1:</strong> <span>run: 20 / ball: 12</span>
-          <br />
-          <strong>Batting player2:</strong> <span>run: 22 / ball: 9</span>
-        </span>
-
-        <h5>Bowling Team: Team2</h5>
-        <span>
-          <strong>Bowling player:</strong> <span>current ball occurs.</span>{" "}
-          <span>13/2.3</span>{" "}
-        </span>
+        <div className="flex justify-between mb-2">
+          <span className="font-bold text-primary-darkNavy">Bowling Team:</span>
+          <span className="text-secondary-slateGray">{match.bowlingTeam}</span>
+        </div>
+        <div className="text-secondary-slateGray">
+          <span className="font-semibold">Bowler:</span> {match.bowler} -{" "}
+          {match.currentOver} overs
+        </div>
       </div>
     </div>
   );

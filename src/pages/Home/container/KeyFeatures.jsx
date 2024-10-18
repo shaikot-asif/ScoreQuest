@@ -8,13 +8,10 @@ import HeadingH3 from "../../../components/shared/HeadingH3";
 
 const KeyFeatures = () => {
   return (
-    <div className="container block m-auto">
-      {/* <h5 className="text-center text-[38px] font-bold text-primary-darkNavy pb-3 ">
-        Key Features
-      </h5> */}
+    <div className="container px-4 xl:px-0 mt-[-70px] lg:mt-0 block m-auto">
       <HeadingH3 text={"Why Choose ScoreQuest?"} />
-      <div className="flex gap-5 justify-evenly mt-10">
-        <div>
+      <div className="flex flex-wrap  gap-5 justify-evenly mt-10">
+        <div className="w-[100%] md:w-[48%] lg:w-[31%] xl:w-[23%] ">
           <FeaturesCard
             icon={<MdUpdate />}
             text={
@@ -23,7 +20,7 @@ const KeyFeatures = () => {
             title={"Detailed Player Stats"}
           />
         </div>
-        <div>
+        <div className="w-[100%] md:w-[48%] lg:w-[31%] xl:w-[23%] ">
           <FeaturesCard
             icon={<TfiStatsUp />}
             text={
@@ -32,7 +29,7 @@ const KeyFeatures = () => {
             title={"Match Insights"}
           />
         </div>
-        <div>
+        <div className="w-[100%] md:w-[48%] lg:w-[31%] xl:w-[23%] ">
           <FeaturesCard
             icon={<SiPagespeedinsights />}
             text={
@@ -41,7 +38,7 @@ const KeyFeatures = () => {
             title={"Accessible Anytime, Anywhere"}
           />
         </div>
-        <div>
+        <div className="w-[100%] md:w-[48%] lg:w-[31%] xl:w-[23%] ">
           <FeaturesCard
             icon={<BsUniversalAccessCircle />}
             text={

@@ -8,11 +8,11 @@ import FeaturesCard from "./components/FeaturesCard";
 import HeadingH3 from "../../../components/shared/HeadingH3";
 const HowItWorks = () => {
   return (
-    <div className="container block m-auto mt-[150px] ">
+    <div className="container px-4 xl:px-0 block m-auto mt-[100px] sm:mt-[150px] ">
       <HeadingH3 text={"How ScoreQuest Works"} />
 
-      <div className="flex gap-5 justify-evenly mt-10">
-        <div>
+      <div className="flex flex-col md:flex-row gap-5 justify-evenly mt-10">
+        <div className="w-[100%] md:w-[48%] lg:w-[31%] ">
           <FeaturesCard
             icon={<MdAppRegistration />}
             text={
@@ -21,7 +21,7 @@ const HowItWorks = () => {
             title={"Register Your Team"}
           />
         </div>
-        <div>
+        <div className="w-[100%] md:w-[48%] lg:w-[31%] ">
           <FeaturesCard
             icon={<MdOutlineScoreboard />}
             text={
@@ -30,7 +30,7 @@ const HowItWorks = () => {
             title={"Start Scoring"}
           />
         </div>
-        <div>
+        <div className="w-[100%] md:w-[48%] lg:w-[31%] ">
           <FeaturesCard
             icon={<MdEmergencyShare />}
             text={

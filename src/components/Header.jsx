@@ -17,15 +17,15 @@ const Header = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   return (
-    <div className=" bg-primary-darkNavy block m-auto py-4">
+    <div className=" bg-primary-darkNavy block m-auto py-4 px-4 xl:px-0 ">
       <div className="container m-auto flex flex-row justify-between">
-        <div className="">
+        <div className="w-[100px] md:w-[160px] ">
           <Link to={"/"}>
             <img width={160} src={images.ScoreQuest} alt="logo" />
           </Link>
         </div>
 
-        <div className="flex flex-row gap-6 items-center">
+        <div className="hidden lg:flex flex-row gap-6 items-center">
           <ul className="flex flex-row gap-6">
             {navItem.map((item, index) => (
               <li

@@ -3,7 +3,7 @@ import React from "react";
 const FeaturesCard = ({ icon, title, text, classes }) => {
   return (
     <div
-      className={`${classes} text-center rounded-md px-4 py-6 [box-shadow:0px_0px_10px_-2px_rgba(255,_255,_255,_0.7);] hover:mt-[-5px] transition-all duration-150 `}
+      className={`${classes} text-center rounded-md px-4 py-6 shadow hover:shadow-sm transition-all duration-150 `}
     >
       <div className=" mb-3 [&>svg]:p-3 rounded-full [&>svg]:text-natural-white w-14 h-14 text-[48px] flex align-middle justify-center items-center m-auto bg-primary-brightOrange">
         {icon}

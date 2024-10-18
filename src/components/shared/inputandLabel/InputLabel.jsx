@@ -40,8 +40,13 @@ const InputLabel = ({
   }
 
   return (
-    <Container className={errors[name]?.message ? errors[name]?.message : ""}>
-      <label htmlFor={name}>{label}</label>
+    <div>
+      <label
+        className="block text-gray-700 text-sm font-bold mb-2"
+        htmlFor={name}
+      >
+        {label}
+      </label>
 
       <input
         {...register(name, {
@@ -58,44 +63,16 @@ const InputLabel = ({
         id={name}
         placeholder={placeholder}
         error={errors[name]?.message}
+        className={`${
+          errors[name]?.message
+            ? "border-primary-brightOrange"
+            : "border-secondary-slateGray "
+        } w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-accentColor-skyBlur `}
       />
 
       <p className="errorMessage">{errors[name]?.message}</p>
-    </Container>
+    </div>
   );
 };
 
 export default InputLabel;
-
-const Container = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  width: 360px;
-
-  .errorMessage {
-    color: red;
-    padding-bottom: 13px;
-  }
-
-  label {
-    font-size: 16px;
-    font-weight: 600;
-    color: #041434;
-    padding-bottom: 12px;
-  }
-  input {
-    height: 50px;
-    border-radius: 6px;
-    border: ${(props) =>
-      props.className ? "1px solid red" : "1px solid #041434"};
-    outline: none;
-    font-size: 16px;
-    padding: 0 10px;
-    /* margin-bottom: 13px; */
-    /* (props.error ? "1px solid red" : "1px solid #041434") */
-  }
-  input::placeholder {
-    color: #5a7184;
-  }
-`;

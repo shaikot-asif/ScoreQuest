@@ -10,6 +10,7 @@ import { userActions } from "../../store/reducers/userReducer";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 import { signup } from "../../service/user.js";
+import SecondaryButton from "../../components/shared/button/SecondaryButton.jsx";
 const RegisterPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -62,92 +63,77 @@ const RegisterPage = () => {
   };
   return (
     <MainLayout>
-      <Container>
-        <h2>Sign Up</h2>
+      <div className="flex flex-col justify-center items-center mt-10 px-4 sm:px-0">
+        <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+          <h2 className="text-2xl font-bold text-center mb-6 text-primary-darkNavy">
+            Register Your Club
+          </h2>
 
-        <form onSubmit={handleSubmit(handleSubmitData)}>
-          <InputLabel
-            register={register}
-            errors={errors}
-            name="name"
-            label={"Club / Area Name"}
-            placeholder={"Enter Name"}
-            value={2}
-          />
-          <InputLabel
-            register={register}
-            errors={errors}
-            name={"email"}
-            label={"Email Address"}
-            placeholder={"Enter Email"}
-            // type="email"
-          />
-          <InputLabel
-            register={register}
-            type="tel"
-            errors={errors}
-            name={"phone"}
-            label={"Phone No."}
-            placeholder={"Enter Phone"}
-            value={11}
-          />
-          <InputLabel
-            register={register}
-            errors={errors}
-            name={"password"}
-            label={"Password"}
-            placeholder={"Enter Password"}
-            type="password"
-            value={6}
-            watch={watch}
-          />
-          <InputLabel
-            register={register}
-            errors={errors}
-            name={"confirmPassword"}
-            label={"Confirm Password"}
-            placeholder={"Enter Password"}
-            type="password"
-            value={6}
-            watch={watch}
-          />
+          <form
+            className="flex flex-col gap-5"
+            onSubmit={handleSubmit(handleSubmitData)}
+          >
+            <InputLabel
+              register={register}
+              errors={errors}
+              name="name"
+              label={"Club / Area Name"}
+              placeholder={"Enter Name"}
+              value={2}
+            />
+            <InputLabel
+              register={register}
+              errors={errors}
+              name={"email"}
+              label={"Email Address"}
+              placeholder={"Enter Email"}
+              // type="email"
+            />
+            <InputLabel
+              register={register}
+              type="tel"
+              errors={errors}
+              name={"phone"}
+              label={"Phone No."}
+              placeholder={"Enter Phone"}
+              value={11}
+            />
+            <InputLabel
+              register={register}
+              errors={errors}
+              name={"password"}
+              label={"Password"}
+              placeholder={"Enter Password"}
+              type="password"
+              value={6}
+              watch={watch}
+            />
+            <InputLabel
+              register={register}
+              errors={errors}
+              name={"confirmPassword"}
+              label={"Confirm Password"}
+              placeholder={"Enter Password"}
+              type="password"
+              value={6}
+              watch={watch}
+            />
 
-          <Button type={"submit"} btnName={"Register"} />
-        </form>
-        <p>
-          Have you an account? <Link to={"/login"}>Login now</Link>{" "}
-        </p>
-      </Container>
+            <SecondaryButton
+              classes={
+                "w-full !bg-primary-darkNavy hover:!bg-blue-700 transition duration-300"
+              }
+              text={"Register"}
+              type="submit"
+            />
+          </form>
+          <p className="mt-4 text-sm text-secondary-slateGray [&>a]:hover:underline text-center">
+            Already Have An Account? <Link to={"/login"}>Login now</Link>{" "}
+          </p>
+        </div>
+      </div>
     </MainLayout>
   );
 };
 
 export default RegisterPage;
-
-const Container = styled.div`
-  max-width: 360px;
-  display: block;
-  margin: auto;
-  margin-top: 10rem;
-  padding-bottom: 70px;
-
-  h2 {
-    color: #041434;
-    text-align: center;
-    padding-bottom: 24px;
-  }
-  Button {
-    margin-top: 27px;
-    margin-bottom: 20px;
-  }
-  p {
-    color: #5a7184;
-    font-size: 14px;
-    font-weight: 400;
-  }
-  p a {
-    text-decoration: none;
-    color: #041434;
-    font-weight: 900;
-  }
-`;

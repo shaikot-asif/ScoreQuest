@@ -1,4 +1,5 @@
 const User = require("../models/User.js");
+const { fileRemover } = require("../utils/fileRemover.js");
 
 const registerUser = async (req, res, next) => {
   try {
@@ -21,7 +22,7 @@ const registerUser = async (req, res, next) => {
     await user.save();
 
     return res.status(201).json({
-      _id: user._id,
+      id: user._id,
       avatar: user.avatar,
       name: user.name,
       email: user.email,
@@ -46,7 +47,7 @@ const login = async (req, res, next) => {
     }
     if (await user.comparePassword(password)) {
       return res.status(201).json({
-        _id: user._id,
+        id: user._id,
         avatar: user.avatar,
         name: user.name,
         email: user.email,
@@ -91,19 +92,72 @@ const getUser = async (req, res, next) => {
   try {
     const { userId } = req.query;
 
-    console.log(userId, "userId");
-
     let user = await User.findById(userId);
 
+    console.log(user, "userId");
     if (!user) {
       throw new Error("User not found");
     }
 
-    res.status(200).json(user);
+    res.status(200).json({
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
+      avatar: user.avatar,
+    });
   } catch (error) {
     console.log(error);
     next(error);
   }
 };
 
-module.exports = { registerUser, login, getAllUsers, getUser };
+const updateUser = async (req, res, next) => {
+  try {
+    const { name, email, phone, password, newPassword, userId } = req.body;
+    const avatar = req.file ? req.file.filename : "";
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      const error = new Error("User not found");
+      error.statusCode = 404;
+      return next(error);
+    }
+
+    if (avatar) {
+      fileRemover(user.avatar);
+    }
+
+    user.name = name || user.name;
+    user.phone = phone || user.phone;
+    user.avatar = avatar || user.avatar;
+
+    if (newPassword && password) {
+      const isPasswordMatch = await user.comparePassword(password);
+
+      if (!isPasswordMatch) {
+        const error = new Error(
+          "Password is not match, please enter correct password"
+        );
+        error.statusCode = 406;
+        return next(error);
+      } else user.password = newPassword;
+    }
+
+    const updateUser = await user.save();
+
+    res.status(200).json({
+      id: updateUser._id,
+      name: updateUser.name,
+      email: updateUser.email,
+      phone: updateUser.phone,
+      avatar: updateUser.avatar,
+    });
+  } catch (error) {
+    console.log(error);
+    return next(error);
+  }
+};
+
+module.exports = { registerUser, login, getAllUsers, getUser, updateUser };

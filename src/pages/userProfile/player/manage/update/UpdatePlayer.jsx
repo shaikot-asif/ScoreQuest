@@ -1,16 +1,10 @@
-import React from "react";
-import styled from "styled-components";
 import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import images from "../../../../../constants/images";
 import { useState } from "react";
 import { useRef } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  addPlayer,
-  getPlayer,
-  updatePlayer,
-} from "../../../../../service/player";
+import { getPlayer, updatePlayer } from "../../../../../service/player";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import AddAndUpdatePlayer from "../../components/AddAndUpdatePlayer";
@@ -23,9 +17,7 @@ const UpdatePlayer = () => {
   const [AvatarUrl, setAvatarUrl] = useState(images.Profile);
   const [uploadProfile, setUploadProfile] = useState();
   const queryClient = useQueryClient();
-
   const userState = useSelector((state) => state.user);
-
   const profileUseRef = useRef(null);
 
   const { data, error, isLoading } = useQuery({
@@ -59,9 +51,7 @@ const UpdatePlayer = () => {
     },
 
     onSuccess: (data) => {
-      console.log("mutation Data: ", data);
       reset();
-      //   setAvatarUrl(images.Profile);
       queryClient.invalidateQueries(["player"]);
       toast.success("Player update successfully");
     },
@@ -73,7 +63,6 @@ const UpdatePlayer = () => {
 
   const {
     register,
-    watch,
     reset,
     formState: { errors },
     handleSubmit,

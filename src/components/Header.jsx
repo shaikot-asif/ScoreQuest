@@ -1,7 +1,6 @@
 import images from "../constants/images";
 import { Link, useLocation } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../store/reducers/userAction";
+import { useSelector } from "react-redux";
 
 const navItem = [
   { name: "Home", link: "/" },
@@ -14,8 +13,8 @@ const navItem = [
 
 const Header = () => {
   const userState = useSelector((state) => state.user);
-  const dispatch = useDispatch();
   const location = useLocation();
+
   return (
     <div className=" bg-primary-darkNavy block m-auto py-4 px-4 xl:px-0 ">
       <div className="container m-auto flex flex-row justify-between">
@@ -48,9 +47,6 @@ const Header = () => {
                 }`}
               >
                 <Link to={"/profile"}>Profile</Link>
-              </li>
-              <li className="text-natural-white font-semibold transition-all duration-500 hover:text-primary-brightOrange">
-                <button onClick={() => dispatch(logout())}>Logout</button>
               </li>
             </ul>
           ) : (

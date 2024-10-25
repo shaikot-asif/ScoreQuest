@@ -7,9 +7,11 @@ import UserProfile from "./pages/userProfile/UserProfile";
 import ManagePlayer from "./pages/userProfile/player/manage/ManagePlayer";
 import AddPlayer from "./pages/userProfile/player/addPlayer/AddPlayer";
 import UpdatePlayer from "./pages/userProfile/player/manage/update/UpdatePlayer";
-import Squad from "./pages/userProfile/Dashboard/Squad";
+
 import GetAllUser from "./pages/userProfile/player/getAllUser";
 import Match from "./pages/userProfile/match/Match";
+import Squad from "./pages/userProfile/squad/Squad";
+import Profile from "./pages/userProfile/Dashboard/Profile";
 
 const App = () => {
   return (
@@ -19,7 +21,8 @@ const App = () => {
         <Route path="/signup" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/profile" element={<UserProfile />}>
-          <Route index element={<Squad />} />
+          <Route index element={<Profile />} />
+          <Route path="squad" element={<Squad />} />
           <Route path="allUsers" element={<GetAllUser />} />
           <Route path="match" element={<Match />} />
           <Route path="addPlayer" element={<AddPlayer />} />

@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
 import MainLayout from "../../components/MainLayout";
 import InputLabel from "../../components/shared/inputandLabel/InputLabel";
 import { useForm } from "react-hook-form";
-import Button from "../../components/shared/button/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { detectInputType } from "../../utils/detectInputType";
 import { toast } from "react-hot-toast";

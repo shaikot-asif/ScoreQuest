@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
-import styled from "styled-components";
 import MainLayout from "../../components/MainLayout";
-import Button from "../../components/shared/button/Button";
 import InputLabel from "../../components/shared/inputandLabel/InputLabel";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -127,8 +125,11 @@ const RegisterPage = () => {
               type="submit"
             />
           </form>
-          <p className="mt-4 text-sm text-secondary-slateGray [&>a]:hover:underline text-center">
-            Already Have An Account? <Link to={"/login"}>Login now</Link>{" "}
+          <p className="mt-4 text-sm text-secondary-slateGray  text-center">
+            Already Have An Account?{" "}
+            <Link className="hover:underline" to={"/login"}>
+              Login now
+            </Link>{" "}
           </p>
         </div>
       </div>

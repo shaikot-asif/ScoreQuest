@@ -100,7 +100,8 @@ export const deletePlayer = async ({ playerId, token }) => {
       },
     };
     const { data } = await axios.delete(
-      `http://localhost:4000/api/players/deletePlayer?playerId=${playerId}`
+      `http://localhost:4000/api/players/deletePlayer?playerId=${playerId}`,
+      config
     );
 
     return data;

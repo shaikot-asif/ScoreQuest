@@ -1,18 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { detectInputType } from "../../../utils/detectInputType";
 
 const InputLabel = ({
   label,
   placeholder,
-  name,
+  name = "name",
   register,
   errors,
   value = 1,
   watch,
   type = "text",
   textMsg,
+  unregister,
+  valueFalse = false,
 }) => {
+  useEffect(() => {
+    if (valueFalse && name === "currentPassword") {
+      unregister("currentPassword");
+    }
+
+    if (valueFalse && name === "newPassword") {
+      unregister("newPassword");
+    }
+  }, [unregister, valueFalse]);
+
   let minLength;
   let pattern;
   let validate;
@@ -52,7 +64,7 @@ const InputLabel = ({
         {...register(name, {
           minLength,
           required: {
-            value: true,
+            value: !valueFalse,
             message: `${name} is required`,
           },
           pattern,
@@ -70,7 +82,9 @@ const InputLabel = ({
         } w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-accentColor-skyBlur `}
       />
 
-      <p className="errorMessage">{errors[name]?.message}</p>
+      <p className={`${errors[name]?.message && "text-primary-brightOrange"}`}>
+        {errors[name]?.message}
+      </p>
     </div>
   );
 };

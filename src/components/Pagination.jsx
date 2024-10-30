@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 const Pagination = ({
   onPageChange,
-  currentPage,
+  currentPage = 1,
   siblingCount = 1,
   totalPageCount,
   limit,
@@ -15,7 +15,7 @@ const Pagination = ({
     totalPageCount,
   });
 
-  if (currentPage === 0 || paginationRange.length < 1) {
+  if (currentPage === 0 || paginationRange?.length < 1) {
     return null;
   }
 
@@ -29,12 +29,12 @@ const Pagination = ({
   let lastPage = totalPageCount / limit;
 
   return (
-    <Container>
-      <div className="container">
+    <div className="flex p-5 flex-col items-center">
+      <div className="flex items-center">
         <button
           disabled={currentPage === 1}
           type="button"
-          className="btn"
+          className="p-4 rounded-tl-xl rounded-bl-xl border w-full text-[1rem] leading-6 text-[#4b5563] bg-[#ffffff]"
           onClick={onPrevious}
         >
           <svg
@@ -48,17 +48,26 @@ const Pagination = ({
             <path d="M1427 301l-531 531 531 531q19 19 19 45t-19 45l-166 166q-19 19-45 19t-45-19l-742-742q-19-19-19-45t19-45l742-742q19-19 45-19t45 19l166 166q19 19 19 45t-19 45z"></path>
           </svg>
         </button>
-        {paginationRange.map((pageNumber) => {
+        {paginationRange?.map((pageNumber) => {
           if (pageNumber === DOTS) {
-            return <button className="btn2">&#8230;</button>;
+            return (
+              <button
+                key={pageNumber}
+                className="pt-2 pb-2 pl-4 pr-4 border w-full text-[1rem] leading-6 bg-[#ffffff] cursor-default"
+              >
+                &#8230;
+              </button>
+            );
           }
 
           return (
             <button
               key={pageNumber}
               type="button"
-              className={`btnA1 ${
-                pageNumber === currentPage ? "btnA2" : "btnA3"
+              className={`pt-2 pb-2 pl-4 pr-4 border w-full text-[1rem] leading-6 ${
+                pageNumber === currentPage
+                  ? "text-[#ffffff] bg-[#3b82f6]"
+                  : "text-[#4b5563] bg-[#ffffff]"
               }`}
               onClick={() => onPageChange(pageNumber)}
             >
@@ -70,7 +79,7 @@ const Pagination = ({
         <button
           disabled={currentPage > lastPage}
           type="button"
-          className="last"
+          className="p-4 rounded-tr-xl rounded-br-xl border-t border-r border-b w-full text-[1rem] leading-6 text-[#4b5563] bg-[#ffffff]"
           onClick={onNext}
         >
           <svg
@@ -85,94 +94,8 @@ const Pagination = ({
           </svg>
         </button>
       </div>
-    </Container>
+    </div>
   );
 };
 
 export default Pagination;
-
-const Container = styled.div`
-  display: flex;
-  padding-top: 1.25rem;
-  padding-bottom: 1.25rem;
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
-  flex-direction: column;
-  align-items: center;
-  background-color: #ffffff;
-
-  .container {
-    display: flex;
-    align-items: center;
-  }
-  .btn {
-    padding: 1rem;
-    border-top-left-radius: 0.75rem;
-    border-bottom-left-radius: 0.75rem;
-    border-width: 1px;
-    width: 100%;
-    font-size: 1rem;
-    line-height: 1.5rem;
-    color: #4b5563;
-    background-color: #ffffff;
-  }
-
-  .btn:hover {
-    background-color: #f3f4f6;
-  }
-
-  .btn2 {
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    border-width: 1px;
-    width: 100%;
-    font-size: 1rem;
-    line-height: 1.5rem;
-    background-color: #ffffff;
-    cursor: default;
-  }
-
-  .btnA1 {
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    border-width: 1px;
-    width: 100%;
-    font-size: 1rem;
-    line-height: 1.5rem;
-  }
-
-  .btnA2 {
-    color: #ffffff;
-    background-color: #3b82f6;
-  }
-
-  .btnA3 {
-    color: #4b5563;
-    background-color: #ffffff;
-  }
-  .btnA3:hover {
-    background-color: #f3f4f6;
-  }
-
-  .last {
-    padding: 1rem;
-    border-top-right-radius: 0.75rem;
-    border-bottom-right-radius: 0.75rem;
-    border-top-width: 1px;
-    border-right-width: 1px;
-    border-bottom-width: 1px;
-    width: 100%;
-    font-size: 1rem;
-    line-height: 1.5rem;
-    color: #4b5563;
-    background-color: #ffffff;
-  }
-
-  .last:hover {
-    background-color: #f3f4f6;
-  }
-`;

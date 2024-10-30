@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import MainLayout from "../../components/MainLayout";
 import InputLabel from "../../components/shared/inputandLabel/InputLabel";
 import { Link, useNavigate } from "react-router-dom";
@@ -39,7 +39,7 @@ const RegisterPage = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
     reset,
     watch,
   } = useForm({

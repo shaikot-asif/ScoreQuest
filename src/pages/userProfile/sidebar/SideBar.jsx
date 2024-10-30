@@ -1,12 +1,14 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { logout } from "../../../store/reducers/userAction";
+import images from "../../../constants/images";
 const SideBar = () => {
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const handleDispatch = () => {
     dispatch(logout());
@@ -14,11 +16,18 @@ const SideBar = () => {
   };
 
   return (
-    <div className="bg-primary-darkNavy w-1/6 h-screen py-10 px-9 mb-[-5rem] ">
+    <div className="bg-primary-darkNavy fixed flex flex-col gap-4 h-screen py-10 px-9 ">
+      <div>
+        <a href="/">
+          <img className="w-[120px]" src={images.ScoreQuest} alt="Scorequest" />
+        </a>
+      </div>
       <ul className=" flex flex-col gap-4 ">
         <li>
           <Link
-            className="text-natural-white font-semibold transition-all duration-500 hover:text-primary-brightOrange"
+            className={`text-natural-white font-semibold transition-all duration-500 hover:text-primary-brightOrange ${
+              location.pathname === "/profile" && "text-primary-brightOrange"
+            }`}
             to={"/profile"}
           >
             Profile
@@ -26,7 +35,10 @@ const SideBar = () => {
         </li>
         <li>
           <Link
-            className="text-natural-white font-semibold transition-all duration-500 hover:text-primary-brightOrange"
+            className={`text-natural-white font-semibold transition-all duration-500 hover:text-primary-brightOrange ${
+              location.pathname === "/profile/squad" &&
+              "text-primary-brightOrange"
+            }`}
             to={"squad"}
           >
             Squad
@@ -34,7 +46,10 @@ const SideBar = () => {
         </li>
         <li>
           <Link
-            className="text-natural-white font-semibold transition-all duration-500 hover:text-primary-brightOrange"
+            className={`text-natural-white font-semibold transition-all duration-500 hover:text-primary-brightOrange ${
+              location.pathname === "/profile/allUsers" &&
+              "text-primary-brightOrange"
+            }`}
             to={"allUsers"}
           >
             All User
@@ -43,7 +58,10 @@ const SideBar = () => {
 
         <li>
           <Link
-            className="text-natural-white font-semibold transition-all duration-500 hover:text-primary-brightOrange"
+            className={`text-natural-white font-semibold transition-all duration-500 hover:text-primary-brightOrange ${
+              location.pathname === "/profile/match" &&
+              "text-primary-brightOrange"
+            }`}
             to={"match"}
           >
             Match
@@ -67,7 +85,10 @@ const SideBar = () => {
           <ul className="flex flex-col gap-4 pl-5">
             <li>
               <Link
-                className="text-natural-white font-semibold transition-all duration-500 hover:text-primary-brightOrange"
+                className={`text-natural-white font-semibold transition-all duration-500 hover:text-primary-brightOrange ${
+                  location.pathname === "/profile/managePlayer" &&
+                  "text-primary-brightOrange"
+                }`}
                 to={"managePlayer"}
               >
                 Manage Player
@@ -75,7 +96,10 @@ const SideBar = () => {
             </li>
             <li>
               <Link
-                className="text-natural-white font-semibold transition-all duration-500 hover:text-primary-brightOrange"
+                className={`text-natural-white font-semibold transition-all duration-500 hover:text-primary-brightOrange ${
+                  location.pathname === "/profile/addPlayer" &&
+                  "text-primary-brightOrange"
+                }`}
                 to={"addPlayer"}
               >
                 Add Player

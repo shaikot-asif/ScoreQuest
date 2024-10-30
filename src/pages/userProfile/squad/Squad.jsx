@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { getPlayer, getPlayers } from "../../../service/player";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
-
-import styled from "styled-components";
+import { IoAddOutline } from "react-icons/io5";
 
 import PlayerTable from "../player/components/PlayerTable";
 import {
@@ -13,6 +12,7 @@ import {
   getSquad,
   getSquadById,
 } from "../../../service/squad";
+import Loading from "../../../components/shared/Loading/Loading";
 
 const Squad = () => {
   const [players, setPlayers] = useState([]);
@@ -29,12 +29,12 @@ const Squad = () => {
     mutationKey: ["squad"],
     mutationFn: ({ selectedPlayer }) => {
       return addSquad({
-        userId: userState.userInfo._id,
+        userId: userState.userInfo.id,
         token: userState.userInfo.token,
         selectedPlayer,
       });
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast.success("squad added successfully");
       squadRefetch();
       setIsActive(false);
@@ -63,12 +63,14 @@ const Squad = () => {
   };
 
   const handleClick = async ({ squadId }) => {
-    const data = await deleteSquad({
-      token: userState.userInfo.token,
-      squadId,
-    });
-    squadRefetch();
-    toast.success(data.message);
+    if (window.confirm("Are you sure delete this squad?")) {
+      const data = await deleteSquad({
+        token: userState.userInfo.token,
+        squadId,
+      });
+      squadRefetch();
+      toast.success(data.message);
+    }
   };
 
   const handleClickSingleSquad = async ({ _id }) => {
@@ -86,15 +88,20 @@ const Squad = () => {
     data,
     error,
     isLoading: playersLoading,
-    refetch,
   } = useQuery({
-    queryFn: () =>
-      getPlayers({
-        userId: userState.userInfo._id,
+    queryFn: useCallback(() => {
+      return getPlayers({
+        userId: userState.userInfo.id,
         token: userState.userInfo.token,
-      }),
-    queryKey: ["player", userState.userInfo._id],
+      });
+    }, [userState]),
+    queryKey: ["player", userState.userInfo.id],
   });
+
+  if (error) {
+    toast.error(error.message);
+    console.log(error);
+  }
 
   useEffect(() => {
     if (data) {
@@ -111,11 +118,13 @@ const Squad = () => {
     refetch: squadRefetch,
     isLoading: squadIsLoading,
   } = useQuery({
-    queryFn: () =>
-      getSquad({
-        userId: userState.userInfo._id,
+    queryFn: useCallback(() => {
+      return getSquad({
+        userId: userState.userInfo.id,
         token: userState.userInfo.token,
-      }),
+      });
+    }, [userState.userInfo]),
+
     queryKey: ["squad"],
   });
 
@@ -129,6 +138,7 @@ const Squad = () => {
     async function squadDataFunc() {
       const data = await Promise.all(
         oneSquad?.map((item) => {
+          console.log(item, "useEffect item");
           return getPlayer({ playerId: item, token: userState.userInfo.token });
         })
       );
@@ -137,133 +147,87 @@ const Squad = () => {
     }
 
     squadDataFunc();
-  }, [oneSquad]);
+  }, [oneSquad, userState.userInfo]);
 
   return (
-    <Container>
-      <h2 className="title">Squad</h2>
+    <div className="flex flex-col mt-5 w-full ">
+      <div className="">
+        <h2 className="text-2xl font-bold text-center mb-6 text-primary-darkNavy">
+          Manage Squad
+        </h2>
 
-      <div className="squadParent">
-        {squadIsLoading ? (
-          <p>Loading...</p>
-        ) : (
-          squadData?.map((item, index) => (
-            <div key={item._id} className="squad">
-              <h4 onClick={() => handleClickSingleSquad({ _id: item._id })}>
-                squad {index + 1}
-              </h4>
-              <h6>total player {item.selectedPlayer.length} </h6>
-              <button onClick={() => handleClick({ squadId: item._id })}>
-                delete
-              </button>
-            </div>
-          ))
-        )}
-
-        <div className="squadManage">
-          {squadData?.length < 3 && (
-            <div>
-              <button
-                className="addBtn"
-                onClick={() => {
-                  setIsActive(!isActive);
-                  setIsSquadActive(false);
-                }}
+        <div className=" flex flex-row gap-5 justify-center items-center">
+          {squadIsLoading ? (
+            <Loading />
+          ) : (
+            squadData?.map((item, index) => (
+              <div
+                key={item._id}
+                className="flex gap-3 flex-col  rounded-md shadow-md px-6 py-4 uppercase "
               >
-                <span></span>
-                <span></span>
-              </button>
-            </div>
+                <h4
+                  className="text-center text-[18px] font-bold text-primary-brightOrange cursor-pointer "
+                  onClick={() => handleClickSingleSquad({ _id: item._id })}
+                >
+                  squad {index + 1}
+                </h4>
+
+                <span className="border-b border-primary-darkNavy "></span>
+                <h6
+                  className="cursor-pointer"
+                  onClick={() => handleClickSingleSquad({ _id: item._id })}
+                >
+                  total player {item.selectedPlayer.length}{" "}
+                </h6>
+                <span
+                  className="cursor-pointer hover:underline inline"
+                  onClick={() => handleClick({ squadId: item._id })}
+                >
+                  delete
+                </span>
+              </div>
+            ))
           )}
+
+          <div className="">
+            {squadData?.length < 3 && (
+              <div>
+                <button
+                  className="text-6xl text-primary-darkNavy "
+                  onClick={() => {
+                    setIsActive(!isActive);
+                    setIsSquadActive(false);
+                  }}
+                >
+                  <IoAddOutline />
+                </button>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
 
-      {isActive &&
-        (playersLoading ? (
-          <p>Loading...</p>
-        ) : (
+        {isActive &&
+          (playersLoading ? (
+            <Loading />
+          ) : (
+            <PlayerTable
+              players={players}
+              checkBox={true}
+              handleSubmit={handleSubmit}
+              handleChange={handleChange}
+            />
+          ))}
+
+        {isSquadActive && (
           <PlayerTable
-            players={players}
-            checkBox={true}
-            handleSubmit={handleSubmit}
-            handleChange={handleChange}
+            players={playersFromSquad}
+            buttons={false}
+            closeSquad={closeSquad}
           />
-        ))}
-
-      {isSquadActive && (
-        <PlayerTable
-          players={playersFromSquad}
-          buttons={false}
-          closeSquad={closeSquad}
-        />
-      )}
-    </Container>
+        )}
+      </div>
+    </div>
   );
 };
 
 export default Squad;
-
-const Container = styled.div`
-  margin: 5rem auto;
-
-  .title {
-    text-align: center;
-    padding-bottom: 20px;
-  }
-
-  .squadParent {
-    width: 90%;
-    margin: auto;
-    padding-top: 20px;
-    display: flex;
-    gap: 50px;
-  }
-
-  .squad {
-    background: #041434;
-    padding: 10px 25px;
-    color: white;
-    border-radius: 4px;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    gap: 5px;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .squad h4 {
-    font-size: 18px;
-    text-transform: uppercase;
-    cursor: pointer;
-  }
-
-  .squad button {
-    color: white;
-    border: none;
-    background: inherit;
-    cursor: pointer;
-  }
-
-  .addBtn {
-    padding: 20px 40px;
-    font-size: 80px;
-    font-weight: 400;
-    background: #d9d9d9;
-    border: none;
-    cursor: pointer;
-    color: #041434;
-    display: flex;
-  }
-  .addBtn span {
-    width: 1px;
-    height: 40px;
-    display: block;
-    background: #041434;
-    outline: none;
-  }
-
-  .addBtn span:last-child {
-    transform: rotate(90deg);
-  }
-`;

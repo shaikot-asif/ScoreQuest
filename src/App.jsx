@@ -8,7 +8,7 @@ import ManagePlayer from "./pages/userProfile/player/manage/ManagePlayer";
 import AddPlayer from "./pages/userProfile/player/addPlayer/AddPlayer";
 import UpdatePlayer from "./pages/userProfile/player/manage/update/UpdatePlayer";
 
-import GetAllUser from "./pages/userProfile/player/getAllUser";
+import GetAllUser from "./pages/userProfile/User/getAllUser";
 import Match from "./pages/userProfile/match/Match";
 import Squad from "./pages/userProfile/squad/Squad";
 import Profile from "./pages/userProfile/Dashboard/Profile";

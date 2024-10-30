@@ -1,7 +1,5 @@
-import MainLayout from "../../components/MainLayout";
 import SideBar from "./sidebar/SideBar";
 import { Outlet, useNavigate } from "react-router-dom";
-import Header from "../../components/Header";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 
@@ -13,15 +11,18 @@ const UserProfile = () => {
     if (!userState?.userInfo) {
       navigate("/");
     }
-  }, [userState.userInfo]);
+  }, [userState.userInfo, navigate]);
   return (
-    <MainLayout>
-      <div className=" flex flex-row gap-10">
-        <SideBar />
-
-        <Outlet />
+    <>
+      <div className=" flex flex-row justify-between gap-10 container">
+        <div className="w-1/5">
+          <SideBar />
+        </div>
+        <div className="w-4/5 my-10 ">
+          <Outlet />
+        </div>
       </div>
-    </MainLayout>
+    </>
   );
 };
 

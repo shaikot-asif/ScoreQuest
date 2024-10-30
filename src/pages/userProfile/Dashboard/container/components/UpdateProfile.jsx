@@ -35,7 +35,7 @@ const UpdateProfile = () => {
       });
     },
     mutationKey: ["User"],
-    onSuccess: (data) => {
+    onSuccess: () => {
       reset();
       queryClient.invalidateQueries(["User"]);
       toast.success("User update successfully");
@@ -78,7 +78,7 @@ const UpdateProfile = () => {
         currentPassword: "",
         newPassword: "",
       };
-    }),
+    }, [data]),
   });
 
   const handleBtnClick = (event) => {
@@ -95,8 +95,6 @@ const UpdateProfile = () => {
     formData.append("currentPassword", data?.currentPassword);
     formData.append("newPassword", data?.newPassword);
 
-    console.log(data, "from submit");
-
     mutate({ formData: formData, token: userInfo.token });
   };
 
@@ -107,10 +105,8 @@ const UpdateProfile = () => {
     setDefaultImage(cacheImageURL);
   };
 
-  console.log(defaultImage);
-
   return (
-    <div className="flex flex-col justify-center items-center  mt-10 px-4 sm:px-0">
+    <div className="flex flex-col justify-center items-center   px-4 sm:px-0">
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full relative">
         {isLoading && <Loading />}
         <h2 className="text-2xl font-bold text-center mb-6 text-primary-darkNavy">

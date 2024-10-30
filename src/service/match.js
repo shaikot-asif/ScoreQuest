@@ -2,6 +2,7 @@ import axios from "axios";
 
 export const addMatch = async ({ matchValues, token }) => {
   try {
+    console.log(matchValues, "matchValues");
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -9,10 +10,9 @@ export const addMatch = async ({ matchValues, token }) => {
     };
     const { data } = await axios.post(
       "http://localhost:4000/api/match/addMatch",
-      matchValues
+      matchValues,
+      config
     );
-
-    console.log(data);
 
     return data;
   } catch (error) {
@@ -35,10 +35,9 @@ export const getMatchByRequestingTeamId = async ({
       },
     };
     const { data } = await axios.get(
-      `http://localhost:4000/api/match/requestingTeam?userId=${RequestingTeamId}`
+      `http://localhost:4000/api/match/requestingTeam?userId=${RequestingTeamId}`,
+      config
     );
-
-    console.log(data);
 
     return data;
   } catch (error) {
@@ -57,7 +56,8 @@ export const getMatchByRequestedTeamId = async ({ RequestedTeamId, token }) => {
       },
     };
     const { data } = await axios.get(
-      `http://localhost:4000/api/match/requestedTeam?userId=${RequestedTeamId}`
+      `http://localhost:4000/api/match/requestedTeam?userId=${RequestedTeamId}`,
+      config
     );
 
     return data;
@@ -73,17 +73,22 @@ export const updateMatch = async ({
   rejected = false,
   accepted = false,
   matchId,
+  token,
 }) => {
-  console.log(rejected, matchId);
   try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     const { data } = await axios.put(
       `http://localhost:4000/api/match/updateMatch?matchId=${matchId}`,
       {
         rejected,
-      }
+      },
+      config
     );
-
-    console.log(data, "updateData");
+    return data;
   } catch (error) {
     if (error.response && error.response.data.message) {
       throw new Error(error.response.data.message);

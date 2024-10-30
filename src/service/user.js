@@ -41,6 +41,7 @@ export const getUsers = async ({
   searchKeywords,
   limit = 10,
   page = 1,
+  userId,
 }) => {
   try {
     const config = {
@@ -49,7 +50,7 @@ export const getUsers = async ({
       },
     };
     const { data } = await axios.get(
-      `http://localhost:4000/api/users/getAllUsers?search=${searchKeywords}&limit=${limit}&page=${page}`,
+      `http://localhost:4000/api/users/getAllUsers?search=${searchKeywords}&limit=${limit}&page=${page}&userId=${userId}`,
       config
     );
 

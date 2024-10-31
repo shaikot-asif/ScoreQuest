@@ -5,6 +5,8 @@ const SecondaryButton = ({
   classes,
   type = "text",
   isDisabled = false,
+  func,
+  data,
 }) => {
   return (
     <div>

@@ -96,6 +96,28 @@ export const updateMatch = async ({
     throw new Error(error.message);
   }
 };
+// /api/match/cancelMatchByRequestingUser
+
+export const cancelMatchByRequestingUser = async ({ matchId, token }) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const { data } = await axios.delete(
+      `http://localhost:4000//api/match/cancelMatchByRequestingUser?matchId${matchId}`,
+      config
+    );
+
+    return data;
+  } catch (error) {
+    if (error.response && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    }
+    throw new Error(error.message);
+  }
+};
 
 export const deleteMatchById = async ({ matchId, token }) => {
   try {
@@ -105,7 +127,8 @@ export const deleteMatchById = async ({ matchId, token }) => {
       },
     };
     const { data } = await axios.delete(
-      `http://localhost:4000/api/match/deleteMatch?matchId=${matchId}`
+      `http://localhost:4000/api/match/deleteMatch?matchId=${matchId}`,
+      config
     );
 
     return data;

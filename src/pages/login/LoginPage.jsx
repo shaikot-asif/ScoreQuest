@@ -10,11 +10,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../service/user";
 import { userActions } from "../../store/reducers/userReducer";
 import SecondaryButton from "../../components/shared/button/SecondaryButton";
+import Loading from "../../components/shared/Loading/Loading";
 const LoginPage = () => {
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.user);
   const navigate = useNavigate();
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: ({ valueType, value, password }) => {
       return login({ valueType, value, password });
     },
@@ -60,6 +61,11 @@ const LoginPage = () => {
     mutate({ valueType, value, password });
     // reset();
   };
+
+  if (isPending) {
+    return <Loading />;
+  }
+
   return (
     <MainLayout>
       <div className="flex px-4 sm:px-0 flex-col justify-center items-center mt-10">

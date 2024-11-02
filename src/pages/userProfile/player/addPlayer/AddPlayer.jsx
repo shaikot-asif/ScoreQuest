@@ -1,5 +1,3 @@
-import React from "react";
-import styled from "styled-components";
 import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import images from "../../../../constants/images";
@@ -40,7 +38,6 @@ const AddPlayer = () => {
 
   const {
     register,
-    watch,
     reset,
     formState: { errors },
     handleSubmit,
@@ -66,13 +63,15 @@ const AddPlayer = () => {
 
   const submitHandle = (data) => {
     const { firstName, lastName, birthday, role } = data;
+
+    console.log(firstName, lastName, birthday, role);
     const formData = new FormData();
     formData.append("profilePicture", uploadProfile);
     formData.append("firstName", firstName);
     formData.append("lastName", lastName);
     formData.append("birthday", birthday);
     formData.append("role", role);
-    formData.append("userId", userState.userInfo._id);
+    formData.append("userId", userState.userInfo.id);
 
     mutate({
       formData,

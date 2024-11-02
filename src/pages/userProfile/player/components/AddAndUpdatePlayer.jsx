@@ -1,5 +1,4 @@
-import React from "react";
-import styled from "styled-components";
+import SecondaryButton from "../../../../components/shared/button/SecondaryButton";
 import InputLabel from "../../../../components/shared/inputandLabel/InputLabel";
 
 const AddAndUpdatePlayer = ({
@@ -15,171 +14,112 @@ const AddAndUpdatePlayer = ({
   title,
 }) => {
   return (
-    <Container>
-      <div>
-        <h2>{title}</h2>
-        <div>
-          <form onSubmit={handleSubmit(submitHandle)}>
-            <div className="InputLabel">
-              <InputLabel
-                className="InputLabel"
-                label={"First Name"}
-                name="firstName"
-                placeholder={"Enter First Name"}
-                type="text"
-                register={register}
-                errors={errors}
-              />
+    <div className="max-w-lg mx-auto p-6 bg-white shadow-lg rounded-lg">
+      <h2 className="text-2xl font-semibold text-primary-darkNavy mb-4 text-center">
+        {title}
+      </h2>
 
-              <InputLabel
-                className="InputLabel"
-                label={"Last Name"}
-                name="lastName"
-                placeholder={"Enter Last Name"}
-                type="text"
-                register={register}
-                errors={errors}
-              />
-
-              <InputLabel
-                className="InputLabel"
-                label={"Birthday"}
-                name="birthday"
-                placeholder={"30/01/2001"}
-                type="date"
-                register={register}
-                errors={errors}
-              />
-            </div>
-
-            <div className="radio">
-              <span>
-                <input
-                  {...register("role")}
-                  name="role"
-                  type="radio"
-                  id="batsman"
-                  value={"Batsman"}
-                />
-                <label htmlFor="batsman">Batsman</label>
-              </span>
-              <span>
-                <input
-                  {...register("role")}
-                  name="role"
-                  type="radio"
-                  id="bowler"
-                  value={"Bowler"}
-                />
-                <label htmlFor="bowler">Bowler</label>
-              </span>
-              <span>
-                <input
-                  {...register("role")}
-                  name="role"
-                  type="radio"
-                  id="allRounder"
-                  value={"All-Rounder"}
-                />
-                <label htmlFor="allRounder">All Rounder</label>
-              </span>
-            </div>
-
-            <div className="photo">
-              <button type="submit" onClick={handleClick}>
-                <img width={50} height={50} src={AvatarUrl} alt="profile" />
-              </button>
-
-              <input
-                type="file"
-                id="avatar"
-                ref={profileUseRef}
-                onChange={handleChange}
-                accept="image/*"
-                hidden
-              />
-            </div>
-
-            <button className="btn" type="submit">
-              {buttonTitle}
-            </button>
-          </form>
+      <form onSubmit={handleSubmit(submitHandle)} className="space-y-6">
+        <div className="flex flex-row justify-between">
+          <InputLabel
+            label="First Name"
+            name="firstName"
+            placeholder="Enter First Name"
+            type="text"
+            register={register}
+            errors={errors}
+            className="w-full"
+          />
+          <InputLabel
+            label="Last Name"
+            name="lastName"
+            placeholder="Enter Last Name"
+            type="text"
+            register={register}
+            errors={errors}
+            className="w-full"
+          />
         </div>
-      </div>
-    </Container>
+        <InputLabel
+          label="Birthday"
+          name="birthday"
+          placeholder="30/01/2001"
+          type="date"
+          register={register}
+          errors={errors}
+          className="w-full"
+        />
+
+        <div className="flex space-x-4 mt-4">
+          <span className="flex items-center space-x-2">
+            <input
+              {...register("role")}
+              name="role"
+              type="radio"
+              id="batsman"
+              value="Batsman"
+              className="text-blue-600 focus:ring-blue-500"
+            />
+            <label htmlFor="batsman" className="text-gray-700">
+              Batsman
+            </label>
+          </span>
+          <span className="flex items-center justify-center space-x-2">
+            <input
+              {...register("role")}
+              name="role"
+              type="radio"
+              id="bowler"
+              value="Bowler"
+              className="text-blue-600 focus:ring-blue-500"
+            />
+            <label htmlFor="bowler" className="text-gray-700">
+              Bowler
+            </label>
+          </span>
+          <span className="flex items-center space-x-2">
+            <input
+              {...register("role")}
+              name="role"
+              type="radio"
+              id="allRounder"
+              value="All-Rounder"
+              className="text-blue-600 focus:ring-blue-500"
+            />
+            <label htmlFor="allRounder" className="text-gray-700">
+              All-Rounder
+            </label>
+          </span>
+        </div>
+
+        <div className="flex items-center space-x-4 mt-4">
+          <button
+            type="button"
+            onClick={handleClick}
+            className="focus:outline-none block m-auto"
+          >
+            <img
+              width={50}
+              height={50}
+              src={AvatarUrl}
+              alt="profile"
+              className="rounded-full border border-gray-300"
+            />
+          </button>
+          <input
+            type="file"
+            id="avatar"
+            ref={profileUseRef}
+            onChange={handleChange}
+            accept="image/*"
+            hidden
+          />
+        </div>
+
+        <SecondaryButton text={buttonTitle} type="submit" classes={"w-full"} />
+      </form>
+    </div>
   );
 };
 
 export default AddAndUpdatePlayer;
-
-const Container = styled.div`
-  width: 360px;
-  display: block;
-  margin: auto;
-  padding-top: 2.5rem;
-  padding-bottom: 2.5rem;
-
-  h2 {
-    text-align: center;
-    padding-bottom: 20px;
-  }
-
-  .InputLabel {
-    display: flex;
-    flex-wrap: wrap;
-    row-gap: 13px;
-  }
-
-  .radio {
-    display: flex;
-    flex-direction: row;
-    gap: 15px;
-    padding-bottom: 26px;
-    padding-top: 13px;
-  }
-  .radio span {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-  }
-  .radio input,
-  .radio label {
-    cursor: pointer;
-    accent-color: #041434;
-  }
-
-  .photo {
-    padding-bottom: 26px;
-  }
-
-  .btn {
-    display: block;
-    margin: auto;
-    text-align: center;
-    padding: 10px 0;
-    width: 130px !important;
-    height: 48px !important;
-    border-radius: 30px;
-    outline: none;
-    background: transparent;
-    border: 1px solid #041434;
-    font-size: 18px;
-    color: #041434;
-    text-transform: capitalize;
-    text-decoration: none;
-
-    cursor: pointer;
-  }
-
-  .photo button {
-    margin: auto;
-    display: block;
-    border: none;
-    cursor: pointer;
-    border-radius: 50px;
-  }
-  .photo button img {
-    border-radius: 50px;
-  }
-`;

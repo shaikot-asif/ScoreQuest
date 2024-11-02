@@ -124,7 +124,7 @@ const UpdatePlayer = () => {
         profileUseRef={profileUseRef}
         register={register}
         submitHandle={submitHandle}
-        title={playerData?.firstName + "'s details"}
+        title={playerData?.firstName + "'s Details"}
       />
     </div>
   );

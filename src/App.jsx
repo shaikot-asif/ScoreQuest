@@ -12,6 +12,7 @@ import GetAllUser from "./pages/userProfile/User/getAllUser";
 import Match from "./pages/userProfile/match/Match";
 import Squad from "./pages/userProfile/squad/Squad";
 import Profile from "./pages/userProfile/Dashboard/Profile";
+import UpdateMatch from "./pages/userProfile/match/Update Match/UpdateMatch";
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
           <Route path="addPlayer" element={<AddPlayer />} />
           <Route path="managePlayer" element={<ManagePlayer />} />
           <Route path="update/:playerId" element={<UpdatePlayer />} />
+          <Route path="match/:matchId" element={<UpdateMatch />} />
         </Route>
       </Routes>
       <Toaster />

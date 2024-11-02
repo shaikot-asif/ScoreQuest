@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Loading from "../../../../../components/shared/Loading/Loading";
 import PrimaryButton from "../../../../../components/shared/button/PrimaryButton";
 import SecondaryButton from "../../../../../components/shared/button/SecondaryButton";
 import { useSelector } from "react-redux";
-import Skeleton from "../../../../../components/shared/Loading/Skeleton";
-import InputLabel from "../../../../../components/shared/inputandLabel/InputLabel";
-import SquadCard from "./squadCard/SquadCard";
+import { Link } from "react-router-dom";
 
 const MatchCard = ({
   item,
@@ -97,10 +94,12 @@ const MatchCard = ({
       className={`${classes} w-[48%] flex flex-col gap-3 p-6 rounded-md shadow hover:shadow-sm transition-all duration-150`}
       key={item?._id}
     >
-      <h3 className="text-xl font-semibold text-primary-brightOrange text-center mb-2 cursor-pointer">
-        {item.teams.requestingTeam.name || "unknown"} <br /> VS <br />
-        {item.teams.requestedTeam.name || "unknown"}
-      </h3>
+      <Link to={`${item._id}`}>
+        <h3 className="text-xl font-semibold text-primary-brightOrange text-center mb-2 cursor-pointer">
+          {item.teams.requestingTeam.name || "unknown"} <br /> VS <br />
+          {item.teams.requestedTeam.name || "unknown"}
+        </h3>
+      </Link>
       <span className="w-full block h-[1px] bg-primary-brightOrange "></span>
 
       <div className="text-secondary-slateGray flex flex-row gap-1">

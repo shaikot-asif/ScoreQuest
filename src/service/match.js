@@ -96,17 +96,18 @@ export const updateMatch = async ({
     throw new Error(error.message);
   }
 };
-// /api/match/cancelMatchByRequestingUser
 
 export const cancelMatchByRequestingUser = async ({ matchId, token }) => {
   try {
+    console.log(matchId);
+
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     };
     const { data } = await axios.delete(
-      `http://localhost:4000//api/match/cancelMatchByRequestingUser?matchId${matchId}`,
+      `http://localhost:4000/api/match/cancelMatchByRequestingUser?matchId=${matchId}`,
       config
     );
 
@@ -119,15 +120,46 @@ export const cancelMatchByRequestingUser = async ({ matchId, token }) => {
   }
 };
 
-export const deleteMatchById = async ({ matchId, token }) => {
+export const rejectMatchByRequestedUser = async ({ matchId, note, token }) => {
   try {
+    const rejectData = { matchId, note };
+
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     };
-    const { data } = await axios.delete(
-      `http://localhost:4000/api/match/deleteMatch?matchId=${matchId}`,
+    const { data } = await axios.put(
+      `http://localhost:4000/api/match/rejectMatchByRequestedUser`,
+      rejectData,
+      config
+    );
+
+    return data;
+  } catch (error) {
+    if (error.response && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    }
+    throw new Error(error.message);
+  }
+};
+
+export const acceptMatchByRequestedUser = async ({
+  matchId,
+  squadId,
+  token,
+}) => {
+  try {
+    const acceptedData = { matchId, squadId };
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const { data } = await axios.put(
+      `http://localhost:4000/api/match/acceptMatchByRequestedUser`,
+      acceptedData,
       config
     );
 

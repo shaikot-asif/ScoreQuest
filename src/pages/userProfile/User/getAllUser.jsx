@@ -5,9 +5,10 @@ import { useSelector } from "react-redux";
 import images from "../../../constants/images";
 import Search from "../../../components/Search";
 import Pagination from "../../../components/Pagination";
-import AddMatch from "../match/components/AddMatch";
+
 import stables from "../../../constants/stable";
 import Loading from "../../../components/shared/Loading/Loading";
+import AddMatch from "../match/container/components/AddMatch";
 
 const GetAllUser = () => {
   const userState = useSelector((state) => state.user);

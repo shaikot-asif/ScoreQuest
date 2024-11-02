@@ -15,7 +15,7 @@ const UserProfile = () => {
   return (
     <>
       <div className=" flex flex-row justify-between gap-10 container">
-        <div className="w-1/5">
+        <div className="w-[200px] overflow-hidden">
           <SideBar />
         </div>
         <div className="w-4/5 my-10 ">

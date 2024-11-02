@@ -27,10 +27,10 @@ const ManagePlayer = () => {
   const { data, error, isLoading, refetch } = useQuery({
     queryFn: () =>
       getPlayers({
-        userId: userState.userInfo._id,
+        userId: userState.userInfo.id,
         token: userState.userInfo.token,
       }),
-    queryKey: ["player", userState.userInfo._id],
+    queryKey: ["player", userState.userInfo.id],
   });
 
   useEffect(() => {

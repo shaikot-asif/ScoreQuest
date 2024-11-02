@@ -1,6 +1,6 @@
 import { useState } from "react";
-import RequestedUser from "./components/components/requestedUser/RequestedUser";
-import RequestingUser from "./components/components/requestingUser/RequestingUser";
+import RequestedUser from "./container/components/requestedUser/RequestedUser";
+import RequestingUser from "./container/components/requestingUser/RequestingUser";
 import BigButton from "../../../components/shared/button/BigButton";
 const Match = () => {
   const [selectActive, setSelectActive] = useState(true);

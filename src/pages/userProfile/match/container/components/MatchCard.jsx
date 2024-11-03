@@ -3,6 +3,7 @@ import PrimaryButton from "../../../../../components/shared/button/PrimaryButton
 import SecondaryButton from "../../../../../components/shared/button/SecondaryButton";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { getDateDifference } from "../../../../../utils/getDateDifference";
 
 const MatchCard = ({
   item,
@@ -22,6 +23,20 @@ const MatchCard = ({
   const userState = useSelector((state) => state.user);
 
   useEffect(() => {
+    const interval = setInterval(() => {
+      if (minute / 60 < 24) {
+        setSecond(getDateDifference(new Date(item.date), new Date()).seconds);
+      }
+
+      setMinute(getDateDifference(new Date(item.date), new Date()).minutes);
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  useEffect(() => {
     if (
       (new Date(item.date) === new Date() ||
         new Date() > new Date(item.date)) &&
@@ -32,33 +47,6 @@ const MatchCard = ({
       }
     }
   }, [item, setAutoCancel]);
-
-  function getDateDifference(date1, date2) {
-    if (date1 - date2 <= 0) {
-      return { minutes: 0, seconds: 0 };
-    } else {
-      const diffInMs = Math.abs(date2 - date1);
-
-      const totalSeconds = Math.floor(diffInMs / 1000);
-
-      const minutes = Math.floor(totalSeconds / 60);
-      const seconds = totalSeconds % 60;
-      return { minutes, seconds };
-    }
-  }
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (minute / 60 < 24) {
-        setSecond(getDateDifference(new Date(item.date), new Date()).seconds);
-      }
-      setMinute(getDateDifference(new Date(item.date), new Date()).minutes);
-    }, 1000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
 
   useEffect(() => {
     if (typeof setMatchValues === "function") {

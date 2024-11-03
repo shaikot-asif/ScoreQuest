@@ -3,11 +3,8 @@ import { toast } from "react-hot-toast";
 import stables from "../../../../constants/stable";
 import { Link } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
-import styled from "styled-components";
 import images from "../../../../constants/images";
-import Button from "../../../../components/shared/button/Button";
 import SecondaryButton from "../../../../components/shared/button/SecondaryButton";
-import Loading from "../../../../components/shared/Loading/Loading";
 const PlayerTable = ({
   players,
   deletePlayerById,
@@ -39,7 +36,10 @@ const PlayerTable = ({
               {buttons ? (
                 <span>Action</span>
               ) : (
-                <span className="cursor-pointer" onClick={closeSquad}>
+                <span
+                  className="cursor-pointer flex justify-end"
+                  onClick={closeSquad}
+                >
                   {" "}
                   <IoMdClose />{" "}
                 </span>

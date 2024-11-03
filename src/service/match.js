@@ -59,6 +59,7 @@ export const getMatchByRequestedTeamId = async ({ RequestedTeamId, token }) => {
       `http://localhost:4000/api/match/requestedTeam?userId=${RequestedTeamId}`,
       config
     );
+    console.log(typeof data, "type of data from match service");
 
     return data;
   } catch (error) {
@@ -171,3 +172,25 @@ export const acceptMatchByRequestedUser = async ({
     throw new Error(error.message);
   }
 };
+
+export const getMatchByMatchId = async ({ matchId, token }) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const { data } = await axios.get(
+      `http://localhost:4000/api/match/getMatchDetails?matchId=${matchId}`,
+      config
+    );
+
+    return data;
+  } catch (error) {
+    if (error.response && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    }
+    throw new Error(error.message);
+  }
+};
+// getMatchDetails

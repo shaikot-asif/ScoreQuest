@@ -7,6 +7,7 @@ import { toast } from "react-hot-toast";
 
 import PlayerTable from "../components/PlayerTable";
 import Loading from "../../../../components/shared/Loading/Loading";
+import { removePlayerFromSquad } from "../../../../service/squad";
 
 const ManagePlayer = () => {
   const userState = useSelector((state) => state.user);
@@ -15,7 +16,7 @@ const ManagePlayer = () => {
     console.log(playerId, "deletePlayerId");
 
     if (window.confirm("are you sure to delete this player?")) {
-      mutate({ playerId });
+      mutate({ playerId, userId: userState.userInfo.id });
     }
   };
 
@@ -34,10 +35,11 @@ const ManagePlayer = () => {
   });
 
   const { mutate } = useMutation({
-    mutationFn: ({ playerId }) => {
+    mutationFn: ({ playerId, userId }) => {
       deletePlayer({
         token: userState.userInfo.token,
         playerId,
+        userId,
       });
     },
     onSuccess: () => {

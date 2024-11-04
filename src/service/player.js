@@ -92,7 +92,7 @@ export const updatePlayer = async ({ formData, token }) => {
   }
 };
 
-export const deletePlayer = async ({ playerId, token }) => {
+export const deletePlayer = async ({ playerId, userId, token }) => {
   try {
     const config = {
       headers: {
@@ -100,7 +100,7 @@ export const deletePlayer = async ({ playerId, token }) => {
       },
     };
     const { data } = await axios.delete(
-      `http://localhost:4000/api/players/deletePlayer?playerId=${playerId}`,
+      `http://localhost:4000/api/players/deletePlayer?playerId=${playerId}&userId=${userId}`,
       config
     );
 

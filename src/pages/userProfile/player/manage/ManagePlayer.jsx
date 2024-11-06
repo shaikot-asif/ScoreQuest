@@ -1,13 +1,10 @@
-import React, { useCallback, useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { deletePlayer, getPlayers } from "../../../../service/player";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
 import { toast } from "react-hot-toast";
 
 import PlayerTable from "../components/PlayerTable";
 import Loading from "../../../../components/shared/Loading/Loading";
-import { removePlayerFromSquad } from "../../../../service/squad";
 
 const ManagePlayer = () => {
   const userState = useSelector((state) => state.user);

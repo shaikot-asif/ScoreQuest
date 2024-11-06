@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import PrimaryButton from "../../../../../../../components/shared/button/PrimaryButton";
 import { getDateDifference } from "../../../../../../../utils/getDateDifference";
-import TosWinnerOverWickets from "../TosWinner/TosWinnerOverWickets";
+import { useSelector } from "react-redux";
 
 const StartMatchTImeCount = ({ match, setNextPage, nextPage }) => {
   const [minute, setMinute] = useState(0);
   const [second, setSecond] = useState(0);
+  const userState = useSelector((state) => state.user);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -45,12 +46,14 @@ const StartMatchTImeCount = ({ match, setNextPage, nextPage }) => {
                     " S"}
             </span>
 
-            {new Date(match?.date).toLocaleDateString() >=
-              new Date().toLocaleDateString() && (
-              <span onClick={() => setNextPage(!nextPage)}>
-                <PrimaryButton text={"Start Match?"} />
-              </span>
-            )}
+            {new Date(match?.date).toLocaleDateString() <=
+              new Date().toLocaleDateString() &&
+              userState.userInfo.id === match?.teams?.requestingTeam?.userId &&
+              match?.status === "accepted" && (
+                <span onClick={() => setNextPage(!nextPage)}>
+                  <PrimaryButton text={"Start Match?"} />
+                </span>
+              )}
           </div>
         </div>
       )}

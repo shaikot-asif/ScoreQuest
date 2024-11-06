@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useMutation } from "@tanstack/react-query";
 import { optionValues } from "../../../../../../../utils/optionValues";
 import SecondaryButton from "../../../../../../../components/shared/button/SecondaryButton";
 import { IoMdClose } from "react-icons/io";
+import toast from "react-hot-toast";
+import { updateOverAndTossWinner } from "../../../../../../../service/match";
+import { useSelector } from "react-redux";
 
 const INIT = {
   over: 0,
@@ -11,14 +15,62 @@ const INIT = {
 };
 
 const TosWinnerOverWickets = ({ match, setNextPage }) => {
+  const userState = useSelector((state) => state.user);
   const [winnerDate, setWinnerDate] = useState({ ...INIT });
 
   const handelWinner = (data) => {
     setWinnerDate((prev) => ({ ...prev, tossWinner: data }));
   };
 
+  const { mutate } = useMutation({
+    mutationKey: ["match"],
+    mutationFn: ({
+      matchId,
+      overs,
+      token,
+      tossLooserId,
+      tossWinnerId,
+      totalPlayers,
+    }) =>
+      updateOverAndTossWinner({
+        matchId,
+        overs,
+        token,
+        tossLooserId,
+        tossWinnerId,
+        totalPlayers,
+      }),
+    onSuccess: () => {
+      toast.success("Update Successfully");
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.error(error.message);
+    },
+  });
+
   const handelSubmit = () => {
     console.log(winnerDate, "winer");
+    if (
+      winnerDate.over === INIT.over ||
+      winnerDate.tossWinner === INIT.tossWinner
+    ) {
+      if (!winnerDate.over) {
+        toast.error("Please select Over");
+      }
+      if (!winnerDate.tossWinner) {
+        toast.error("Please select toss winner");
+      }
+    } else {
+      mutate({
+        matchId: match?._id,
+        overs: winnerDate.over,
+        token: userState.userInfo.token,
+        tossLooserId: winnerDate.tossLooser,
+        tossWinnerId: winnerDate.tossWinner,
+        totalPlayers: winnerDate.totalWickets,
+      });
+    }
   };
 
   useEffect(() => {

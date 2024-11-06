@@ -57,19 +57,42 @@ const Squad = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    mutate({ selectedPlayer: checkChecked });
-    squadRefetch();
-    setCheckChecked([]);
+
+    if (checkChecked.length > 0) {
+      mutate({ selectedPlayer: checkChecked });
+      squadRefetch();
+      setCheckChecked([]);
+    } else {
+      toast.error("Please Select Player");
+    }
   };
+
+  const { mutate: deleteSquadMutate } = useMutation({
+    mutationFn: ({ squadId }) =>
+      deleteSquad({
+        token: userState.userInfo.token,
+        squadId,
+      }),
+    mutationKey: ["squad"],
+    onSuccess: (data) => {
+      squadRefetch();
+      toast.success(data.message);
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.error(error.message);
+    },
+  });
 
   const handleClick = async ({ squadId }) => {
     if (window.confirm("Are you sure delete this squad?")) {
-      const data = await deleteSquad({
-        token: userState.userInfo.token,
-        squadId,
-      });
-      squadRefetch();
-      toast.success(data.message);
+      // const data = await deleteSquad({
+      //   token: userState.userInfo.token,
+      //   squadId,
+      // });
+      deleteSquadMutate({ squadId });
+      // squadRefetch();
+      // toast.success(data.message);
     }
   };
 
@@ -162,12 +185,12 @@ const Squad = () => {
           ) : (
             squadData?.map((item, index) => (
               <div
-                key={item._id}
+                key={item?._id}
                 className="flex gap-3 flex-col  rounded-md shadow-md px-6 py-4 uppercase "
               >
                 <h4
                   className="text-center text-[18px] font-bold text-primary-brightOrange cursor-pointer "
-                  onClick={() => handleClickSingleSquad({ _id: item._id })}
+                  onClick={() => handleClickSingleSquad({ _id: item?._id })}
                 >
                   squad {index + 1}
                 </h4>
@@ -175,13 +198,13 @@ const Squad = () => {
                 <span className="border-b border-primary-darkNavy "></span>
                 <h6
                   className="cursor-pointer"
-                  onClick={() => handleClickSingleSquad({ _id: item._id })}
+                  onClick={() => handleClickSingleSquad({ _id: item?._id })}
                 >
-                  total player {item.selectedPlayer.length}{" "}
+                  total player {item?.selectedPlayer.length}{" "}
                 </h6>
                 <span
                   className="cursor-pointer hover:underline inline"
-                  onClick={() => handleClick({ squadId: item._id })}
+                  onClick={() => handleClick({ squadId: item?._id })}
                 >
                   delete
                 </span>

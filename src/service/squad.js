@@ -66,7 +66,7 @@ export const deleteSquad = async ({ squadId, token }) => {
   }
 };
 
-export const getSquadById = async ({ _id, token }) => {
+export const getSquadById = async ({ squadId, token }) => {
   try {
     const config = {
       headers: {
@@ -74,13 +74,12 @@ export const getSquadById = async ({ _id, token }) => {
       },
     };
     const { data } = await axios.get(
-      `http://localhost:4000/api/squad/getSquadById?_id=${_id}`,
+      `http://localhost:4000/api/squad/getSquadById?squadId=${squadId}`,
       config
     );
 
     return data;
   } catch (error) {
-    console.log(error, "error");
     if (error.response && error.response.data.message) {
       throw new Error(error.response.data.message);
     }

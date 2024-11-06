@@ -47,7 +47,7 @@ const PlayerTable = ({
             </span>
           </div>
 
-          {players?.length > 0 &&
+          {players?.length > 0 ? (
             players?.map((item) => (
               <div
                 className="flex flex-row gap-5 w-full justify-between shadow-md mb-5 p-3 align-middle items-center rounded-md hover:shadow-lg"
@@ -102,7 +102,10 @@ const PlayerTable = ({
                   )}
                 </div>
               </div>
-            ))}
+            ))
+          ) : (
+            <p>There are no player found please add first</p>
+          )}
 
           <div className="flex justify-center">
             {checkBox && <SecondaryButton text={"Submit"} type={"submit"} />}

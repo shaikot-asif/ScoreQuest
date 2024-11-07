@@ -7,17 +7,34 @@ import PlayersList from "./components/PlayersList";
 import { IoMdClose } from "react-icons/io";
 
 const INIT_SELECT_PLAYER = {
-  batter1: "",
-  batter2: "",
-  bowler: "",
+  batter1: {
+    id: "",
+    fName: "",
+    lName: "",
+    avatar: "",
+  },
+  batter2: {
+    id: "",
+    fName: "",
+    lName: "",
+    avatar: "",
+  },
+  bowler: {
+    id: "",
+    fName: "",
+    lName: "",
+    avatar: "",
+  },
 };
 
 const UpdateMatchBallByBall = ({ match }) => {
   const userState = useSelector((state) => state.user);
 
-  const [selectedPlayer, setSelectedPlayer] = useState({
-    ...INIT_SELECT_PLAYER,
-  });
+  const [selectedPlayer, setSelectedPlayer] = useState(
+    localStorage.getItem("playerInfo")
+      ? JSON.parse(localStorage.getItem("playerInfo"))
+      : { ...INIT_SELECT_PLAYER }
+  );
   const [selectBatter1, setSelectBatter1] = useState(false);
   const [selectBatter2, setSelectBatter2] = useState(false);
   const [selectBowling, setSelectBowling] = useState(false);
@@ -25,11 +42,10 @@ const UpdateMatchBallByBall = ({ match }) => {
   const [battingTeamKey, setBattingTeamKey] = useState("");
   const [bowlingTeamKey, setBowlingTeamKey] = useState("");
 
-  const [requestedPlayers, setRequestedPlayers] = useState([]);
-  const [requestingPlayers, setRequestingPlayers] = useState([]);
+  const [battingPlayer, setBattingPlayer] = useState();
+  const [bowlingPlayer, setBowlingPlayer] = useState();
 
-  const [requestedSquad, setRequestedSquad] = useState(null);
-  const [requestingSquad, setRequestingSquad] = useState(null);
+  console.log(selectedPlayer);
 
   useEffect(() => {
     let battingTeam =
@@ -44,17 +60,49 @@ const UpdateMatchBallByBall = ({ match }) => {
     setBowlingTeamKey(bowlingTeamKey);
   }, [match]);
 
-  const handleBatter1Id = (data) => {
+  const handleSelectedPlayer = (data) => {
     if (selectBatter1) {
-      console.log(data, "for batter 1");
+      setSelectedPlayer({
+        ...selectedPlayer,
+        batter1: {
+          id: data.id,
+          fName: data.fName,
+          lName: data.lName,
+          avatar: data.avatar,
+        },
+      });
     }
     if (selectBatter2) {
-      console.log(data, "for batter 2");
+      setSelectedPlayer({
+        ...selectedPlayer,
+        batter2: {
+          id: data.id,
+          fName: data.fName,
+          lName: data.lName,
+          avatar: data.avatar,
+        },
+      });
     }
   };
 
+  const handleSelectedBowler = (data) => {
+    setSelectedPlayer({
+      ...selectedPlayer,
+      bowler: {
+        id: data.id,
+        fName: data.fName,
+        lName: data.lName,
+        avatar: data.avatar,
+      },
+    });
+  };
+
+  useEffect(() => {
+    localStorage.setItem("playerInfo", JSON.stringify(selectedPlayer));
+  }, [selectedPlayer]);
+
   const {
-    data: requestingSquadData,
+    data: requestingSquad,
     isLoading: requestingLoading,
     error: requestingError,
     refetch: requestingRefetch,
@@ -67,14 +115,8 @@ const UpdateMatchBallByBall = ({ match }) => {
       }),
   });
 
-  useEffect(() => {
-    if (requestingSquadData) {
-      setRequestingSquad(requestingSquadData);
-    } else requestingRefetch();
-  }, [requestingSquadData]);
-
   const {
-    data: requestedSquadData,
+    data: requestedSquad,
     isLoading: requestedLoading,
     error: requestedError,
     refetch: requestedRefetch,
@@ -87,19 +129,13 @@ const UpdateMatchBallByBall = ({ match }) => {
       }),
   });
 
-  useEffect(() => {
-    if (requestedSquadData) {
-      setRequestedSquad(requestedSquadData);
-    } else requestedRefetch();
-  }, [requestedSquadData]);
-
   const {
-    data: requestedPlayer,
+    data: requestedPlayers,
     isLoading: requestedPlayerLoading,
     error: requestedPlayerError,
     refetch: requestedPlayerRefetch,
   } = useQuery({
-    queryKey: ["player"],
+    queryKey: ["requestedPlayer"],
     queryFn: async () => {
       const players = await Promise.all(
         requestedSquad[0]?.selectedPlayer?.map((item) => {
@@ -109,24 +145,17 @@ const UpdateMatchBallByBall = ({ match }) => {
           });
         })
       );
-
       return players;
     },
   });
 
-  useEffect(() => {
-    if (requestedPlayer) {
-      setRequestedPlayers(requestedPlayer);
-    } else requestedPlayerRefetch();
-  }, [requestedPlayer]);
-
   const {
-    data: requestingPlayer,
+    data: requestingPlayers,
     isLoading: requestingPlayerLoading,
     error: requestingPlayerError,
     refetch: requestingPlayerRefetch,
   } = useQuery({
-    queryKey: ["player"],
+    queryKey: ["requestingPlayer"],
     queryFn: async () => {
       const players = await Promise.all(
         requestingSquad[0]?.selectedPlayer?.map((item) => {
@@ -140,11 +169,25 @@ const UpdateMatchBallByBall = ({ match }) => {
       return players;
     },
   });
+
   useEffect(() => {
-    if (requestingPlayer) {
-      setRequestingPlayers(requestedPlayer);
-    } else requestingPlayerRefetch();
-  }, [requestingPlayer]);
+    if (requestedPlayers && requestingPlayers) {
+      if (
+        battingTeamKey === "requestedTeam" &&
+        bowlingTeamKey === "requestingTeam"
+      ) {
+        setBattingPlayer(requestedPlayers);
+        setBowlingPlayer(requestingPlayers);
+      }
+      if (
+        battingTeamKey === "requestingTeam" &&
+        bowlingTeamKey === "requestedTeam"
+      ) {
+        setBattingPlayer(requestingPlayers);
+        setBowlingPlayer(requestedPlayers);
+      }
+    }
+  }, [requestedPlayers, requestingPlayers, bowlingTeamKey, battingTeamKey]);
 
   return (
     <div className="relative">
@@ -206,7 +249,7 @@ const UpdateMatchBallByBall = ({ match }) => {
           </h4>
 
           <div className="flex flex-row gap-5">
-            {selectedPlayer.batter1 === INIT_SELECT_PLAYER.batter1 && (
+            {selectedPlayer.batter1.id === INIT_SELECT_PLAYER.batter1.id && (
               <button
                 onClick={() => setSelectBatter1(true)}
                 className="w-full py-4 border hover:border-primary-brightOrange capitalize shadow rounded-md focus:ring-2 focus:ring-primary-brightOrange "
@@ -215,7 +258,7 @@ const UpdateMatchBallByBall = ({ match }) => {
               </button>
             )}
 
-            {selectedPlayer.batter2 === INIT_SELECT_PLAYER.batter2 && (
+            {selectedPlayer.batter2.id === INIT_SELECT_PLAYER.batter2.id && (
               <button
                 onClick={() => setSelectBatter2(true)}
                 className="w-full py-4 border  hover:border-primary-brightOrange capitalize shadow rounded-md focus:ring-2 focus:ring-primary-brightOrange "
@@ -233,8 +276,11 @@ const UpdateMatchBallByBall = ({ match }) => {
           </h4>
 
           <div className="flex flex-row gap-5">
-            {selectedPlayer.bowler === INIT_SELECT_PLAYER.bowler && (
-              <button className="w-1/2 py-4 border capitalize shadow rounded-md focus:ring-2 focus:ring-primary-brightOrange ">
+            {selectedPlayer.bowler.id === INIT_SELECT_PLAYER.bowler.id && (
+              <button
+                onClick={() => setSelectBowling(true)}
+                className="w-1/2 py-4 border capitalize shadow rounded-md focus:ring-2 focus:ring-primary-brightOrange "
+              >
                 Click here to Select player 1
               </button>
             )}
@@ -277,11 +323,11 @@ const UpdateMatchBallByBall = ({ match }) => {
         <div className="absolute top-0 bottom-0 left-0 w-full backdrop-blur-sm">
           <div className="shadow-lg p-6 rounded-lg fixed h-[500px] overflow-y-auto w-[90%] left-[5%] top-[5%] bg-secondary-coolGray">
             <PlayersList
-              players={requestingPlayers}
-              title={"Select Player"}
+              players={battingPlayer}
+              title={"Select Batting Player"}
               isSelectPlayer={false}
               classes={"cursor-pointer"}
-              handleBatter1Id={handleBatter1Id}
+              handleSelectedPlayer={handleSelectedPlayer}
               setSelectBatter1={setSelectBatter1}
               setSelectBatter2={setSelectBatter2}
             />
@@ -303,20 +349,18 @@ const UpdateMatchBallByBall = ({ match }) => {
         <div className="absolute top-0 bottom-0 left-0 w-full backdrop-blur-sm">
           <div className="shadow-lg p-6 rounded-lg fixed h-[500px] overflow-y-auto w-[90%] left-[5%] top-[5%] bg-secondary-coolGray">
             <PlayersList
-              players={requestingPlayers}
-              title={"Select Player"}
+              players={bowlingPlayer}
+              title={"Select Bowling Player"}
               isSelectPlayer={false}
               classes={"cursor-pointer"}
-              handleBatter1Id={handleBatter1Id}
-              setSelectBatter1={setSelectBatter1}
-              setSelectBatter2={setSelectBatter2}
+              handleSelectedPlayer={handleSelectedBowler}
+              setSelectBatter1={setSelectBowling}
             />
 
             <span
               className="absolute top-5 right-5 cursor-pointer"
               onClick={() => {
-                setSelectBatter1(false);
-                setSelectBatter2(false);
+                setSelectBowling(false);
               }}
             >
               <IoMdClose />

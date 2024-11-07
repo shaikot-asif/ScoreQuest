@@ -6,7 +6,7 @@ const PlayersList = ({
   title,
   isSelectPlayer,
   classes,
-  handleBatter1Id,
+  handleSelectedPlayer,
   setSelectBatter1,
   setSelectBatter2,
 }) => {
@@ -17,7 +17,7 @@ const PlayersList = ({
         title={title}
         isSelectPlayer={isSelectPlayer}
         classes={classes}
-        selectedPlayerId={handleBatter1Id}
+        selectedPlayer={handleSelectedPlayer}
         setSelectBatter1={setSelectBatter1}
         setSelectBatter2={setSelectBatter2}
       />

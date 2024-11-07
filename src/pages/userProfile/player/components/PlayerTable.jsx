@@ -15,16 +15,20 @@ const PlayerTable = ({
   buttons = true,
   closeSquad,
   isSelectPlayer = true,
-  selectedPlayerId = null,
+  selectedPlayer = null,
   classes,
   setSelectBatter1 = null,
   setSelectBatter2 = null,
 }) => {
   const handleBatter1Id = (data) => {
-    if (typeof selectedPlayerId === "function") {
-      selectedPlayerId(data);
-      setSelectBatter1(false);
-      setSelectBatter2(false);
+    if (typeof selectedPlayer === "function") {
+      selectedPlayer(data);
+      if (typeof setSelectBatter1 === "function") {
+        setSelectBatter1(false);
+      }
+      if (typeof setSelectBatter2 === "function") {
+        setSelectBatter2(false);
+      }
     }
   };
 
@@ -65,7 +69,14 @@ const PlayerTable = ({
           {players?.length > 0 ? (
             players?.map((item) => (
               <div
-                onClick={() => handleBatter1Id(item?._id)}
+                onClick={() =>
+                  handleBatter1Id({
+                    id: item._id,
+                    fName: item.firstName,
+                    lName: item.lastName,
+                    avatar: item.avatar,
+                  })
+                }
                 className={`${classes} flex flex-row gap-5 w-full justify-between shadow-md mb-5 p-3 align-middle items-center rounded-md hover:shadow-lg`}
                 key={item._id}
               >

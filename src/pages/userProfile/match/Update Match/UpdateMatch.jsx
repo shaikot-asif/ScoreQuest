@@ -53,7 +53,13 @@ const UpdateMatch = () => {
           {userState.userInfo.id === match?.toss?.tossWinner &&
             !match?.battingUser?.userId &&
             !match?.bowlingUser?.userId && <SelectInningsType match={match} />}
-          <UpdateMatchBallByBall match={match} />
+
+          {match?.battingUser?.userId.toString() ===
+          userState?.userInfo?.id.toString() ? (
+            <UpdateMatchBallByBall match={match} />
+          ) : (
+            <div></div>
+          )}
         </div>
       )}
     </div>

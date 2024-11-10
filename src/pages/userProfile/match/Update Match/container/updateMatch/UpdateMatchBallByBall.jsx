@@ -5,6 +5,11 @@ import { getSquadById } from "../../../../../../service/squad";
 import { getPlayer } from "../../../../../../service/player";
 import PlayersList from "./components/PlayersList";
 import { IoMdClose } from "react-icons/io";
+import images from "../../../../../../constants/images";
+import stables from "../../../../../../constants/stable";
+import UpdateScoreButton from "../../../../../../components/shared/button/UpdateScoreButton";
+
+const runs = [0, 1, 2, 3, 4, 5, 6];
 
 const INIT_SELECT_PLAYER = {
   batter1: {
@@ -27,6 +32,13 @@ const INIT_SELECT_PLAYER = {
   },
 };
 
+const INIT_PER_BALL_OCCURS = {
+  ballOccurs: "",
+  wideBye: 0,
+  batterScore: 0,
+  byeScore: "",
+};
+
 const UpdateMatchBallByBall = ({ match }) => {
   const userState = useSelector((state) => state.user);
 
@@ -34,6 +46,18 @@ const UpdateMatchBallByBall = ({ match }) => {
     localStorage.getItem("playerInfo")
       ? JSON.parse(localStorage.getItem("playerInfo"))
       : { ...INIT_SELECT_PLAYER }
+  );
+
+  const [selectedBatterId, setSelectedBatterId] = useState("");
+  const [selectedBowlerId, setSelectedBowlerId] = useState("");
+
+  const [perBallOccurs, setPerBallOccurs] = useState({
+    ...INIT_PER_BALL_OCCURS,
+  });
+  const [overCount, setOverCount] = useState(
+    localStorage.getItem("overCount")
+      ? JSON.parse(localStorage.getItem("overCount"))
+      : 0
   );
   const [selectBatter1, setSelectBatter1] = useState(false);
   const [selectBatter2, setSelectBatter2] = useState(false);
@@ -45,7 +69,19 @@ const UpdateMatchBallByBall = ({ match }) => {
   const [battingPlayer, setBattingPlayer] = useState();
   const [bowlingPlayer, setBowlingPlayer] = useState();
 
+  //TODO: WILL BE ADD SOMETHING AFTER REALTIME CONNECTION LIKE:
+  //TODO:
+
   console.log(selectedPlayer);
+
+  console.log(match, "match");
+
+  console.log(
+    selectedBatterId,
+    "selectedBatterId",
+    selectedBowlerId,
+    "selectedBowlerId"
+  );
 
   useEffect(() => {
     let battingTeam =
@@ -62,26 +98,34 @@ const UpdateMatchBallByBall = ({ match }) => {
 
   const handleSelectedPlayer = (data) => {
     if (selectBatter1) {
-      setSelectedPlayer({
-        ...selectedPlayer,
-        batter1: {
-          id: data.id,
-          fName: data.fName,
-          lName: data.lName,
-          avatar: data.avatar,
-        },
-      });
+      if (data.id === selectedPlayer.batter2.id) {
+        window.alert("Already select this player please try another player");
+      } else {
+        setSelectedPlayer({
+          ...selectedPlayer,
+          batter1: {
+            id: data.id,
+            fName: data.fName,
+            lName: data.lName,
+            avatar: data.avatar,
+          },
+        });
+      }
     }
     if (selectBatter2) {
-      setSelectedPlayer({
-        ...selectedPlayer,
-        batter2: {
-          id: data.id,
-          fName: data.fName,
-          lName: data.lName,
-          avatar: data.avatar,
-        },
-      });
+      if (selectedPlayer.batter1.id === data.id) {
+        window.alert("Already select this player please try another player");
+      } else {
+        setSelectedPlayer({
+          ...selectedPlayer,
+          batter2: {
+            id: data.id,
+            fName: data.fName,
+            lName: data.lName,
+            avatar: data.avatar,
+          },
+        });
+      }
     }
   };
 
@@ -99,6 +143,7 @@ const UpdateMatchBallByBall = ({ match }) => {
 
   useEffect(() => {
     localStorage.setItem("playerInfo", JSON.stringify(selectedPlayer));
+    setSelectedBowlerId(selectedPlayer?.bowler?.id);
   }, [selectedPlayer]);
 
   const {
@@ -169,6 +214,26 @@ const UpdateMatchBallByBall = ({ match }) => {
       return players;
     },
   });
+
+  const handelRunOccurs = (data) => {
+    setPerBallOccurs({
+      ...perBallOccurs,
+      ballOccurs: data,
+    });
+    localStorage.setItem("overCount", JSON.stringify(overCount + 1));
+    setOverCount(JSON.parse(localStorage.getItem("overCount")));
+  };
+
+  useEffect(() => {
+    if (overCount === 6) {
+      localStorage.setItem("overCount", JSON.parse(0));
+      setOverCount(JSON.parse(localStorage.getItem("overCount")));
+    }
+  }, [overCount]);
+
+  console.log(overCount, "overCount");
+
+  console.log(perBallOccurs, "perBallOccurs");
 
   useEffect(() => {
     if (requestedPlayers && requestingPlayers) {
@@ -249,24 +314,121 @@ const UpdateMatchBallByBall = ({ match }) => {
           </h4>
 
           <div className="flex flex-row gap-5">
-            {selectedPlayer.batter1.id === INIT_SELECT_PLAYER.batter1.id && (
+            {selectedPlayer?.batter1?.id === INIT_SELECT_PLAYER.batter1.id ? (
               <button
                 onClick={() => setSelectBatter1(true)}
                 className="w-full py-4 border hover:border-primary-brightOrange capitalize shadow rounded-md focus:ring-2 focus:ring-primary-brightOrange "
               >
-                Click here to Select player 1
+                Click here to Select first player
               </button>
+            ) : (
+              <div
+                onClick={() => setSelectedBatterId(selectedPlayer?.batter1?.id)}
+                className={`${
+                  selectedBatterId === selectedPlayer?.batter1?.id &&
+                  "bg-primary-brightOrange rounded-md text-natural-white"
+                } flex w-full flex-row cursor-pointer justify-between rounded-md gap-5 items-center shadow p-2 mb-5`}
+              >
+                <div className="flex w-full flex-row items-center cursor-pointer gap-5">
+                  <img
+                    className="rounded-full"
+                    height={50}
+                    width={50}
+                    src={
+                      selectedPlayer?.batter1?.avatar
+                        ? stables.UPLOAD_FOLDER_BASE_URL +
+                          selectedPlayer?.batter1?.avatar
+                        : images.Profile
+                    }
+                    alt="img"
+                  />
+                  <h3
+                    className={`font-bold text-xl ${
+                      selectedBatterId === selectedPlayer?.batter1?.id
+                        ? "text-natural-white"
+                        : "text-primary-brightOrange"
+                    } `}
+                  >
+                    {selectedPlayer?.batter1?.fName}{" "}
+                    {selectedPlayer?.batter1?.lName}{" "}
+                  </h3>
+                </div>
+                <div className="flex gap-2">
+                  <span>{0}</span> / <span>0</span>
+                </div>
+
+                <div>
+                  <span
+                    className="hover:underline"
+                    onClick={() => setSelectBatter1(true)}
+                  >
+                    Change
+                  </span>
+                </div>
+              </div>
             )}
 
-            {selectedPlayer.batter2.id === INIT_SELECT_PLAYER.batter2.id && (
+            {selectedPlayer?.batter2?.id === INIT_SELECT_PLAYER?.batter2?.id ? (
               <button
                 onClick={() => setSelectBatter2(true)}
                 className="w-full py-4 border  hover:border-primary-brightOrange capitalize shadow rounded-md focus:ring-2 focus:ring-primary-brightOrange "
               >
-                Click here to Select player 2
+                Click here to Select 2nd player
               </button>
+            ) : (
+              <div
+                onClick={() => setSelectedBatterId(selectedPlayer?.batter2?.id)}
+                className={`${
+                  selectedBatterId === selectedPlayer?.batter2?.id &&
+                  "bg-primary-brightOrange rounded-md text-natural-white"
+                } flex w-full flex-row cursor-pointer justify-between rounded-md gap-5 items-center shadow p-2 mb-5`}
+              >
+                <div className="flex w-full flex-row items-center cursor-pointer gap-5">
+                  <img
+                    className="rounded-full"
+                    height={50}
+                    width={50}
+                    src={
+                      selectedPlayer?.batter2?.avatar
+                        ? stables.UPLOAD_FOLDER_BASE_URL +
+                          selectedPlayer?.batter2?.avatar
+                        : images.Profile
+                    }
+                    alt="img"
+                  />
+                  <h3
+                    className={`font-bold text-xl ${
+                      selectedBatterId === selectedPlayer?.batter2?.id
+                        ? "text-natural-white"
+                        : "text-primary-brightOrange"
+                    } `}
+                  >
+                    {selectedPlayer?.batter2?.fName}{" "}
+                    {selectedPlayer?.batter2?.lName}{" "}
+                  </h3>
+                </div>
+                <div className="flex gap-2">
+                  <span>{0}</span> / <span>0</span>
+                </div>
+                <div>
+                  <span
+                    className="hover:underline"
+                    onClick={() => setSelectBatter2(true)}
+                  >
+                    Change
+                  </span>
+                </div>
+              </div>
             )}
           </div>
+
+          {!selectedBatterId &&
+            selectedPlayer?.batter1?.id &&
+            selectedPlayer?.batter2?.id && (
+              <p className="text-primary-brightOrange font-semibold ">
+                Please click a player who on the strick
+              </p>
+            )}
         </div>
 
         {/* Bowling Player Selection */}
@@ -276,46 +438,101 @@ const UpdateMatchBallByBall = ({ match }) => {
           </h4>
 
           <div className="flex flex-row gap-5">
-            {selectedPlayer.bowler.id === INIT_SELECT_PLAYER.bowler.id && (
+            {selectedPlayer?.bowler?.id === INIT_SELECT_PLAYER.bowler.id ? (
               <button
                 onClick={() => setSelectBowling(true)}
                 className="w-1/2 py-4 border capitalize shadow rounded-md focus:ring-2 focus:ring-primary-brightOrange "
               >
                 Click here to Select player 1
               </button>
+            ) : (
+              <div
+                className={`${
+                  selectedBowlerId === selectedPlayer?.bowler?.id &&
+                  "bg-primary-brightOrange rounded-md text-natural-white"
+                } flex w-[50%] cursor-pointer justify-between flex-row gap-5 items-center shadow p-2 mb-5`}
+              >
+                <div className="flex w-full flex-row items-center cursor-pointer gap-5">
+                  <img
+                    className="rounded-full"
+                    height={50}
+                    width={50}
+                    src={
+                      selectedPlayer?.bowler?.avatar
+                        ? stables.UPLOAD_FOLDER_BASE_URL +
+                          selectedPlayer.bowler.avatar
+                        : images.Profile
+                    }
+                    alt="img"
+                  />
+
+                  <h3
+                    className={`font-bold text-xl ${
+                      selectedBowlerId === selectedPlayer?.bowler?.id
+                        ? "text-natural-white"
+                        : "text-primary-brightOrange"
+                    }`}
+                  >
+                    {selectedPlayer?.bowler?.fName}{" "}
+                    {selectedPlayer?.bowler?.lName}{" "}
+                  </h3>
+                </div>
+                <div className="flex gap-2">
+                  <span>{0}</span> / <span>0</span>
+                </div>
+
+                <div>
+                  <span
+                    className="hover:underline"
+                    onClick={() => setSelectBowling(true)}
+                  >
+                    Change
+                  </span>
+                </div>
+              </div>
             )}
           </div>
         </div>
 
         {/* Per Ball Occurs Buttons */}
-        <div className="grid grid-cols-3 gap-3">
-          <button className="py-2 bg-green-500 text-white rounded-md hover:bg-green-600">
-            Dot Ball
-          </button>
-          <button className="py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
-            1 Run
-          </button>
-          <button className="py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600">
-            2 Runs
-          </button>
-          <button className="py-2 bg-purple-500 text-white rounded-md hover:bg-purple-600">
-            3 Runs
-          </button>
-          <button className="py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">
-            4 Runs
-          </button>
-          <button className="py-2 bg-red-500 text-white rounded-md hover:bg-red-600">
-            6 Runs
-          </button>
-          <button className="py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600">
-            Wide
-          </button>
-          <button className="py-2 bg-gray-700 text-white rounded-md hover:bg-gray-800">
-            No Ball
-          </button>
-          <button className="py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600">
-            Wicket
-          </button>
+        <div className="flex flex-col gap-10">
+          <div className="flex gap-5 items-center">
+            <h3 className="text-xl font-semibold text-primary-brightOrange mb-2">
+              Runs:
+            </h3>
+            <div className="flex gap-5">
+              {runs.map((item, index) => (
+                <span key={index} onClick={() => handelRunOccurs(item)}>
+                  <UpdateScoreButton title={item} key={index} />
+                </span>
+              ))}
+            </div>
+          </div>
+          <div className="flex gap-5">
+            <h3 className="text-xl font-semibold text-primary-brightOrange mb-2">
+              Extras:
+            </h3>
+
+            <div className="flex gap-5">
+              <UpdateScoreButton title={"Wide ball"} classes={"w-[80px]"} />
+              <UpdateScoreButton title={"No ball"} classes={"w-[80px]"} />
+              <UpdateScoreButton title={"Leg Bye"} classes={"w-[80px]"} />
+              <UpdateScoreButton title={"Bye"} classes={"w-[80px]"} />
+            </div>
+          </div>
+          <div className="flex gap-5">
+            <h3 className="text-xl font-semibold text-primary-brightOrange mb-2">
+              Wickets:
+            </h3>
+
+            <div className="flex gap-5">
+              <UpdateScoreButton title={"Bowled"} classes={"w-[80px]"} />
+              <UpdateScoreButton title={"Caught"} classes={"w-[80px]"} />
+              <UpdateScoreButton title={"LBW"} classes={"w-[80px]"} />
+              <UpdateScoreButton title={"Run out"} classes={"w-[80px]"} />
+              <UpdateScoreButton title={"Stumped"} classes={"w-[80px]"} />
+            </div>
+          </div>
         </div>
       </div>
 

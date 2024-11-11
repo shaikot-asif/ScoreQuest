@@ -3,7 +3,7 @@ import React from "react";
 const UpdateScoreButton = ({ classes, title }) => {
   return (
     <button
-      className={` bg-primary-darkNavy hover:bg-primary-brightOrange transition-all duration-300 ${classes} text-white h-10 w-10  flex items-center justify-center rounded-full`}
+      className={` border border-primary-brightOrange text-black hover:text-natural-white hover:bg-primary-brightOrange transition-all duration-300 ${classes} text-white h-10 w-10  flex items-center justify-center rounded-full`}
     >
       {title}
     </button>

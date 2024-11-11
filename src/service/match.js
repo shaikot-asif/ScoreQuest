@@ -206,3 +206,40 @@ export const updateOverAndTossWinner = async ({
     throw new Error(error.message);
   }
 };
+
+export const updateMatch = async ({
+  matchId,
+  selectedBowlerId,
+  selectedBatterId,
+  perBallOccurs,
+  overCount,
+  token,
+}) => {
+  try {
+    const bodyValues = {
+      matchId,
+      selectedBowlerId,
+      selectedBatterId,
+      perBallOccurs,
+      overCount,
+    };
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const { data } = await axios.put(
+      `http://localhost:4000/api/match/updateMatch`,
+      bodyValues,
+      config
+    );
+
+    return data;
+  } catch (error) {
+    if (error.response && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    }
+    throw new Error(error.message);
+  }
+};

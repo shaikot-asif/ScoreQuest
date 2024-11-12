@@ -105,14 +105,14 @@ const LoginPage = () => {
               classes={
                 "w-full !bg-primary-darkNavy hover:!bg-blue-700 transition duration-300"
               }
-              text={"Register"}
+              text={"Login"}
               type="submit"
             />
           </form>
           <p className="mt-4 text-sm text-secondary-slateGray [&>a]:hover:underline text-center">
             Don't have an account?{" "}
             <Link className="signUp" to={"/signup"}>
-              Login
+              Register
             </Link>{" "}
           </p>
         </div>

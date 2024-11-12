@@ -67,6 +67,8 @@ export const deleteSquad = async ({ squadId, token }) => {
 };
 
 export const getSquadById = async ({ squadId, token }) => {
+  console.log(squadId, "squadId");
+
   try {
     const config = {
       headers: {

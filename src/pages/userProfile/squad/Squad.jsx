@@ -18,7 +18,6 @@ const Squad = () => {
   const [players, setPlayers] = useState([]);
   const [checkChecked, setCheckChecked] = useState([]);
   const [isActive, setIsActive] = useState(false);
-  const [squadData, setSquadData] = useState(null);
   const [oneSquad, setOneSquad] = useState([]);
   const [playersFromSquad, setPlayersBySquad] = useState([]);
   const [isSquadActive, setIsSquadActive] = useState(false);
@@ -86,19 +85,19 @@ const Squad = () => {
 
   const handleClick = async ({ squadId }) => {
     if (window.confirm("Are you sure delete this squad?")) {
-      // const data = await deleteSquad({
-      //   token: userState.userInfo.token,
-      //   squadId,
-      // });
       deleteSquadMutate({ squadId });
-      // squadRefetch();
-      // toast.success(data.message);
     }
   };
 
   const handleClickSingleSquad = async ({ _id }) => {
-    const data = await getSquadById({ _id, token: userState.userInfo.token });
-    setOneSquad(data.selectedPlayer);
+    console.log(_id, "id form click single squad");
+
+    const data = await getSquadById({
+      squadId: _id,
+      token: userState.userInfo.token,
+    });
+
+    setOneSquad(data[0].selectedPlayer);
     setIsSquadActive(true);
     setIsActive(false);
   };
@@ -137,13 +136,13 @@ const Squad = () => {
   }, [data, players]);
 
   const {
-    data: squad,
+    data: squadData,
     refetch: squadRefetch,
     isLoading: squadIsLoading,
   } = useQuery({
     queryFn: useCallback(() => {
       return getSquad({
-        userId: userState.userInfo.id,
+        userId: userState?.userInfo?.id,
         token: userState.userInfo.token,
       });
     }, [userState.userInfo]),
@@ -152,20 +151,12 @@ const Squad = () => {
   });
 
   useEffect(() => {
-    if (squad) {
-      setSquadData(squad);
-    }
-  }, [squad, squadRefetch]);
-
-  useEffect(() => {
     async function squadDataFunc() {
       const data = await Promise.all(
         oneSquad?.map((item) => {
-          console.log(item, "useEffect item");
           return getPlayer({ playerId: item, token: userState.userInfo.token });
         })
       );
-
       setPlayersBySquad([...data]);
     }
 

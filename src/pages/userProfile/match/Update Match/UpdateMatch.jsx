@@ -14,6 +14,7 @@ import { toast } from "react-hot-toast";
 const UpdateMatch = () => {
   const { matchId } = useParams();
   const userState = useSelector((state) => state.user);
+  const navigate = useNavigate();
   const [match, setMatch] = useState();
   const [nextPage, setNextPage] = useState(false);
 
@@ -54,8 +55,8 @@ const UpdateMatch = () => {
             !match?.battingUser?.userId &&
             !match?.bowlingUser?.userId && <SelectInningsType match={match} />}
 
-          {match?.battingUser?.userId.toString() ===
-          userState?.userInfo?.id.toString() ? (
+          {match?.battingUser?.userId?.toString() ===
+          userState?.userInfo?.id?.toString() ? (
             <UpdateMatchBallByBall match={match} />
           ) : (
             <div></div>

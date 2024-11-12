@@ -4,9 +4,11 @@ import SecondaryButton from "../../../../../../../components/shared/button/Secon
 import { updateOverAndTossWinner } from "../../../../../../../service/match";
 import { toast } from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 const SelectInningsType = ({ match }) => {
   const userState = useSelector((state) => state.user);
+  const navigate = useNavigate();
 
   const [selectInnings, setSelectInnings] = useState("");
 

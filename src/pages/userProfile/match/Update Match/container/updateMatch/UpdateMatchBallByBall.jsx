@@ -37,10 +37,10 @@ const INIT_SELECT_PLAYER = {
 
 const INIT_PER_BALL_OCCURS = {
   ballOccurs: "",
-  wideBye: 0,
-  batterScore: 0, //if score in no ball
-  byeScore: 0, // if bye in no ball
-  byeRun: 0, // bye or legBye
+  wideBye: null,
+  batterScore: null, //if score in no ball
+  byeScore: null, // if bye in no ball
+  byeRun: null, // bye or legBye
   catchKeeperId: "",
   runOutThrowerId: "",
 };
@@ -63,7 +63,7 @@ const UpdateMatchBallByBall = ({ match }) => {
   const [overCount, setOverCount] = useState(
     localStorage.getItem("overCount")
       ? JSON.parse(localStorage.getItem("overCount"))
-      : 0
+      : 1
   );
   const [selectBatter1, setSelectBatter1] = useState(false);
   const [selectBatter2, setSelectBatter2] = useState(false);
@@ -81,7 +81,7 @@ const UpdateMatchBallByBall = ({ match }) => {
   //TODO:
 
   const { mutate: updateMutate } = useMutation({
-    mutationFn: ({ selectedBatterId, selectedBowlerId, perBallOccurs }) =>
+    mutationFn: ({ perBallOccurs }) =>
       updateMatch({
         matchId: match?._id,
         perBallOccurs: perBallOccurs,
@@ -91,13 +91,13 @@ const UpdateMatchBallByBall = ({ match }) => {
         token: userState?.userInfo?.token,
       }),
     onSuccess: (data) => {
-      if (
-        perBallOccurs.ballOccurs !== "wide" &&
-        perBallOccurs.ballOccurs !== "noBall"
-      ) {
-        localStorage.setItem("overCount", JSON.stringify(overCount + 1));
-        setOverCount(JSON.parse(localStorage.getItem("overCount")));
-      }
+      //   if (
+      //     perBallOccurs.ballOccurs !== "wide" &&
+      //     perBallOccurs.ballOccurs !== "noBall"
+      //   ) {
+      //     localStorage.setItem("overCount", JSON.stringify(overCount + 1));
+      //     setOverCount(JSON.parse(localStorage.getItem("overCount")));
+      //   }
       setPerBallOccurs({
         ballOccurs: "",
         wideBye: 0,
@@ -115,8 +115,6 @@ const UpdateMatchBallByBall = ({ match }) => {
     },
     mutationKey: ["updateMatch"],
   });
-
-  console.log(match, "match");
 
   useEffect(() => {
     let battingTeam =
@@ -161,16 +159,6 @@ const UpdateMatchBallByBall = ({ match }) => {
           },
         });
       }
-    }
-  };
-
-  const handelCatchOrRunOutId = (data) => {
-    if (perBallOccurs.ballOccurs === "caught") {
-      setPerBallOccurs((prev) => ({ ...prev, catchKeeperId: data.id }));
-    }
-
-    if (perBallOccurs.ballOccurs === "runOut") {
-      setPerBallOccurs((prev) => ({ ...prev, runOutThrowerId: data.id }));
     }
   };
 
@@ -241,64 +229,187 @@ const UpdateMatchBallByBall = ({ match }) => {
   });
 
   const handelRunOccurs = (data) => {
-    setPerBallOccurs({
-      ...perBallOccurs,
-      ballOccurs: data,
-    });
-
-    // if (data.toString() !== "wide" && data.toString() !== "noBall") {
-    //     localStorage.setItem("overCount", JSON.stringify(overCount + 1));
-    //     setOverCount(JSON.parse(localStorage.getItem("overCount")));
-    //   }
-
-    if (
-      perBallOccurs.ballOccurs === "wide" ||
-      perBallOccurs.ballOccurs === "noBall" ||
-      perBallOccurs.ballOccurs === "legBy" ||
-      perBallOccurs.ballOccurs === "bye" ||
-      perBallOccurs.ballOccurs === "caught" ||
-      perBallOccurs.ballOccurs === "runOut"
-    ) {
-      setTurnOff(true);
+    if (typeof data === "number") {
+      setPerBallOccurs({
+        // ...perBallOccurs,
+        wideBye: null,
+        batterScore: null, //if score in no ball
+        byeScore: null, // if bye in no ball
+        byeRun: null, // bye or legBye
+        catchKeeperId: "",
+        runOutThrowerId: "",
+        ballOccurs: data.toString(),
+      });
+    } else {
+      setPerBallOccurs({
+        // ...perBallOccurs,
+        wideBye: null,
+        batterScore: null, //if score in no ball
+        byeScore: null, // if bye in no ball
+        byeRun: null, // bye or legBye
+        catchKeeperId: "",
+        runOutThrowerId: "",
+        ballOccurs: data,
+      });
     }
-    // updateMutate({
-    //   selectedBatterId: selectedBatterId,
-    //   selectedBowlerId: selectedBatterId,
-    //   perBallOccurs: perBallOccurs,
-    // });
   };
 
-  //   useEffect(() => {
-  //     if (
-  //       parseInt(perBallOccurs.ballOccurs) >= 0 &&
-  //       parseInt(perBallOccurs.ballOccurs) <= 6
-  //     ) {
-  //       updateMutate({
-  //         selectedBatterId: selectedBatterId,
-  //         selectedBowlerId: selectedBatterId,
-  //         perBallOccurs: perBallOccurs,
-  //       });
-  //     }
+  const handelCatchOrRunOutId = (data) => {
+    if (perBallOccurs.ballOccurs === "caught") {
+      setPerBallOccurs({
+        ...perBallOccurs,
+        wideBye: null,
+        batterScore: null,
+        byeScore: null,
+        byeRun: null,
+        catchKeeperId: data.id,
+        runOutThrowerId: "",
+      });
+    }
 
-  //     if (
-  //       (perBallOccurs.ballOccurs === "wide" ||
-  //         perBallOccurs.ballOccurs === "noBall" ||
-  //         perBallOccurs.ballOccurs === "legBye" ||
-  //         perBallOccurs.ballOccurs === "bye" ||
-  //         perBallOccurs.ballOccurs === "caught" ||
-  //         perBallOccurs.ballOccurs === "runOut") &&
-  //       turnOff
-  //     ) {
-  //       updateMutate({
-  //         selectedBatterId: selectedBatterId,
-  //         selectedBowlerId: selectedBatterId,
-  //         perBallOccurs: perBallOccurs,
-  //       });
-  //     }
-  //   }, [perBallOccurs]);
+    if (perBallOccurs.ballOccurs === "runOut") {
+      setPerBallOccurs({
+        ...perBallOccurs,
+        wideBye: null,
+        batterScore: null,
+        byeScore: null,
+        byeRun: null,
+        runOutThrowerId: data.id,
+        catchKeeperId: "",
+      });
+    }
+  };
+
+  const handelByeExtra = (data) => {
+    if (typeof data === "object" && perBallOccurs.ballOccurs === "noBall") {
+      setPerBallOccurs({
+        ...perBallOccurs,
+        wideBye: null,
+        byeRun: null, // bye or legBye
+        catchKeeperId: "",
+        runOutThrowerId: "",
+        batterScore: data.batterScore,
+        byeScore: null,
+      });
+    } else if (
+      perBallOccurs.ballOccurs === "noBall" &&
+      typeof data === "number"
+    ) {
+      setPerBallOccurs({
+        ...perBallOccurs,
+        wideBye: null,
+        byeRun: null, // bye or legBye
+        catchKeeperId: "",
+        runOutThrowerId: "",
+        byeScore: data,
+        batterScore: null,
+      });
+    }
+
+    if (perBallOccurs.ballOccurs === "wide") {
+      setPerBallOccurs({
+        ...perBallOccurs,
+        batterScore: null, //if score in no ball
+        byeScore: null, // if bye in no ball
+        byeRun: null, // bye or legBye
+        catchKeeperId: "",
+        runOutThrowerId: "",
+
+        wideBye: data,
+      });
+    }
+
+    if (
+      perBallOccurs.ballOccurs === "bye" ||
+      perBallOccurs.ballOccurs === "legBye"
+    ) {
+      setPerBallOccurs({
+        ...perBallOccurs,
+        wideBye: null,
+        batterScore: null, //if score in no ball
+        byeScore: null, // if bye in no ball
+        catchKeeperId: "",
+        runOutThrowerId: "",
+        byeRun: data,
+      });
+    }
+
+    console.log(typeof data, "from handel By extra");
+  };
 
   useEffect(() => {
-    if (overCount === 6) {
+    if (
+      parseInt(perBallOccurs.ballOccurs) >= 0 &&
+      parseInt(perBallOccurs.ballOccurs) <= 6 &&
+      perBallOccurs.ballOccurs !== ""
+    ) {
+      localStorage.setItem("overCount", JSON.stringify(overCount + 1));
+      setOverCount(JSON.parse(localStorage.getItem("overCount")));
+      console.log(overCount, "from useEffect");
+
+      updateMutate({ perBallOccurs: perBallOccurs });
+    }
+
+    if (
+      perBallOccurs.ballOccurs === "bowled" ||
+      perBallOccurs.ballOccurs === "lbw" ||
+      perBallOccurs.ballOccurs === "stumped"
+    ) {
+      localStorage.setItem("overCount", JSON.stringify(overCount + 1));
+      setOverCount(JSON.parse(localStorage.getItem("overCount")));
+      updateMutate({ perBallOccurs: perBallOccurs });
+    }
+
+    if (
+      perBallOccurs.ballOccurs === "caught" &&
+      perBallOccurs.catchKeeperId !== ""
+    ) {
+      localStorage.setItem("overCount", JSON.stringify(overCount + 1));
+      setOverCount(JSON.parse(localStorage.getItem("overCount")));
+      updateMutate({ perBallOccurs: perBallOccurs });
+    }
+
+    if (
+      perBallOccurs.ballOccurs === "runOut" &&
+      perBallOccurs.runOutThrowerId !== ""
+    ) {
+      localStorage.setItem("overCount", JSON.stringify(overCount + 1));
+      setOverCount(JSON.parse(localStorage.getItem("overCount")));
+      updateMutate({ perBallOccurs: perBallOccurs });
+    }
+
+    if (perBallOccurs.ballOccurs === "wide" && perBallOccurs.wideBye !== null) {
+      updateMutate({ perBallOccurs: perBallOccurs });
+    }
+
+    if (
+      perBallOccurs.ballOccurs === "noBall" &&
+      (perBallOccurs.batterScore !== null || perBallOccurs.byeScore !== null)
+    ) {
+      updateMutate({ perBallOccurs: perBallOccurs });
+    }
+
+    if (
+      (perBallOccurs.ballOccurs === "legBye" ||
+        perBallOccurs.ballOccurs === "bye") &&
+      perBallOccurs.byeRun !== null
+    ) {
+      localStorage.setItem("overCount", JSON.stringify(overCount + 1));
+      setOverCount(JSON.parse(localStorage.getItem("overCount")));
+      updateMutate({ perBallOccurs: perBallOccurs });
+    }
+  }, [
+    perBallOccurs.ballOccurs,
+    perBallOccurs.catchKeeperId,
+    perBallOccurs.runOutThrowerId,
+    perBallOccurs.batterScore,
+    perBallOccurs.byeScore,
+    perBallOccurs.wideBye,
+    perBallOccurs.byeRun,
+  ]);
+
+  useEffect(() => {
+    if (overCount === 7) {
       setSelectedPlayer({
         ...selectedPlayer,
         bowler: {
@@ -308,14 +419,10 @@ const UpdateMatchBallByBall = ({ match }) => {
           avatar: "",
         },
       });
-      localStorage.setItem("overCount", JSON.parse(0));
+      localStorage.setItem("overCount", JSON.parse(1));
       setOverCount(JSON.parse(localStorage.getItem("overCount")));
     }
   }, [overCount]);
-
-  console.log(overCount, "overCount");
-
-  console.log(perBallOccurs, "perBallOccurs");
 
   useEffect(() => {
     if (requestedPlayers && requestingPlayers) {
@@ -335,6 +442,13 @@ const UpdateMatchBallByBall = ({ match }) => {
       }
     }
   }, [requestedPlayers, requestingPlayers, bowlingTeamKey, battingTeamKey]);
+
+  useEffect(() => {
+    if (match?.inningsCount == 2 || match?.status === "completed") {
+      localStorage.removeItem("overCount");
+      localStorage.removeItem("playerInfo");
+    }
+  }, [match]);
 
   return (
     <div className="relative">
@@ -356,7 +470,7 @@ const UpdateMatchBallByBall = ({ match }) => {
                 {match?.score?.requestingTeam.totalWickets}{" "}
               </span>
               <span>
-                Overs: {match?.score?.requestingTeam.totalOvers / 6}.
+                Overs: {parseInt(match?.score?.requestingTeam.totalOvers / 6)}.
                 {match?.score?.requestingTeam.totalOvers % 6}
               </span>
             </div>
@@ -380,7 +494,7 @@ const UpdateMatchBallByBall = ({ match }) => {
                 {match?.score?.requestedTeam.totalWickets}{" "}
               </span>
               <span>
-                Overs: {match?.score?.requestedTeam.totalOvers / 6}.
+                Overs: {parseInt(match?.score?.requestedTeam.totalOvers / 6)}.
                 {match?.score?.requestedTeam.totalOvers % 6}
               </span>
             </div>
@@ -605,7 +719,12 @@ const UpdateMatchBallByBall = ({ match }) => {
 
             <div className="flex flex-col gap-5">
               <div className="flex gap-5">
-                <span onClick={() => handelRunOccurs("wide")}>
+                <span
+                  onClick={() => {
+                    handelRunOccurs("wide");
+                    setTurnOff(true);
+                  }}
+                >
                   <UpdateScoreButton
                     title={"Wide"}
                     classes={`${
@@ -614,7 +733,12 @@ const UpdateMatchBallByBall = ({ match }) => {
                     } w-[80px] `}
                   />
                 </span>
-                <span onClick={() => handelRunOccurs("noBall")}>
+                <span
+                  onClick={() => {
+                    handelRunOccurs("noBall");
+                    setTurnOff(true);
+                  }}
+                >
                   <UpdateScoreButton
                     title={"No ball"}
                     classes={`${
@@ -623,7 +747,12 @@ const UpdateMatchBallByBall = ({ match }) => {
                     } w-[80px]`}
                   />
                 </span>
-                <span onClick={() => handelRunOccurs("legBye")}>
+                <span
+                  onClick={() => {
+                    handelRunOccurs("legBye");
+                    setTurnOff(true);
+                  }}
+                >
                   <UpdateScoreButton
                     title={"Leg Bye"}
                     classes={`${
@@ -632,7 +761,12 @@ const UpdateMatchBallByBall = ({ match }) => {
                     } w-[80px]`}
                   />
                 </span>
-                <span onClick={() => handelRunOccurs("bye")}>
+                <span
+                  onClick={() => {
+                    handelRunOccurs("bye");
+                    setTurnOff(true);
+                  }}
+                >
                   <UpdateScoreButton
                     title={"Bye"}
                     classes={`${
@@ -646,7 +780,7 @@ const UpdateMatchBallByBall = ({ match }) => {
                 <WideNoByeRun
                   setTurnOff={setTurnOff}
                   title={"If have any bye run on wide"}
-                  setByeNo={setPerBallOccurs}
+                  setByeNo={handelByeExtra}
                   type={"wide"}
                 />
               )}
@@ -656,14 +790,14 @@ const UpdateMatchBallByBall = ({ match }) => {
                   <WideNoByeRun
                     setTurnOff={setTurnOff}
                     title={"If have any bye run on No Ball"}
-                    setByeNo={setPerBallOccurs}
+                    setByeNo={handelByeExtra}
                     type={"noBall"}
                   />
                   <WideNoByeRun
                     setTurnOff={setTurnOff}
                     title={"If have any batter run on No Ball"}
-                    setByeNo={setPerBallOccurs}
-                    type={"noBallBatterScore"}
+                    setByeNo={handelByeExtra}
+                    type={"batterScore"}
                   />
                 </div>
               )}
@@ -673,8 +807,12 @@ const UpdateMatchBallByBall = ({ match }) => {
                   perBallOccurs?.ballOccurs === "legBye") && (
                   <WideNoByeRun
                     setTurnOff={setTurnOff}
-                    title={"Add Bye or LegBye run"}
-                    setByeNo={setPerBallOccurs}
+                    title={
+                      perBallOccurs?.ballOccurs === "bye"
+                        ? "Add Bye Run"
+                        : "Add Leg Bye Run"
+                    }
+                    setByeNo={handelByeExtra}
                     type={"bye"}
                   />
                 )}
@@ -786,15 +924,14 @@ const UpdateMatchBallByBall = ({ match }) => {
                 handleSelectedPlayer={handelCatchOrRunOutId}
                 setSelectBatter1={setTurnOff}
               />
-
-              {/* <span
-              className="absolute top-5 right-5 cursor-pointer"
-              onClick={() => {
-                setSelectBowling(false);
-              }}
-            >
-              <IoMdClose />
-            </span> */}
+              <span
+                className="absolute top-5 right-5 cursor-pointer"
+                onClick={() => {
+                  setTurnOff(false);
+                }}
+              >
+                <IoMdClose />
+              </span>
             </div>
           </div>
         )}

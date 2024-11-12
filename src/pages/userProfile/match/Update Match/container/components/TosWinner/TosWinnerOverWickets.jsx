@@ -6,6 +6,7 @@ import { IoMdClose } from "react-icons/io";
 import toast from "react-hot-toast";
 import { updateOverAndTossWinner } from "../../../../../../../service/match";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const INIT = {
   over: 0,
@@ -16,6 +17,7 @@ const INIT = {
 
 const TosWinnerOverWickets = ({ match, setNextPage }) => {
   const userState = useSelector((state) => state.user);
+  const navigate = useNavigate();
   const [winnerDate, setWinnerDate] = useState({ ...INIT });
 
   const handelWinner = (data) => {

@@ -10,13 +10,18 @@ import TosWinnerOverWickets from "./container/components/TosWinner/TosWinnerOver
 import SelectInningsType from "./container/components/SelectInningsType/SelectInningsType";
 import UpdateMatchBallByBall from "./container/updateMatch/UpdateMatchBallByBall";
 import { toast } from "react-hot-toast";
+import { io } from "socket.io-client";
 
 const UpdateMatch = () => {
   const { matchId } = useParams();
   const userState = useSelector((state) => state.user);
+  const matchState = useSelector((state) => state.match);
   const navigate = useNavigate();
   const [match, setMatch] = useState();
   const [nextPage, setNextPage] = useState(false);
+  // const [Match, setMatch] = useState();
+
+  const socket = io("http://localhost:4000");
 
   const { data, isLoading, refetch, error } = useQuery({
     queryKey: ["match"],
@@ -28,12 +33,34 @@ const UpdateMatch = () => {
   });
 
   useEffect(() => {
-    if (data) {
+    // Listen for updates from the server
+    socket.on("scoreUpdated", (data) => {
+      console.log("Score updated:", data);
       setMatch(data);
+    });
+
+    // Clean up the connection when the component unmounts
+    return () => {
+      socket.off("scoreUpdated");
+    };
+  }, []);
+
+  useEffect(() => {
+    if (data) {
+      const emitData = matchState.match ? matchState.match : data;
+      socket.emit("updateScore", emitData);
     } else {
       refetch();
     }
-  }, [data]);
+  }, [matchState, data]);
+
+  // useEffect(() => {
+  //   if (data) {
+  //     setMatch(data);
+  //   } else {
+  //     refetch();
+  //   }
+  // }, [data]);
 
   return (
     <div>

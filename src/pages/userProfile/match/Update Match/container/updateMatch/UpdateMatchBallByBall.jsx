@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { getSquadById } from "../../../../../../service/squad";
 import { getPlayer } from "../../../../../../service/player";
@@ -11,6 +11,7 @@ import UpdateScoreButton from "../../../../../../components/shared/button/Update
 import WideNoByeRun from "./components/WideNoByeRun";
 import { updateMatch } from "../../../../../../service/match";
 import { toast } from "react-hot-toast";
+import { matchActions } from "../../../../../../store/reducers/matchUpdate";
 
 const runs = [0, 1, 2, 3, 4, 5, 6];
 
@@ -20,18 +21,27 @@ const INIT_SELECT_PLAYER = {
     fName: "",
     lName: "",
     avatar: "",
+    // run: null,
+    // ball: null,
+    // isOut: false,
   },
   batter2: {
     id: "",
     fName: "",
     lName: "",
     avatar: "",
+    // run: null,
+    // ball: null,
+    // isOut: false,
   },
   bowler: {
     id: "",
     fName: "",
     lName: "",
     avatar: "",
+    // givenRun: null,
+    // totalBall: null,
+    // wicketTaken: null,
   },
 };
 
@@ -45,8 +55,16 @@ const INIT_PER_BALL_OCCURS = {
   runOutThrowerId: "",
 };
 
+const INIT_STATS = {
+  run: null,
+  ballPlay: null,
+  isOut: false,
+};
+
 const UpdateMatchBallByBall = ({ match }) => {
   const userState = useSelector((state) => state.user);
+  const matchState = useSelector((state) => state.match);
+  const dispatch = useDispatch();
 
   const [selectedPlayer, setSelectedPlayer] = useState(
     localStorage.getItem("playerInfo")
@@ -77,6 +95,14 @@ const UpdateMatchBallByBall = ({ match }) => {
 
   const [turnOff, setTurnOff] = useState(false);
 
+  const [batter1Stats, setBatter1Stats] = useState({ ...INIT_STATS });
+  const [batter2Stats, setBatter2Stats] = useState({ ...INIT_STATS });
+  const [bowlerStats, setBowlerStats] = useState({
+    givenRun: null,
+    ball: null,
+    wicketTaken: null,
+  });
+
   //TODO: WILL BE ADD SOMETHING AFTER REALTIME CONNECTION LIKE:
   //TODO:
 
@@ -91,13 +117,6 @@ const UpdateMatchBallByBall = ({ match }) => {
         token: userState?.userInfo?.token,
       }),
     onSuccess: (data) => {
-      //   if (
-      //     perBallOccurs.ballOccurs !== "wide" &&
-      //     perBallOccurs.ballOccurs !== "noBall"
-      //   ) {
-      //     localStorage.setItem("overCount", JSON.stringify(overCount + 1));
-      //     setOverCount(JSON.parse(localStorage.getItem("overCount")));
-      //   }
       setPerBallOccurs({
         ballOccurs: "",
         wideBye: 0,
@@ -108,7 +127,7 @@ const UpdateMatchBallByBall = ({ match }) => {
         runOutThrowerId: "",
       });
 
-      console.log(data, "from update match");
+      dispatch(matchActions.setMatch(data));
     },
     onError: (error) => {
       toast.error(error.message);
@@ -345,7 +364,6 @@ const UpdateMatchBallByBall = ({ match }) => {
     ) {
       localStorage.setItem("overCount", JSON.stringify(overCount + 1));
       setOverCount(JSON.parse(localStorage.getItem("overCount")));
-      console.log(overCount, "from useEffect");
 
       updateMutate({ perBallOccurs: perBallOccurs });
     }
@@ -450,6 +468,70 @@ const UpdateMatchBallByBall = ({ match }) => {
     }
   }, [match]);
 
+  useEffect(() => {
+    match?.score[battingTeamKey]?.playerStats.map((item) => {
+      if (item.playerId.toString() === selectedPlayer?.batter1.id) {
+        setBatter1Stats({
+          run: item.runs,
+          ballPlay: item.playBalls,
+          isOut: item.out.out,
+        });
+      }
+
+      if (item.playerId.toString() === selectedPlayer?.batter2.id) {
+        setBatter2Stats({
+          run: item.runs,
+          ballPlay: item.playBalls,
+          isOut: item.out.out,
+        });
+      }
+    });
+
+    match?.score[bowlingTeamKey]?.playerStats.map((item) => {
+      if (item.playerId.toString() === selectedPlayer?.bowler.id) {
+        setBowlerStats({
+          ball: item.overs.ball,
+          givenRun: item.overs.givenRun,
+          wicketTaken: item.wicketTaken.totalWickets,
+        });
+      }
+    });
+  }, [selectedPlayer, match]);
+
+  useEffect(() => {
+    if (batter1Stats?.isOut) {
+      toast.success("Out");
+      setSelectedPlayer({
+        ...selectedPlayer,
+        batter1: {
+          fName: "",
+          lName: "",
+          id: "",
+          avatar: "",
+        },
+      });
+      setBatter1Stats({ ...INIT_STATS });
+    }
+
+    if (batter2Stats?.isOut) {
+      setSelectedPlayer({
+        ...selectedPlayer,
+        batter2: {
+          fName: "",
+          lName: "",
+          id: "",
+          avatar: "",
+        },
+      });
+      setBatter2Stats({ ...INIT_STATS });
+    }
+  }, [batter1Stats, batter2Stats]);
+
+  console.log(batter1Stats, batter2Stats, bowlerStats);
+  console.log(selectedPlayer);
+
+  console.log(battingTeamKey, bowlingTeamKey);
+
   return (
     <div className="relative">
       <div className=" shadow-lg p-6 mx-auto rounded-lg">
@@ -550,7 +632,11 @@ const UpdateMatchBallByBall = ({ match }) => {
                   </h3>
                 </div>
                 <div className="flex gap-2">
-                  <span>{0}</span> / <span>0</span>
+                  <span>{batter1Stats?.run}</span> /{" "}
+                  <span>
+                    {parseInt(batter1Stats?.ballPlay / 6)}.
+                    {parseInt(batter1Stats?.ballPlay % 6)}
+                  </span>
                 </div>
 
                 <div>
@@ -604,7 +690,11 @@ const UpdateMatchBallByBall = ({ match }) => {
                   </h3>
                 </div>
                 <div className="flex gap-2">
-                  <span>{0}</span> / <span>0</span>
+                  <span>{batter2Stats?.run}</span> /{" "}
+                  <span>
+                    {parseInt(batter2Stats?.ballPlay / 6)}.
+                    {parseInt(batter2Stats?.ballPlay % 6)}
+                  </span>
                 </div>
                 <div>
                   <span
@@ -674,7 +764,12 @@ const UpdateMatchBallByBall = ({ match }) => {
                   </h3>
                 </div>
                 <div className="flex gap-2">
-                  <span>{0}</span> / <span>0</span>
+                  <span>{bowlerStats?.givenRun}</span> /{" "}
+                  <span>
+                    {parseInt(bowlerStats?.ball / 6)}.
+                    {parseInt(bowlerStats?.ball % 6)}
+                  </span>{" "}
+                  <span className="ml-5">{bowlerStats?.wicketTaken}</span>
                 </div>
 
                 <div>

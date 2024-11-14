@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import PrimaryButton from "../../../../../../../components/shared/button/PrimaryButton";
 import { getDateDifference } from "../../../../../../../utils/getDateDifference";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-const StartMatchTImeCount = ({ match, setNextPage, nextPage }) => {
+const StartMatchTImeCount = ({ match }) => {
   const [minute, setMinute] = useState(0);
   const [second, setSecond] = useState(0);
+  const navigate = useNavigate();
   const userState = useSelector((state) => state.user);
 
   useEffect(() => {
@@ -46,11 +48,13 @@ const StartMatchTImeCount = ({ match, setNextPage, nextPage }) => {
                     " S"}
             </span>
 
-            {new Date(match?.date).toLocaleDateString() >
+            {new Date(match?.date).toLocaleDateString() <=
               new Date().toLocaleDateString() &&
               userState.userInfo.id === match?.teams?.requestingTeam?.userId &&
               match?.status === "accepted" && (
-                <span onClick={() => setNextPage(!nextPage)}>
+                <span
+                  onClick={() => navigate(`/profile/match/toss/${match?._id}`)}
+                >
                   <PrimaryButton text={"Start Match?"} />
                 </span>
               )}

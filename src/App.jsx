@@ -13,6 +13,9 @@ import Match from "./pages/userProfile/match/Match";
 import Squad from "./pages/userProfile/squad/Squad";
 import Profile from "./pages/userProfile/Dashboard/Profile";
 import UpdateMatch from "./pages/userProfile/match/Update Match/UpdateMatch";
+import TosWinnerOverWickets from "./pages/userProfile/match/Update Match/container/components/TosWinner/TosWinnerOverWickets";
+import SelectInningsType from "./pages/userProfile/match/Update Match/container/components/SelectInningsType/SelectInningsType";
+import UpdateMatchBallByBall from "./pages/userProfile/match/Update Match/container/updateMatch/UpdateMatchBallByBall";
 
 const App = () => {
   return (
@@ -30,6 +33,19 @@ const App = () => {
           <Route path="managePlayer" element={<ManagePlayer />} />
           <Route path="update/:playerId" element={<UpdatePlayer />} />
           <Route path="match/:matchId" element={<UpdateMatch />} />
+          <Route
+            path="match/toss/:matchId"
+            element={<TosWinnerOverWickets />}
+          />
+          <Route
+            path="match/innings/:matchId"
+            element={<SelectInningsType />}
+          />
+
+          <Route
+            path="match/updateMatch/:matchId"
+            element={<UpdateMatchBallByBall />}
+          />
         </Route>
       </Routes>
       <Toaster />

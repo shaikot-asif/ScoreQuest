@@ -22,21 +22,21 @@ const AddMatchCard = ({
   console.log(squadData, "squadData", matchValues, "matchValues");
 
   return (
-    <div className="bg-natural-white p-10 w-[60%] relative m-auto rounded-md shadow-lg ">
-      <h3 className="text-center text-3xl font-bold text-primary-darkNavy ">
+    <div className="bg-natural-white p-4 lg:p-10 w-[95%] lg:w-[60%] relative m-auto rounded-md shadow-lg ">
+      <h3 className="text-center text-xl lg:text-3xl font-bold text-primary-darkNavy ">
         {title}
       </h3>
       <span className="border-b border-primary-brightOrange w-full block py-2"></span>
-      <span className="text-center my-2 font-semibold capitalize text-accentColor-skyBlur block">
+      <span className="text-center text-sm my-2 font-semibold capitalize text-accentColor-skyBlur block">
         {matchValues?.teams.requestingTeam?.name} VS{" "}
         {matchValues?.teams.requestedTeam?.name}{" "}
       </span>
-      <h4 className="mt-5 text-md font-semibold capitalize text-accentColor-skyBlur mb-2 ">
+      <h4 className="mt-5 text-sm lg:text-md font-semibold capitalize text-accentColor-skyBlur mb-2 ">
         Select a squad for this match
       </h4>
 
       <form onSubmit={handleSubmit}>
-        <div className="flex flex-row justify-between mt-2">
+        <div className="flex flex-row text-sm justify-between mt-2">
           {squadIsLoading ? (
             <Loading />
           ) : squadData?.length === 0 ? (
@@ -52,7 +52,7 @@ const AddMatchCard = ({
         </div>
 
         <div className="dateTime">
-          <h4 className="mt-2 text-md font-semibold capitalize text-accentColor-skyBlur mb-2 ">
+          <h4 className="mt-2 text-sm lg:text-md font-semibold capitalize text-accentColor-skyBlur mb-2 ">
             {title2}
           </h4>
 
@@ -72,7 +72,7 @@ const AddMatchCard = ({
 
         <div>
           <h4
-            className={`mt-6 text-md font-semibold text-accentColor-skyBlur capitalize mb-2  `}
+            className={`mt-6 text-sm lg:text-md font-semibold text-accentColor-skyBlur capitalize mb-2  `}
           >
             Venue
           </h4>

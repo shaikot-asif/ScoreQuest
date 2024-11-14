@@ -126,7 +126,7 @@ const AddMatch = ({ requestedTeam, setPlayMatchBtn }) => {
   };
 
   return (
-    <div className="fixed top-[3%] w-[70%] ">
+    <div className="absolute lg:top-[2%] lg:fixed top-[55%] left-[50%] w-[300px] -translate-x-1/2  -translate-y-1/2 lg: lg:-translate-y-0 lg:w-[70%] ">
       <AddMatchCard
         handleChange={handleChange}
         handleClickSingleSquad={handleClickSingleSquad}

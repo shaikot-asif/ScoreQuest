@@ -170,38 +170,40 @@ const Squad = () => {
           Manage Squad
         </h2>
 
-        <div className=" flex flex-row gap-5 justify-center items-center">
-          {squadIsLoading ? (
-            <Loading />
-          ) : (
-            squadData?.map((item, index) => (
-              <div
-                key={item?._id}
-                className="flex gap-3 flex-col  rounded-md shadow-md px-6 py-4 uppercase "
-              >
-                <h4
-                  className="text-center text-[18px] font-bold text-primary-brightOrange cursor-pointer "
-                  onClick={() => handleClickSingleSquad({ _id: item?._id })}
+        <div className="flex flex-col gap-5 lg:flex-row items-center justify-center">
+          <div className=" flex flex-row flex-wrap px-2 gap-5 justify-center items-center">
+            {squadIsLoading ? (
+              <Loading />
+            ) : (
+              squadData?.map((item, index) => (
+                <div
+                  key={item?._id}
+                  className="flex gap-3 flex-col  rounded-md shadow-md px-6 py-4 uppercase "
                 >
-                  squad {index + 1}
-                </h4>
+                  <h4
+                    className="text-center text-[18px] font-bold text-primary-brightOrange cursor-pointer "
+                    onClick={() => handleClickSingleSquad({ _id: item?._id })}
+                  >
+                    squad {index + 1}
+                  </h4>
 
-                <span className="border-b border-primary-darkNavy "></span>
-                <h6
-                  className="cursor-pointer"
-                  onClick={() => handleClickSingleSquad({ _id: item?._id })}
-                >
-                  total player {item?.selectedPlayer.length}{" "}
-                </h6>
-                <span
-                  className="cursor-pointer hover:underline inline"
-                  onClick={() => handleClick({ squadId: item?._id })}
-                >
-                  delete
-                </span>
-              </div>
-            ))
-          )}
+                  <span className="border-b border-primary-darkNavy "></span>
+                  <h6
+                    className="cursor-pointer"
+                    onClick={() => handleClickSingleSquad({ _id: item?._id })}
+                  >
+                    total player {item?.selectedPlayer.length}{" "}
+                  </h6>
+                  <span
+                    className="cursor-pointer hover:underline inline"
+                    onClick={() => handleClick({ squadId: item?._id })}
+                  >
+                    delete
+                  </span>
+                </div>
+              ))
+            )}
+          </div>
 
           <div className="">
             {squadData?.length < 3 && (

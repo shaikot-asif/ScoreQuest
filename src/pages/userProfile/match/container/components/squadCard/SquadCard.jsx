@@ -12,7 +12,7 @@ const SquadCard = ({
     <div
       onClick={() => handleClickSingleSquad({ [TeamSquad]: item._id })}
       key={item._id}
-      className={`border shadow mb-5 p-5 rounded-md cursor-pointer capitalize ${
+      className={`border shadow mb-2 lg:mb-5 p-2 lg:p-5 rounded-md cursor-pointer capitalize ${
         matchValues?.squads[TeamSquad]?.squadId === item._id &&
         "border-primary-brightOrange"
       } `}

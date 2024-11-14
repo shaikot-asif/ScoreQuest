@@ -121,6 +121,12 @@ const UpdateMatchBallByBall = () => {
         userState?.userInfo?.id === match?.bowlingUser?.toString()) ||
       match?.status === "completed"
     ) {
+      localStorage.removeItem(`overCount:${matchId}`);
+      localStorage.removeItem(`playerInfo:${matchId}`);
+      setSelectedPlayer(
+        JSON.parse(localStorage.getItem(`playerInfo:${matchId}`))
+      );
+      setOverCount(JSON.parse(localStorage.getItem(`overCount:${matchId}`)));
       navigate("/profile/match");
     }
   }, [match?.battingUser, match?.bowlingUser, match?.status]);

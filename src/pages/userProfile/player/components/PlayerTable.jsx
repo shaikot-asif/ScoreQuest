@@ -34,7 +34,7 @@ const PlayerTable = ({
 
   return (
     <div>
-      <div>
+      <div className="px-2 lg:px-5">
         <h2 className="text-2xl font-semibold text-primary-darkNavy mb-4 text-center">
           {title}
         </h2>
@@ -45,7 +45,7 @@ const PlayerTable = ({
               Name
             </h2>
 
-            <span className=" w-[20%] text-xl font-bold text-center mb-6 text-primary-darkNavy">
+            <span className=" w-[20%] hidden lg:block text-xl font-bold text-center mb-6 text-primary-darkNavy">
               Role
             </span>
 
@@ -66,75 +66,79 @@ const PlayerTable = ({
             )}
           </div>
 
-          {players?.length > 0 ? (
-            players?.map((item) => (
-              <div
-                onClick={() =>
-                  handleBatter1Id({
-                    id: item._id,
-                    fName: item.firstName,
-                    lName: item.lastName,
-                    avatar: item.avatar,
-                  })
-                }
-                className={`${classes} flex flex-row gap-5 w-full justify-between shadow-md mb-5 p-3 align-middle items-center rounded-md hover:shadow-lg`}
-                key={item._id}
-              >
-                <div className="flex w-[40%] flex-row gap-5 items-center mb-5">
-                  <img
-                    className="rounded-full"
-                    height={50}
-                    width={50}
-                    src={
-                      item.avatar
-                        ? stables.UPLOAD_FOLDER_BASE_URL + item.avatar
-                        : images.Profile
-                    }
-                    alt="img"
-                  />
+          <div className="">
+            {players?.length > 0 ? (
+              players?.map((item) => (
+                <div
+                  onClick={() =>
+                    handleBatter1Id({
+                      id: item._id,
+                      fName: item.firstName,
+                      lName: item.lastName,
+                      avatar: item.avatar,
+                    })
+                  }
+                  className={`${classes} flex flex-col lg:flex-row lg:gap-5 w-full lg:justify-between shadow-md mb-5 p-3 align-middle lg:items-center rounded-md hover:shadow-lg`}
+                  key={item._id}
+                >
+                  <div className="flex lg:w-[40%] flex-row gap-5 items-center mb-5">
+                    <img
+                      className="rounded-full"
+                      height={50}
+                      width={50}
+                      src={
+                        item.avatar
+                          ? stables.UPLOAD_FOLDER_BASE_URL + item.avatar
+                          : images.Profile
+                      }
+                      alt="img"
+                    />
 
-                  <h3 className="font-bold text-xl text-primary-brightOrange">
-                    {item.firstName} {item.lastName}{" "}
-                  </h3>
-                </div>
-
-                <div className="w-[20%] flex justify-center">
-                  <p className="text-center">{item.role}</p>
-                </div>
-
-                {isSelectPlayer && (
-                  <div className="w-[40%] flex justify-end">
-                    {checkBox ? (
-                      <span>
-                        <input
-                          className="cursor-pointer"
-                          type="checkbox"
-                          onChange={handleChange}
-                          value={item._id}
-                        />
-                      </span>
-                    ) : (
-                      buttons && (
-                        <div className="flex gap-4">
-                          <span className="hover:text-primary-brightOrange cursor-pointer">
-                            <Link to={`/profile/update/${item._id}`}>Edit</Link>
-                          </span>
-                          <span
-                            onClick={() => deletePlayerById(item._id)}
-                            className="hover:text-primary-brightOrange cursor-pointer"
-                          >
-                            Delete
-                          </span>
-                        </div>
-                      )
-                    )}
+                    <h3 className="font-bold text-xl text-primary-brightOrange">
+                      {item.firstName} {item.lastName}{" "}
+                    </h3>
                   </div>
-                )}
-              </div>
-            ))
-          ) : (
-            <p>There are no player found please add first</p>
-          )}
+
+                  <div className="lg:w-[20%] flex justify-start lg:justify-center">
+                    <p className="text-center">{item.role}</p>
+                  </div>
+
+                  {isSelectPlayer && (
+                    <div className="lg:w-[40%] flex justify-end">
+                      {checkBox ? (
+                        <span>
+                          <input
+                            className="cursor-pointer"
+                            type="checkbox"
+                            onChange={handleChange}
+                            value={item._id}
+                          />
+                        </span>
+                      ) : (
+                        buttons && (
+                          <div className="flex gap-4">
+                            <span className="hover:text-primary-brightOrange cursor-pointer">
+                              <Link to={`/profile/update/${item._id}`}>
+                                Edit
+                              </Link>
+                            </span>
+                            <span
+                              onClick={() => deletePlayerById(item._id)}
+                              className="hover:text-primary-brightOrange cursor-pointer"
+                            >
+                              Delete
+                            </span>
+                          </div>
+                        )
+                      )}
+                    </div>
+                  )}
+                </div>
+              ))
+            ) : (
+              <p>There are no player found please add first</p>
+            )}
+          </div>
 
           <div className="flex justify-center">
             {checkBox && <SecondaryButton text={"Submit"} type={"submit"} />}

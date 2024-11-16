@@ -610,7 +610,7 @@ const UpdateMatchBallByBall = () => {
               className={`${
                 battingTeamKey === "requestingTeam" &&
                 "border border-primary-brightOrange"
-              } p-5  shadow-lg rounded-lg`}
+              } p-5 w-[30%] `}
             >
               <h3 className="text-xl font-semibold text-primary-brightOrange text-center mb-2 cursor-pointer">
                 {match?.teams?.requestingTeam?.name || "unknown"}
@@ -627,14 +627,12 @@ const UpdateMatchBallByBall = () => {
                 </span>
               </div>
             </div>
-            <span className="bg-secondary-coolGray p-5  shadow-lg rounded-lg">
-              VS
-            </span>
+            <span className="flex-1 text-center p-5 ">VS</span>
             <div
               className={`${
                 battingTeamKey === "requestedTeam" &&
                 "border border-primary-brightOrange"
-              } p-5  shadow-lg rounded-lg`}
+              } p-5 w-[30%]`}
             >
               <h3 className="text-xl font-semibold text-primary-brightOrange text-center mb-2 cursor-pointer">
                 {match?.teams?.requestedTeam?.name || "unknown"}

@@ -7,7 +7,7 @@ const navItem = [
   { name: "Today Match", link: "/today-match" },
   { name: "Finished Match", link: "/finished-match" },
   { name: "Upcoming Match", link: "/upcoming-match" },
-  { name: "Statistics", link: "/player-statistics" },
+  // { name: "Statistics", link: "/player-statistics" },
   { name: "Contact Us", link: "/contact" },
 ];
 

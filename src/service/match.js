@@ -147,14 +147,8 @@ export const acceptMatchByRequestedUser = async ({
 
 export const getMatchByMatchId = async ({ matchId, token }) => {
   try {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
     const { data } = await axios.get(
-      `http://localhost:4000/api/match/getMatchDetails?matchId=${matchId}`,
-      config
+      `http://localhost:4000/api/match/getMatchDetails?matchId=${matchId}`
     );
 
     return data;

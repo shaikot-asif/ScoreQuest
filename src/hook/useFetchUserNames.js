@@ -1,30 +1,31 @@
-import { getUser } from "../service/user";
+import { getPlayer } from "../service/player";
 
 export const useFetchUserNames = async (
-  matchData,
-  userState,
+  playersStats,
+
   isRequesting = true
 ) => {
-  const userIds = new Set();
+  const playerIds = new Set();
   isRequesting
-    ? matchData?.forEach((match) => {
-        userIds.add(match.teams.requestedTeam.userId);
+    ? playersStats?.forEach((player) => {
+        playerIds.add(player.playerId);
       })
-    : matchData?.forEach((match) => {
-        userIds.add(match.teams.requestingTeam.userId);
+    : playersStats?.forEach((player) => {
+        playerIds.add(player.playerId);
       });
 
-  const namePromises = Array.from(userIds).map((userId) =>
-    getUser({ userId, token: userState.userInfo.token }).then((data) => ({
-      userId,
-      name: data.name,
+  const namePromises = Array.from(playerIds).map((playerId) =>
+    getPlayer({ playerId }).then((data) => ({
+      playerId,
+      name: data.firstName,
     }))
   );
 
   const names = await Promise.all(namePromises);
+
   const nameMap = {};
-  names.forEach(({ userId, name }) => {
-    nameMap[userId] = name;
+  names.forEach(({ playerId, name }) => {
+    nameMap[playerId] = name;
   });
 
   return nameMap;

@@ -37,7 +37,7 @@ const UpdateMatch = () => {
       match?.battingUser?.toString() !== userState?.userInfo?.id &&
       userState?.userInfo?.id === match?.bowlingUser?.toString()
     ) {
-      navigate("/todayMatch");
+      navigate("/today-match");
     }
 
     console.log(

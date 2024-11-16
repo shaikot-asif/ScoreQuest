@@ -16,6 +16,10 @@ import UpdateMatch from "./pages/userProfile/match/Update Match/UpdateMatch";
 import TosWinnerOverWickets from "./pages/userProfile/match/Update Match/container/components/TosWinner/TosWinnerOverWickets";
 import SelectInningsType from "./pages/userProfile/match/Update Match/container/components/SelectInningsType/SelectInningsType";
 import UpdateMatchBallByBall from "./pages/userProfile/match/Update Match/container/updateMatch/UpdateMatchBallByBall";
+import TodayMatch from "./pages/userProfile/match/MatchStatistics/TodayMatch";
+import FinishedMatch from "./pages/userProfile/match/MatchStatistics/FinishedMatch";
+import UpcomingMatch from "./pages/userProfile/match/MatchStatistics/UpcomingMatch";
+import MatchStatistics from "./pages/userProfile/match/MatchStatistics/container/MatchStatistics";
 
 const App = () => {
   return (
@@ -24,6 +28,13 @@ const App = () => {
         <Route index path="/" element={<HomePage />} />
         <Route path="/signup" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/today-match" element={<TodayMatch />} />
+        <Route path="/finished-match" element={<FinishedMatch />} />
+        <Route path="/upcoming-match" element={<UpcomingMatch />} />
+        <Route
+          path="/match-statistics/:matchId"
+          element={<MatchStatistics />}
+        />
         <Route path="/profile" element={<UserProfile />}>
           <Route index element={<Profile />} />
           <Route path="squad" element={<Squad />} />

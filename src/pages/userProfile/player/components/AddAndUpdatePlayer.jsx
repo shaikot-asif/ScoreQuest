@@ -14,13 +14,13 @@ const AddAndUpdatePlayer = ({
   title,
 }) => {
   return (
-    <div className="max-w-lg mx-auto p-6 bg-white shadow-lg rounded-lg">
-      <h2 className="text-2xl font-semibold text-primary-darkNavy mb-4 text-center">
+    <div className="max-w-lg mx-auto px-2 py-6 md:p-6 bg-white shadow-lg rounded-lg">
+      <h2 className="text-xl md:text-2xl font-semibold text-primary-darkNavy mb-4 text-center">
         {title}
       </h2>
 
       <form onSubmit={handleSubmit(submitHandle)} className="space-y-6">
-        <div className="flex flex-row justify-between">
+        <div className="flex flex-row gap-2 justify-between">
           <InputLabel
             label="First Name"
             name="firstName"

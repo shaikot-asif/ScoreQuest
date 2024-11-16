@@ -13,7 +13,7 @@ const Match = () => {
   };
   return (
     <div className="">
-      <div className="flex flex-row gap-2 justify-between w-full ">
+      <div className="px-1 flex flex-row gap-2 justify-between w-full ">
         <BigButton
           classes={`${selectActive && "border-primary-brightOrange"} border`}
           func={handleSendRequest}

@@ -243,3 +243,60 @@ export const updateMatch = async ({
     throw new Error(error.message);
   }
 };
+
+export const getTodayMatch = async ({
+  searchKeywords,
+  limit = 10,
+  page = 1,
+}) => {
+  try {
+    const { data } = await axios.get(
+      `http://localhost:4000/api/match/getTodayMatch?search=${searchKeywords}&limit=${limit}&page=${page}`
+    );
+
+    return data;
+  } catch (error) {
+    if (error.response && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    }
+    throw new Error(error.message);
+  }
+};
+
+export const getCompleteMatch = async ({
+  searchKeywords,
+  limit = 10,
+  page = 1,
+}) => {
+  try {
+    const { data } = await axios.get(
+      `http://localhost:4000/api/match/getCompleteMatch?search=${searchKeywords}&limit=${limit}&page=${page}`
+    );
+
+    return data;
+  } catch (error) {
+    if (error.response && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    }
+    throw new Error(error.message);
+  }
+};
+
+export const getUpcomingMatch = async ({
+  searchKeywords,
+  limit = 10,
+  page = 1,
+}) => {
+  try {
+    const { data } = await axios.get(
+      `http://localhost:4000/api/match/getUpcomingMatch?search=${searchKeywords}&limit=${limit}&page=${page}`
+    );
+
+    return data;
+  } catch (error) {
+    if (error.response && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    }
+    throw new Error(error.message);
+  }
+};

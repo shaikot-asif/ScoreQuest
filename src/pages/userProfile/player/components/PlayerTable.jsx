@@ -45,10 +45,6 @@ const PlayerTable = ({
               Name
             </h2>
 
-            <span className=" w-[20%] hidden lg:block text-xl font-bold text-center mb-6 text-primary-darkNavy">
-              Role
-            </span>
-
             {isSelectPlayer && (
               <span className="text-xl w-[40%] font-bold text-right mb-6 mr-10 text-primary-darkNavy">
                 {buttons ? (
@@ -78,7 +74,7 @@ const PlayerTable = ({
                       avatar: item.avatar,
                     })
                   }
-                  className={`${classes} flex flex-col lg:flex-row lg:gap-5 w-full lg:justify-between shadow-md mb-5 p-3 align-middle lg:items-center rounded-md hover:shadow-lg`}
+                  className={`${classes} flex flex-col flex-wrap lg:flex-row lg:gap-5 w-full lg:justify-between shadow-md mb-5 p-3 align-middle lg:items-center rounded-md hover:shadow-lg`}
                   key={item._id}
                 >
                   <div className="flex lg:w-[40%] flex-row gap-5 items-center mb-5">
@@ -99,40 +95,42 @@ const PlayerTable = ({
                     </h3>
                   </div>
 
-                  <div className="lg:w-[20%] flex justify-start lg:justify-center">
-                    <p className="text-center">{item.role}</p>
-                  </div>
-
-                  {isSelectPlayer && (
-                    <div className="lg:w-[40%] flex justify-end">
-                      {checkBox ? (
-                        <span>
-                          <input
-                            className="cursor-pointer"
-                            type="checkbox"
-                            onChange={handleChange}
-                            value={item._id}
-                          />
-                        </span>
-                      ) : (
-                        buttons && (
-                          <div className="flex gap-4">
-                            <span className="hover:text-primary-brightOrange cursor-pointer">
-                              <Link to={`/profile/update/${item._id}`}>
-                                Edit
-                              </Link>
-                            </span>
-                            <span
-                              onClick={() => deletePlayerById(item._id)}
-                              className="hover:text-primary-brightOrange cursor-pointer"
-                            >
-                              Delete
-                            </span>
-                          </div>
-                        )
-                      )}
+                  <div className=" w-full items-center lg:w-[40%] flex justify-between">
+                    <div className=" flex justify-start lg:justify-center">
+                      <p className="text-center">{item.role}</p>
                     </div>
-                  )}
+
+                    {isSelectPlayer && (
+                      <div className="lg:w-[40%] flex justify-end">
+                        {checkBox ? (
+                          <span>
+                            <input
+                              className="cursor-pointer"
+                              type="checkbox"
+                              onChange={handleChange}
+                              value={item._id}
+                            />
+                          </span>
+                        ) : (
+                          buttons && (
+                            <div className="flex gap-4">
+                              <span className="hover:text-primary-brightOrange cursor-pointer">
+                                <Link to={`/profile/update/${item._id}`}>
+                                  Edit
+                                </Link>
+                              </span>
+                              <span
+                                onClick={() => deletePlayerById(item._id)}
+                                className="hover:text-primary-brightOrange cursor-pointer"
+                              >
+                                Delete
+                              </span>
+                            </div>
+                          )
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
               ))
             ) : (

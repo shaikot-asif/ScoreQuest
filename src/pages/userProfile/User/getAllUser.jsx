@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { getUsers } from "../../../service/user";
 import { useSelector } from "react-redux";
 import images from "../../../constants/images";
@@ -13,20 +13,20 @@ import AddMatch from "../match/container/components/AddMatch";
 const GetAllUser = () => {
   const userState = useSelector((state) => state.user);
   const [searchKeywords, setSearchKeywords] = useState("");
-  const [userLength, setUserLength] = useState();
-  const [currentPage, setCurrentPage] = useState();
+
+  const [match, setMatch] = useState([]);
   const [pageChange, setPageChange] = useState(1);
   const [playMatchBtn, setPlayMatchBtn] = useState(false);
   const [requestedTeamId, setRequestedTeamId] = useState({
     requestedTeam: "",
     requestedTeamName: "",
   });
-  const limit = 2;
+  const limit = 4;
 
-  const handlePageChange = (page) => {
-    console.log(page, "page");
-    setPageChange(page);
-  };
+  // const handlePageChange = (page) => {
+  //   console.log(page, "page");
+  //   setPageChange(page);
+  // };
 
   const handleClickPlayMatchBtn = ({ requestedTeam, requestedTeamName }) => {
     setRequestedTeamId({
@@ -36,33 +36,51 @@ const GetAllUser = () => {
     setPlayMatchBtn(true);
   };
 
-  const { data, isLoading, refetch } = useQuery({
-    queryFn: useCallback(() => {
-      return getUsers({
+  const handelInfinityScroll = async () => {
+    try {
+      if (
+        window.innerHeight + document.documentElement.scrollTop + 1 >=
+        document.documentElement.scrollHeight
+      ) {
+        setPageChange((prev) => prev + 1);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const { data, isLoading, refetch, isFetching } = useQuery({
+    queryFn: () =>
+      getUsers({
         token: userState.userInfo.token,
         searchKeywords,
         limit,
         page: pageChange,
         userId: userState.userInfo.id,
-      });
-    }, [pageChange, userState, limit, searchKeywords]),
-    queryKey: ["User"],
+      }),
+    queryKey: ["User", pageChange, searchKeywords],
+    placeholderData: keepPreviousData,
   });
 
   useEffect(() => {
-    refetch();
-  }, [refetch, pageChange, searchKeywords]);
-
-  if (!data) {
-    refetch();
-  }
+    if (data) {
+      setMatch((prev) => [...new Set([...prev, ...data])]);
+    } else if (!isFetching) {
+      refetch();
+    }
+  }, [data, pageChange]);
 
   useEffect(() => {
-    if (data) {
-      setUserLength(data?.users?.length);
-      setCurrentPage(data?.page);
+    if (searchKeywords && data) {
+      setMatch(data);
     }
-  }, [data]);
+  }, [searchKeywords, data]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handelInfinityScroll);
+    return () => window.removeEventListener("scroll", handelInfinityScroll);
+  }, []);
+
   return (
     <div className="flex flex-col px-2 lg:p-5">
       <div className="self-center mb-10">
@@ -86,11 +104,11 @@ const GetAllUser = () => {
           <Loading />
         ) : (
           <div>
-            {data?.users?.map(
+            {match?.map(
               (item) =>
                 item.id !== userState.userInfo.id && (
                   <div
-                    className="flex flex-col lg:flex-row gap-1 lg:gap-5 items-start lg:justify-between shadow-md mb-5 p-3 lg:align-middle lg:items-center rounded-md hover:shadow-lg"
+                    className="flex flex-col md:flex-row gap-1 lg:gap-5 items-start md:justify-between shadow-md mb-5 p-3 md:align-middle md:items-center rounded-md hover:shadow-lg"
                     key={item.id}
                   >
                     <div className="flex flex-row gap-5 justify-center items-center mb-5">
@@ -131,19 +149,19 @@ const GetAllUser = () => {
             )}
           </div>
         )}
-        {data?.users?.length === 0 && (
+        {match?.length === 0 && (
           <p className="text-primary-brightOrange text-[28px] ">
             Nothing Found
           </p>
         )}
       </div>
 
-      <Pagination
+      {/* <Pagination
         limit={limit}
         totalPageCount={userLength}
         currentPage={currentPage}
         onPageChange={(page) => handlePageChange(page)}
-      />
+      /> */}
 
       <div>
         {playMatchBtn && (

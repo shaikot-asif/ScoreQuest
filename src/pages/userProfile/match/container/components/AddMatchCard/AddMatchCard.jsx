@@ -19,10 +19,8 @@ const AddMatchCard = ({
   teamSquad,
   buttonText,
 }) => {
-  console.log(squadData, "squadData", matchValues, "matchValues");
-
   return (
-    <div className="bg-natural-white p-4 lg:p-10 w-[95%] lg:w-[60%] relative m-auto rounded-md shadow-lg ">
+    <div className="bg-natural-white overflow-auto p-4 lg:p-10 w-[95%]  md:w-[50%] lg:w-[45%] relative m-auto rounded-md shadow-lg ">
       <h3 className="text-center text-xl lg:text-3xl font-bold text-primary-darkNavy ">
         {title}
       </h3>
@@ -36,18 +34,20 @@ const AddMatchCard = ({
       </h4>
 
       <form onSubmit={handleSubmit}>
-        <div className="flex flex-row text-sm justify-between mt-2">
+        <div className="">
           {squadIsLoading ? (
             <Loading />
           ) : squadData?.length === 0 ? (
             <p>There have no squad please add squad first</p>
           ) : (
-            <SquadCard
-              handleClickSingleSquad={handleClickSingleSquad}
-              matchValues={matchValues}
-              squadData={squadData}
-              TeamSquad={teamSquad}
-            />
+            <div className="flex flex-row gap-1 flex-wrap items-center text-sm justify-between mt-2">
+              <SquadCard
+                handleClickSingleSquad={handleClickSingleSquad}
+                matchValues={matchValues}
+                squadData={squadData}
+                TeamSquad={teamSquad}
+              />
+            </div>
           )}
         </div>
 
@@ -72,14 +72,14 @@ const AddMatchCard = ({
 
         <div>
           <h4
-            className={`mt-6 text-sm lg:text-md font-semibold text-accentColor-skyBlur capitalize mb-2  `}
+            className={`mt-6 text-sm md:text-md font-semibold text-accentColor-skyBlur capitalize mb-2  `}
           >
             Venue
           </h4>
           <input
             type="text"
             disabled={inputDisabled}
-            className={` w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-accentColor-skyBlur ${
+            className={` w-full px-3 md:text-md text-sm py-2 border rounded-lg focus:outline-none focus:ring focus:border-accentColor-skyBlur ${
               inputDisabled && "cursor-not-allowed"
             }`}
             placeholder="Venue Location"

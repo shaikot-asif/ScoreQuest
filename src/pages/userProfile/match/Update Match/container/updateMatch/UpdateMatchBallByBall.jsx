@@ -117,9 +117,8 @@ const UpdateMatchBallByBall = () => {
 
   useEffect(() => {
     if (
-      (match?.battingUser?.toString() !== userState?.userInfo?.id &&
-        userState?.userInfo?.id === match?.bowlingUser?.toString()) ||
-      match?.status === "completed"
+      match?.battingUser?.toString() !== userState?.userInfo?.id &&
+      userState?.userInfo?.id === match?.bowlingUser?.toString()
     ) {
       localStorage.removeItem(`overCount:${matchId}`);
       localStorage.removeItem(`playerInfo:${matchId}`);
@@ -127,7 +126,7 @@ const UpdateMatchBallByBall = () => {
         JSON.parse(localStorage.getItem(`playerInfo:${matchId}`))
       );
       setOverCount(JSON.parse(localStorage.getItem(`overCount:${matchId}`)));
-      navigate("/profile/match");
+      navigate("/todayMatch");
     }
   }, [match?.battingUser, match?.bowlingUser, match?.status]);
 

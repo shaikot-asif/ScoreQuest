@@ -4,10 +4,10 @@ import { useSelector } from "react-redux";
 
 const navItem = [
   { name: "Home", link: "/" },
-  { name: "Today Match", link: "/todayMatch" },
-  { name: "Finished Match", link: "/finishedMatch" },
-  { name: "Upcoming Match", link: "/upcomingMatch" },
-  { name: "Statistics", link: "/playerStatistics" },
+  { name: "Today Match", link: "/today-match" },
+  { name: "Finished Match", link: "/finished-match" },
+  { name: "Upcoming Match", link: "/upcoming-match" },
+  { name: "Statistics", link: "/player-statistics" },
   { name: "Contact Us", link: "/contact" },
 ];
 

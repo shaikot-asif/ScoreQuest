@@ -37,25 +37,27 @@ const UpdateMatch = () => {
       match?.battingUser?.toString() !== userState?.userInfo?.id &&
       userState?.userInfo?.id === match?.bowlingUser?.toString()
     ) {
-      navigate("/profile/match");
+      navigate("/todayMatch");
     }
 
-    // if (
-    //   userState.userInfo.id === match?.toss?.tossWinner &&
-    //   match?.battingUser?.userId.toString() === "" &&
-    //   match?.bowlingUser?.userId.toString() === ""
-    // ) {
-    //   navigate(`/profile/match/innings/${match?._id}`);
-    // }
-    // if (
-    //   match?.battingUser?.userId?.toString() ===
-    //     userState?.userInfo?.id?.toString() &&
-    //   match?.status === "accepted"
-    // ) {
-    //   console.log("here but not working");
+    console.log(
+      match?.battingUser?.toString() === userState?.userInfo?.id,
+      userState?.userInfo?.id !== match?.bowlingUser?.toString()
+    );
 
-    //   navigate(`/profile/match/updateMatch/${matchId}`);
-    // }
+    if (
+      match?.battingUser?.toString() === userState?.userInfo?.id &&
+      userState?.userInfo?.id !== match?.bowlingUser?.toString()
+    ) {
+      navigate(`/profile/match/${matchId}`);
+    }
+
+    if (
+      userState?.userInfo?.id === match?.toss?.tossWinner?.toString() &&
+      !match?.toss?.inningsType
+    ) {
+      navigate(`/profile/match/innings/:${matchId}`);
+    }
   }, [match?.battingUser, match?.bowlingUser]);
 
   return (

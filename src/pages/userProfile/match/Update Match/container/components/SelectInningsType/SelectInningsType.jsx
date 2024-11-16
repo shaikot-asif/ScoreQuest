@@ -34,16 +34,18 @@ const SelectInningsType = () => {
         inningsType,
         token,
       }),
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast.success("Update Successfully");
+
+      console.log(data, "from select innings type check data");
+
       if (
-        match?.battingUser?.userId?.toString() ===
-          userState?.userInfo?.id?.toString() &&
-        match?.status === "accepted"
+        data?.battingUser?.userId?.toString() ===
+        userState?.userInfo?.id?.toString()
       ) {
         navigate(`/profile/match/updateMatch/${matchId}`);
       } else {
-        navigate("/profile/match");
+        navigate("/todayMatch");
       }
     },
     onError: (error) => {

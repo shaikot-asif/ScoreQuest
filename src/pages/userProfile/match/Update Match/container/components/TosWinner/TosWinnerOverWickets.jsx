@@ -61,9 +61,14 @@ const TosWinnerOverWickets = () => {
         tossWinnerId,
         totalPlayers,
       }),
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast.success("Update Successfully");
-      navigate(`/profile/match/innings/:${matchId}`);
+
+      if (userState?.userInfo?.id === data?.toss?.tossWinner.toString()) {
+        navigate(`/profile/match/innings/:${matchId}`);
+      } else {
+        navigate(`/profile/match`);
+      }
     },
     onError: (error) => {
       console.log(error);

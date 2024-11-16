@@ -17,7 +17,7 @@ const UserProfile = () => {
   return (
     <>
       <div
-        className={`absolute right-2 top-2 text-[28px] text-primary-darkNavy lg:hidden`}
+        className={`absolute right-2 z-40 top-2 text-[28px] text-primary-darkNavy lg:hidden`}
       >
         <span onClick={() => setHide(!hide)}>
           {hide ? <IoCloseOutline /> : <IoMenuOutline />}
@@ -27,7 +27,9 @@ const UserProfile = () => {
         {hide && (
           <div
             className={`${
-              hide ? "w-[210px] top-0 left-0 h-full fixed z-10 " : "w-0"
+              hide
+                ? "w-full backdrop-blur-sm top-0 left-0 h-full fixed z-10 "
+                : "w-0"
             } transition-all duration-500  shadow-lg`}
           >
             <SideBar />

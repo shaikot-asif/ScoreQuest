@@ -1,67 +1,67 @@
 import React from "react";
 import HeadingH3 from "../../../components/shared/HeadingH3";
-import MatchCard from "./components/MatchCard";
 import SecondaryButton from "../../../components/shared/button/SecondaryButton";
+import MatchCard from "../../userProfile/match/MatchStatistics/container/components/MatchCard";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { getTodayMatch } from "../../../service/match";
 
-const matches = [
-  {
-    team1: "Team 1",
-    team2: "Team 2",
-    battingTeam: "Team 1",
-    player1: { run: 20, ball: 12 },
-    player2: { run: 22, ball: 9 },
-    bowlingTeam: "Team 2",
-    bowler: "Player 4",
-    currentOver: "13/2.3",
-  },
-  {
-    team1: "Team 3",
-    team2: "Team 4",
-    battingTeam: "Team 3",
-    player1: { run: 15, ball: 10 },
-    player2: { run: 25, ball: 18 },
-    bowlingTeam: "Team 4",
-    bowler: "Player 5",
-    currentOver: "11/2.1",
-  },
-  {
-    team1: "Team 3",
-    team2: "Team 4",
-    battingTeam: "Team 3",
-    player1: { run: 15, ball: 10 },
-    player2: { run: 25, ball: 18 },
-    bowlingTeam: "Team 4",
-    bowler: "Player 5",
-    currentOver: "11/2.1",
-  },
-  {
-    team1: "Team 3",
-    team2: "Team 4",
-    battingTeam: "Team 3",
-    player1: { run: 15, ball: 10 },
-    player2: { run: 25, ball: 18 },
-    bowlingTeam: "Team 4",
-    bowler: "Player 5",
-    currentOver: "11/2.1",
-  },
-  {
-    team1: "Team 3",
-    team2: "Team 4",
-    battingTeam: "Team 3",
-    player1: { run: 15, ball: 10 },
-    player2: { run: 25, ball: 18 },
-    bowlingTeam: "Team 4",
-    bowler: "Player 5",
-    currentOver: "11/2.1",
-  },
-];
+// const matches = [
+//   {
+//     teams: {
+//       requestingTeam: { userId: 1234, name: "asif" },
+//       requestedTeam: { userId: 12345, name: "ahmed" },
+//     },
+//     date: new Date("2024-11-16T14:57:00.000+00:00"),
+//   },
+//   {
+//     teams: {
+//       requestingTeam: { userId: 1234, name: "asif" },
+//       requestedTeam: { userId: 12345, name: "ahmed" },
+//     },
+//     date: new Date("2024-11-16T14:57:00.000+00:00"),
+//   },
+//   {
+//     teams: {
+//       requestingTeam: { userId: 1234, name: "asif" },
+//       requestedTeam: { userId: 12345, name: "ahmed" },
+//     },
+//     date: new Date("2024-11-16T14:57:00.000+00:00"),
+//   },
+//   {
+//     teams: {
+//       requestingTeam: { userId: 1234, name: "asif" },
+//       requestedTeam: { userId: 12345, name: "ahmed" },
+//     },
+//     date: new Date("2024-11-16T14:57:00.000+00:00"),
+//   },
+//   {
+//     teams: {
+//       requestingTeam: { userId: 1234, name: "asif" },
+//       requestedTeam: { userId: 12345, name: "ahmed" },
+//     },
+//     date: new Date("2024-11-16T14:57:00.000+00:00"),
+//   },
+//   {
+//     teams: {
+//       requestingTeam: { userId: 1234, name: "asif" },
+//       requestedTeam: { userId: 12345, name: "ahmed" },
+//     },
+//     date: new Date("2024-11-16T14:57:00.000+00:00"),
+//   },
+// ];
 const TodayMatch = () => {
+  const { data: matches } = useQuery({
+    queryKey: ["todayMatch"],
+    queryFn: () => getTodayMatch({ limit: 5, page: 1, searchKeywords: "" }),
+    placeholderData: keepPreviousData,
+  });
+
   return (
     <div className="container px-4 xl:px-0 block m-auto mt-[100px] sm:mt-[150px] ">
       <HeadingH3 text={"Today's Match"} classes={"mb-5"} />
 
       <div className="flex flex-wrap gap-5 md:flex-row justify-center">
-        {matches.map((match, index) => (
+        {matches?.map((match, index) => (
           <MatchCard
             match={match}
             key={index}

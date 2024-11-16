@@ -113,7 +113,7 @@ const UpdatePlayer = () => {
   };
 
   return (
-    <div>
+    <div className="px-1">
       <AddAndUpdatePlayer
         AvatarUrl={AvatarUrl}
         buttonTitle={`Update`}

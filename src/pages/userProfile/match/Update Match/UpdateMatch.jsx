@@ -15,13 +15,9 @@ const UpdateMatch = () => {
   const { matchId } = useParams();
   const userState = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const [match, setMatch] = useState();
 
-  const {
-    data: match,
-    isLoading,
-    refetch,
-    error,
-  } = useQuery({
+  const { data, isLoading, refetch, error } = useQuery({
     queryKey: ["match"],
     queryFn: () =>
       getMatchByMatchId({
@@ -31,34 +27,47 @@ const UpdateMatch = () => {
   });
 
   useEffect(() => {
+    if (data) {
+      setMatch(data);
+    } else refetch();
+  }, [data]);
+
+  console.log(match, "match");
+
+  useEffect(() => {
     console.log("from useEffect");
+    if (match) {
+      if (
+        match?.battingUser?.userId?.toString() !== userState?.userInfo?.id &&
+        userState?.userInfo?.id === match?.bowlingUser?.userId?.toString()
+      ) {
+        navigate(`/match-statistics/${matchId}`);
+      }
 
-    if (
-      match?.battingUser?.toString() !== userState?.userInfo?.id &&
-      userState?.userInfo?.id === match?.bowlingUser?.toString()
-    ) {
-      navigate("/today-match");
+      if (
+        match?.battingUser?.userId?.toString() === userState?.userInfo?.id &&
+        userState?.userInfo?.id !== match?.bowlingUser?.userId?.toString()
+      ) {
+        console.log("working from condition");
+
+        navigate(`/profile/match/update-match/${matchId}`);
+      }
+
+      if (
+        match?.battingUser?.userId?.toString() === userState?.userInfo?.id &&
+        userState?.userInfo?.id !== match?.bowlingUser?.userId?.toString()
+      ) {
+        navigate(`/profile/match/${matchId}`);
+      }
+
+      if (
+        userState?.userInfo?.id === match?.toss?.tossWinner?.toString() &&
+        !match?.toss?.inningsType
+      ) {
+        navigate(`/profile/match/innings/:${matchId}`);
+      }
     }
-
-    console.log(
-      match?.battingUser?.toString() === userState?.userInfo?.id,
-      userState?.userInfo?.id !== match?.bowlingUser?.toString()
-    );
-
-    if (
-      match?.battingUser?.toString() === userState?.userInfo?.id &&
-      userState?.userInfo?.id !== match?.bowlingUser?.toString()
-    ) {
-      navigate(`/profile/match/${matchId}`);
-    }
-
-    if (
-      userState?.userInfo?.id === match?.toss?.tossWinner?.toString() &&
-      !match?.toss?.inningsType
-    ) {
-      navigate(`/profile/match/innings/:${matchId}`);
-    }
-  }, [match?.battingUser, match?.bowlingUser]);
+  }, [match?.battingUser, match?.bowlingUser, navigate]);
 
   return (
     <div>

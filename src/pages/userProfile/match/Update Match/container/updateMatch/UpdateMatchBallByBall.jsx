@@ -104,6 +104,8 @@ const UpdateMatchBallByBall = () => {
     wicketTaken: 0,
   });
 
+  console.log(perBallOccurs, "perBallOccurs");
+
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["match"],
     queryFn: () =>
@@ -116,19 +118,40 @@ const UpdateMatchBallByBall = () => {
   const socket = io("http://localhost:4000");
 
   useEffect(() => {
-    if (
-      match?.battingUser?.toString() !== userState?.userInfo?.id &&
-      userState?.userInfo?.id === match?.bowlingUser?.toString()
-    ) {
-      localStorage.removeItem(`overCount:${matchId}`);
-      localStorage.removeItem(`playerInfo:${matchId}`);
-      setSelectedPlayer(
-        JSON.parse(localStorage.getItem(`playerInfo:${matchId}`))
-      );
-      setOverCount(JSON.parse(localStorage.getItem(`overCount:${matchId}`)));
-      navigate("/todayMatch");
+    if (!match) {
+      refetch();
     }
-  }, [match?.battingUser, match?.bowlingUser, match?.status]);
+  }, [match, data]);
+
+  useEffect(() => {
+    if (match && data) {
+      if (
+        match?.battingUser?.userId?.toString() !== userState?.userInfo?.id &&
+        userState?.userInfo?.id === match?.bowlingUser?.userId?.toString()
+      ) {
+        console.log("from first condition");
+        localStorage.removeItem(`overCount:${matchId}`);
+        localStorage.removeItem(`playerInfo:${matchId}`);
+        setSelectedPlayer(
+          JSON.parse(localStorage.getItem(`playerInfo:${matchId}`))
+        );
+        setOverCount(JSON.parse(localStorage.getItem(`overCount:${matchId}`)));
+        navigate(`match-statistics/${matchId}`);
+      }
+
+      if (match?.status === "completed") {
+        console.log("from sec condition");
+        navigate(`/match-statistics/${matchId}`);
+      }
+
+      console.log(match, "from update ball by ball");
+
+      if (match?.battingUser?.userId?.toString() !== userState?.userInfo?.id) {
+        console.log("from 3rd condition");
+        navigate(`/match-statistics/${matchId}`);
+      }
+    }
+  }, [match?.battingUser, match?.bowlingUser, match?.status, match]);
 
   useEffect(() => {
     // Listen for updates from the server
@@ -184,7 +207,7 @@ const UpdateMatchBallByBall = () => {
   useEffect(() => {
     let battingTeam =
       match?.battingUser?.userId?.toString() ===
-      match?.teams?.requestingTeam?.userId.toString()
+      match?.teams?.requestingTeam?.userId?.toString()
         ? "requestingTeam"
         : "requestedTeam";
     let bowlingTeamKey =
@@ -323,7 +346,7 @@ const UpdateMatchBallByBall = () => {
         byeRun: null, // bye or legBye
         catchKeeperId: "",
         runOutThrowerId: "",
-        ballOccurs: data.toString(),
+        ballOccurs: data?.toString(),
       });
     } else {
       setPerBallOccurs({
@@ -542,7 +565,7 @@ const UpdateMatchBallByBall = () => {
 
   useEffect(() => {
     match?.score[battingTeamKey]?.playerStats.map((item) => {
-      if (item.playerId.toString() === selectedPlayer?.batter1.id) {
+      if (item.playerId?.toString() === selectedPlayer?.batter1.id) {
         setBatter1Stats({
           run: item.runs,
           ballPlay: item.playBalls,
@@ -550,7 +573,7 @@ const UpdateMatchBallByBall = () => {
         });
       }
 
-      if (item.playerId.toString() === selectedPlayer?.batter2.id) {
+      if (item.playerId?.toString() === selectedPlayer?.batter2.id) {
         setBatter2Stats({
           run: item.runs,
           ballPlay: item.playBalls,
@@ -560,7 +583,7 @@ const UpdateMatchBallByBall = () => {
     });
 
     match?.score[bowlingTeamKey]?.playerStats.map((item) => {
-      if (item.playerId.toString() === selectedPlayer?.bowler.id) {
+      if (item.playerId?.toString() === selectedPlayer?.bowler.id) {
         setBowlerStats({
           ball: item.overs.ball,
           givenRun: item.overs.givenRun,

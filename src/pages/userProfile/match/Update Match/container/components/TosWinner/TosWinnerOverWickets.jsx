@@ -64,11 +64,8 @@ const TosWinnerOverWickets = () => {
     onSuccess: (data) => {
       toast.success("Update Successfully");
 
-      if (userState?.userInfo?.id === data?.toss?.tossWinner.toString()) {
-        navigate(`/profile/match/innings/:${matchId}`);
-      } else {
-        navigate(`/profile/match`);
-      }
+      console.log(data, "from toss winner over wickets");
+      navigate(`/profile/match/innings/${matchId}`);
     },
     onError: (error) => {
       console.log(error);

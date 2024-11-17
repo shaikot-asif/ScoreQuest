@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getDateDifference } from "../../../../../../utils/getDateDifference";
+import { Link } from "react-router-dom";
 
 const MatchCard = ({ match, parentClass }) => {
   const [minute, setMinute] = useState(0);
@@ -22,10 +23,13 @@ const MatchCard = ({ match, parentClass }) => {
     <div
       className={`${parentClass} p-6 rounded-md shadow hover:shadow-sm transition-all duration-150`}
     >
-      <h3 className="text-xl cursor-pointer font-semibold text-primary-brightOrange text-center mb-2">
+      <Link
+        to={`/match-statistics/${match?._id}`}
+        className="text-xl cursor-pointer font-semibold text-primary-brightOrange text-center mb-2"
+      >
         {match?.teams?.requestingTeam?.name} vs{" "}
         {match?.teams?.requestedTeam?.name}
-      </h3>
+      </Link>
       <div className="border-t border-secondary-slateGray py-4">
         <div>
           {match?.toss?.tossWinner ? (

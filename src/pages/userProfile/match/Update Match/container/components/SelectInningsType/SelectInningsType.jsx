@@ -15,6 +15,8 @@ const SelectInningsType = () => {
   const { matchId } = useParams();
   const navigate = useNavigate();
 
+  console.log(matchId, "matchId");
+
   const [selectInnings, setSelectInnings] = useState("");
 
   const { data: match, isLoading } = useQuery({
@@ -40,12 +42,11 @@ const SelectInningsType = () => {
       console.log(data, "from select innings type check data");
 
       if (
-        data?.battingUser?.userId?.toString() ===
-        userState?.userInfo?.id?.toString()
+        data?.match?.battingUser?.userId?.toString() === userState?.userInfo?.id
       ) {
-        navigate(`/profile/match/updateMatch/${matchId}`);
+        navigate(`/profile/match/update-match/${matchId}`);
       } else {
-        navigate("/todayMatch");
+        navigate(`/match-statistics/${matchId}`);
       }
     },
     onError: (error) => {
@@ -54,16 +55,11 @@ const SelectInningsType = () => {
     },
   });
 
+  console.log(match, "match");
+
   // useEffect(() => {
-  //   if (
-  //     match?.battingUser?.userId?.toString() ===
-  //       userState?.userInfo?.id?.toString() &&
-  //     match?.status === "accepted" &&
-  //     !match?.toss?.tossWinner
-  //   ) {
-  //     navigate(`/profile/match/updateMatch/${matchId}`);
-  //   } else {
-  //     navigate("/profile/match");
+  //   if (match?.battingUser?.userId?.toString() === userState?.userInfo?.id) {
+  //     navigate(`/profile/match/update-match/${matchId}`);
   //   }
   // }, [match]);
 
@@ -86,12 +82,22 @@ const SelectInningsType = () => {
       ) : (
         <div className="shadow-lg rounded-md p-5 w-[40%] block m-auto ">
           <span className="text-center my-2 font-semibold capitalize text-primary-brightOrange block">
-            Congratulations {userState?.userInfo?.name} You Won The Toss
+            Congratulations{" "}
+            {match?.toss?.tossWinner?.toString() ===
+            match?.teams?.requestingTeam?.userId?.toString()
+              ? match?.teams?.requestingTeam?.name
+              : match?.teams?.requestedTeam?.name}{" "}
+            Won The Toss
           </span>
 
           <div className="flex flex-col gap-5">
             <span className="mt-5 text-md font-semibold capitalize text-accentColor-skyBlur mb-[-15px] ">
-              What you decide?
+              What{" "}
+              {match?.toss?.tossWinner?.toString() ===
+              match?.teams?.requestingTeam?.userId?.toString()
+                ? match?.teams?.requestingTeam?.name
+                : match?.teams?.requestedTeam?.name}{" "}
+              decide?
             </span>
             <div className="flex flex-row justify-between">
               <h2

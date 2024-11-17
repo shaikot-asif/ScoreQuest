@@ -54,7 +54,7 @@ const App = () => {
           />
 
           <Route
-            path="match/updateMatch/:matchId"
+            path="match/update-match/:matchId"
             element={<UpdateMatchBallByBall />}
           />
         </Route>

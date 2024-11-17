@@ -36,7 +36,7 @@ const MatchStatisticsCard = ({
                     <td className="p-2 border">{item.total4s || 0}</td>
                     <td className="p-2 border">{item.total6s || 0}</td>
                     <td className="p-2 border">
-                      {(item.runs / item.playBalls) * 100 || 0}
+                      {parseInt((item.runs / item.playBalls) * 100) || 0}
                     </td>
                   </tr>
                 );

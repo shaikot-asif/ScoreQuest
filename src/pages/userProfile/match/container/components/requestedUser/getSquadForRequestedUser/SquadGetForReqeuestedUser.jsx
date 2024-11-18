@@ -1,10 +1,7 @@
 import React from "react";
 
 const SquadGetForReqeuestedUser = () => {
-  return <div>
-
-    <
-  </div>;
+  return <div></div>;
 };
 
 export default SquadGetForReqeuestedUser;

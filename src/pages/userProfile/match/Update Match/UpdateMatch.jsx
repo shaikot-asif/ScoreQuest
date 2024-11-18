@@ -37,37 +37,38 @@ const UpdateMatch = () => {
   useEffect(() => {
     console.log("from useEffect");
     if (match) {
+      if (match?.status === "completed") {
+        navigate(`/match-statistics/${matchId}`);
+      }
       if (
         match?.battingUser?.userId?.toString() !== userState?.userInfo?.id &&
-        userState?.userInfo?.id === match?.bowlingUser?.userId?.toString()
+        userState?.userInfo?.id === match?.bowlingUser?.userId?.toString() &&
+        match?.status !== "completed"
       ) {
         navigate(`/match-statistics/${matchId}`);
       }
 
       if (
         match?.battingUser?.userId?.toString() === userState?.userInfo?.id &&
-        userState?.userInfo?.id !== match?.bowlingUser?.userId?.toString()
+        userState?.userInfo?.id !== match?.bowlingUser?.userId?.toString() &&
+        match?.status !== "completed"
       ) {
         console.log("working from condition");
 
         navigate(`/profile/match/update-match/${matchId}`);
       }
 
-      if (
-        match?.battingUser?.userId?.toString() === userState?.userInfo?.id &&
-        userState?.userInfo?.id !== match?.bowlingUser?.userId?.toString()
-      ) {
-        navigate(`/profile/match/${matchId}`);
-      }
-
-      if (
-        userState?.userInfo?.id === match?.toss?.tossWinner?.toString() &&
-        !match?.toss?.inningsType
-      ) {
-        navigate(`/profile/match/innings/:${matchId}`);
+      if (match?.toss?.tossWinner && !match?.toss?.inningsType) {
+        navigate(`/profile/match/innings/${matchId}`);
       }
     }
-  }, [match?.battingUser, match?.bowlingUser, navigate]);
+  }, [
+    match?.battingUser?.userId,
+    match?.bowlingUser?.userId,
+    match?.toss?.tossWinner,
+    match?.toss?.inningsType,
+    !isLoading,
+  ]);
 
   return (
     <div>

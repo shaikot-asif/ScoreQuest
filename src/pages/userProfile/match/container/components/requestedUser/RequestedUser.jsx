@@ -146,7 +146,7 @@ const RequestedUser = () => {
     setIsAccept(false);
   };
 
-  console.log(matchData, "from requested user");
+  console.log(matchValues, matchData, "from requested user");
 
   return (
     <div className="mt-10 flex flex-row justify-evenly">

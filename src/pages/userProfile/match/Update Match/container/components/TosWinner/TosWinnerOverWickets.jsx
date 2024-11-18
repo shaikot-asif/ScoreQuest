@@ -73,11 +73,11 @@ const TosWinnerOverWickets = () => {
     },
   });
 
-  // useEffect(() => {
-  //   if (match?.toss?.tossWinner) {
-  //     navigate(`/profile/match/innings/:${matchId}`);
-  //   }
-  // }, [match]);
+  useEffect(() => {
+    if (match?.toss?.tossWinner) {
+      navigate(`/profile/match/innings/:${matchId}`);
+    }
+  }, [match]);
 
   const handelSubmit = () => {
     if (

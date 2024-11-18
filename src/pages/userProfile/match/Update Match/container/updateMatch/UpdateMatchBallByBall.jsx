@@ -606,6 +606,7 @@ const UpdateMatchBallByBall = () => {
         },
       });
       setBatter1Stats({ ...INIT_STATS });
+      setSelectedBatterId("");
     }
 
     if (batter2Stats?.isOut) {

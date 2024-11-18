@@ -60,6 +60,8 @@ const SelectInningsType = () => {
   // useEffect(() => {
   //   if (match?.battingUser?.userId?.toString() === userState?.userInfo?.id) {
   //     navigate(`/profile/match/update-match/${matchId}`);
+  //   } else {
+  //     navigate(`/match-statistics/${matchId}`);
   //   }
   // }, [match]);
 

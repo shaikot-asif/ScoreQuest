@@ -2,6 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const FinishedMatchCard = ({ match, parentClass }) => {
+  console.log(
+    match,
+    parseInt(match?.score?.requestedTeam?.totalRuns),
+    parseInt(match?.score?.requestingTeam?.totalRuns)
+  );
   return (
     <div
       className={`${parentClass} p-6 rounded-md shadow hover:shadow-sm transition-all duration-150 w-[100%] md:w-[48%] lg:w-[31%] `}
@@ -20,7 +25,9 @@ const FinishedMatchCard = ({ match, parentClass }) => {
           </span>
           <span className="text-secondary-slateGray">
             {match?.score?.requestingTeam?.totalRuns} /{" "}
-            {match?.score?.requestingTeam?.totalOvers}
+            {parseInt(match?.score?.requestingTeam?.totalOvers / 6) +
+              "." +
+              parseInt(match?.score?.requestingTeam?.totalOvers % 6)}
           </span>
         </div>
 
@@ -30,13 +37,15 @@ const FinishedMatchCard = ({ match, parentClass }) => {
           </span>
           <span className="text-secondary-slateGray">
             {match?.score?.requestedTeam?.totalRuns} /{" "}
-            {match?.score?.requestedTeam?.totalOvers}
+            {parseInt(match?.score?.requestedTeam?.totalOvers / 6) +
+              "." +
+              parseInt(match?.score?.requestedTeam?.totalOvers % 6)}
           </span>
         </div>
         <div className="text-secondary-slateGray">
           <span className="font-semibold">
-            {match?.score?.requestedTeam?.totalRun <
-            match?.score?.requestingTeam?.totalRun
+            {parseInt(match?.score?.requestedTeam?.totalRuns) <
+            parseInt(match?.score?.requestingTeam?.totalRuns)
               ? match?.teams?.requestingTeam?.name + " wine the match"
               : match?.teams?.requestedTeam?.name + " wine the match"}
           </span>

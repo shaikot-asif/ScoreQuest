@@ -24,6 +24,7 @@ const FinishedMatch = () => {
       }),
     placeholderData: keepPreviousData,
   });
+  console.log(match, "match", data, "data", pageChange, "page change");
 
   const handelInfinityScroll = async () => {
     try {
@@ -39,22 +40,22 @@ const FinishedMatch = () => {
   };
 
   useEffect(() => {
-    if (searchKeywords === "") {
-      setMatch([]);
-    }
+    // if (searchKeywords === "") {
+    //   setMatch([]);
+    // }
     if (data) {
       setMatch((prev) => [...new Set([...prev, ...data])]);
-    } else if (!isFetching) {
+    } else {
       refetch();
     }
   }, [data, pageChange]);
 
   useEffect(() => {
-    if (searchKeywords && data) {
+    if (searchKeywords?.length > 0 && data) {
       setMatch(data);
     }
     refetch();
-  }, [searchKeywords, data]);
+  }, [searchKeywords]);
 
   useEffect(() => {
     window.addEventListener("scroll", handelInfinityScroll);

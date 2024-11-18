@@ -50,7 +50,13 @@ const MatchCard = ({
 
   useEffect(() => {
     if (typeof setMatchValues === "function") {
-      const date = new Date(item.date);
+      let date = new Date(item.date);
+
+      // Calculate GMT+6 offset in milliseconds (6 hours * 60 minutes * 60 seconds * 1000 milliseconds)
+      const offset = 6 * 60 * 60 * 1000;
+
+      // Add the offset to the date
+      date = new Date(date.getTime() + offset);
       setMatchValues({
         teams: {
           requestingTeam: {
@@ -98,6 +104,12 @@ const MatchCard = ({
       <div className="text-secondary-slateGray flex flex-row gap-1">
         <span className="font-semibold">Date:</span>
         <span className="">{new Date(item.date).toLocaleString()}</span>
+      </div>
+
+      <div className="text-secondary-slateGray flex flex-row gap-1">
+        <span className="font-semibold">Venue:</span>
+
+        <span className="">{item.venue}</span>
       </div>
 
       <div className="text-secondary-slateGray flex flex-row gap-1">

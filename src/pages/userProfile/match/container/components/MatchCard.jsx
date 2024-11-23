@@ -85,7 +85,7 @@ const MatchCard = ({
 
   return (
     <div
-      className={`${classes} w-full mx-1 md:w-[48%] flex flex-col gap-3 p-6 rounded-md shadow hover:shadow-sm transition-all duration-150`}
+      className={`${classes} w-full mx-1 mb-5 md:w-[48%] flex flex-col gap-3 p-6 rounded-md shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] hover:shadow-lg transition-all duration-150`}
       key={item?._id}
     >
       <Link to={`${item._id}`}>

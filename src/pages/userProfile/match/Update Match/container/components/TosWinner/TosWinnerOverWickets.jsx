@@ -119,12 +119,12 @@ const TosWinnerOverWickets = () => {
   }, [winnerDate.tossWinner]);
 
   return (
-    <div className="bg-natural-white p-10 w-[40%] fixed top-[8%] left-[36%] m-auto rounded-md shadow-lg ">
+    <div className="bg-natural-white p-4 md:p-10 lg:w-[50%] w-[90%]  m-auto rounded-md shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] ">
       {isLoading ? (
         <Loading />
       ) : (
         <div>
-          <h2 className="text-center text-3xl font-bold text-primary-darkNavy">
+          <h2 className="text-center text-xl md:text-3xl font-bold text-primary-darkNavy">
             Select Toss Winner
           </h2>
 
@@ -136,7 +136,7 @@ const TosWinnerOverWickets = () => {
           <div className="flex flex-col gap-5 mt-5 ">
             <div>
               <label
-                className="mt-5 text-md font-semibold capitalize text-accentColor-skyBlur mb-2 "
+                className="mt-5 md:text-md font-semibold capitalize text-accentColor-skyBlur mb-2 "
                 htmlFor="over"
               >
                 How Many Overs Want's To Play?
@@ -158,10 +158,10 @@ const TosWinnerOverWickets = () => {
               </select>
             </div>
             <div>
-              <span className="mt-5 text-md font-semibold capitalize text-accentColor-skyBlur mb-2 ">
+              <span className="mt-5 md:text-md font-semibold capitalize text-accentColor-skyBlur mb-2 ">
                 Who Won The Toss?
               </span>
-              <div className="flex flex-row justify-between">
+              <div className="flex flex-wrap flex-col gap-2 md:flex-row justify-between">
                 <h2
                   className={`border shadow  p-5 rounded-md cursor-pointer capitalize ${
                     match?.teams?.requestingTeam?.userId ===
@@ -190,7 +190,7 @@ const TosWinnerOverWickets = () => {
             </div>
 
             <div>
-              <span className=" text-md font-semibold capitalize text-accentColor-skyBlur mb-2 ">
+              <span className=" md:text-md font-semibold capitalize text-accentColor-skyBlur mb-2 ">
                 Total 11 players are playing right? if not select total player
               </span>
               <input
@@ -206,12 +206,12 @@ const TosWinnerOverWickets = () => {
               <SecondaryButton text={"Submit"} classes={"w-full"} />
             </span>
           </div>
-          <span
+          {/* <span
             className="absolute top-5 cursor-pointer right-5 "
             // onClick={() => setNextPage(false)}
           >
             <IoMdClose />
-          </span>
+          </span> */}
         </div>
       )}
     </div>

@@ -30,7 +30,7 @@ const UserProfile = () => {
               hide
                 ? "w-full backdrop-blur-sm top-0 left-0 h-full fixed z-10 "
                 : "w-0"
-            } transition-all duration-500  shadow-lg`}
+            } transition-all duration-500  shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]`}
           >
             <SideBar />
           </div>

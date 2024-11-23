@@ -2,6 +2,7 @@ import React from "react";
 import images from "../../../constants/images";
 import PrimaryButton from "../../../components/shared/button/PrimaryButton";
 import SecondaryButton from "../../../components/shared/button/SecondaryButton";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -25,8 +26,12 @@ const Hero = () => {
         </div>
       </div>
       <div className="md:justify-center translate-y-[-185px] flex flex-col md:flex-row items-start md:items-center gap-4 ">
-        <PrimaryButton text={"Get Started"} />
-        <SecondaryButton text={"Explore Live Match"} />
+        <Link to={"/signup"}>
+          <PrimaryButton text={"Get Started"} />
+        </Link>
+        <Link to={"/today-match"}>
+          <SecondaryButton text={"Explore Live Match"} />
+        </Link>
       </div>
     </div>
   );

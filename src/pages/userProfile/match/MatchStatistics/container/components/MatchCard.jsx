@@ -21,7 +21,7 @@ const MatchCard = ({ match, parentClass }) => {
   }, []);
   return (
     <div
-      className={`${parentClass} p-6 rounded-md shadow hover:shadow-sm transition-all duration-150`}
+      className={`${parentClass} p-6 rounded-md shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] hover:shadow-lg transition-all duration-150`}
     >
       <Link
         to={`/match-statistics/${match?._id}`}

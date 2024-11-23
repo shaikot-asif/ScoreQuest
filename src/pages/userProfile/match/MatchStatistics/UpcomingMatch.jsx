@@ -25,6 +25,12 @@ const UpcomingMatch = () => {
     placeholderData: keepPreviousData,
   });
 
+  useEffect(() => {
+    if (!data) {
+      refetch();
+    }
+  }, [pageChange, data]);
+
   const handelInfinityScroll = async () => {
     try {
       if (
@@ -39,22 +45,21 @@ const UpcomingMatch = () => {
   };
 
   useEffect(() => {
-    if (searchKeywords === "") {
-      setMatch([]);
-    }
     if (data) {
-      setMatch((prev) => [...new Set([...prev, ...data])]);
-    } else if (!isFetching) {
-      refetch();
+      if (searchKeywords === "") {
+        setMatch((prev) => {
+          const combined = [...prev, ...data];
+          return combined.filter(
+            (item, index) =>
+              index === combined.findIndex((t) => t._id === item._id)
+          );
+        });
+      } else {
+        setMatch(data);
+        setPageChange(1);
+      }
     }
-  }, [data, pageChange]);
-
-  useEffect(() => {
-    if (searchKeywords && data) {
-      setMatch(data);
-    }
-    refetch();
-  }, [searchKeywords, data]);
+  }, [data, searchKeywords]);
 
   useEffect(() => {
     window.addEventListener("scroll", handelInfinityScroll);

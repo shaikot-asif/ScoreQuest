@@ -82,7 +82,7 @@ const SelectInningsType = () => {
       {isLoading ? (
         <Loading />
       ) : (
-        <div className="shadow-lg rounded-md p-5 w-[40%] block m-auto ">
+        <div className="shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] rounded-md p-5 w-[95%] sm:w-[60%] xl:w-[40%] block m-auto ">
           <span className="text-center my-2 font-semibold capitalize text-primary-brightOrange block">
             Congratulations{" "}
             {match?.toss?.tossWinner?.toString() ===

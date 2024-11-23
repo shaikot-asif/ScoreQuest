@@ -1,69 +1,26 @@
-import images from "../constants/images";
-import { Link, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
-
-const navItem = [
-  { name: "Home", link: "/" },
-  { name: "Today Match", link: "/today-match" },
-  { name: "Finished Match", link: "/finished-match" },
-  { name: "Upcoming Match", link: "/upcoming-match" },
-  // { name: "Statistics", link: "/player-statistics" },
-  { name: "Contact Us", link: "/contact" },
-];
+import React, { useEffect, useState } from "react";
+import HeaderLayout from "./container/HeaderLayout";
 
 const Header = () => {
-  const userState = useSelector((state) => state.user);
-  const location = useLocation();
+  const [scroll, setScroll] = useState(0);
 
+  const handelInfinityScroll = () => {
+    setScroll(document.documentElement.scrollTop);
+  };
+  useEffect(() => {
+    window.addEventListener("scroll", handelInfinityScroll);
+    return () => window.removeEventListener("scroll", handelInfinityScroll);
+  }, []);
   return (
-    <div className=" bg-primary-darkNavy block m-auto py-4 px-4 xl:px-0 ">
-      <div className="container m-auto flex flex-row justify-between">
-        <div className="w-[100px] md:w-[160px] ">
-          <Link to={"/"}>
-            <img width={160} src={images.ScoreQuest} alt="logo" />
-          </Link>
-        </div>
-
-        <div className="hidden lg:flex flex-row gap-6 items-center">
-          <ul className="flex flex-row gap-6">
-            {navItem.map((item, index) => (
-              <li
-                className={` text-natural-white transition-all font-semibold duration-500 hover:text-primary-brightOrange ${
-                  location.pathname === item.link && "text-primary-brightOrange"
-                }`}
-                key={index}
-              >
-                <Link to={item.link}>{item.name}</Link>
-              </li>
-            ))}
-          </ul>
-
-          {userState.userInfo ? (
-            <ul>
-              <li
-                className={` text-natural-white transition-all font-semibold duration-500 hover:text-primary-brightOrange ${
-                  location.pathname === "/profile" &&
-                  "text-primary-brightOrange"
-                }`}
-              >
-                <Link to={"/profile"}>Profile</Link>
-              </li>
-            </ul>
-          ) : (
-            <ul>
-              <li
-                className={` text-natural-white font-semibold transition-all duration-500 hover:text-primary-brightOrange ${
-                  (location.pathname === "/signup" ||
-                    location.pathname === "/login") &&
-                  "text-primary-brightOrange"
-                }`}
-              >
-                <Link to={"/signup"}>Sign in</Link>
-              </li>
-            </ul>
-          )}
-        </div>
-      </div>
+    <div className="">
+      {scroll > 150 && (
+        <HeaderLayout
+          classes={
+            "!fixed top-0 w-full transition-all duration-300 backdrop-blur shadow-xl"
+          }
+        />
+      )}
+      <HeaderLayout />
     </div>
   );
 };

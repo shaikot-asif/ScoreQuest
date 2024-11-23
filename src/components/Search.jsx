@@ -3,7 +3,7 @@ import { useState } from "react";
 import PrimaryButton from "./shared/button/PrimaryButton";
 
 const Search = ({ placeholder = "", setSearchKeywords }) => {
-  const [search, setSearch] = useState();
+  const [search, setSearch] = useState("");
   const handleClick = (e) => {
     e.preventDefault();
     setSearchKeywords(search);

@@ -149,7 +149,7 @@ const RequestedUser = () => {
   console.log(matchValues, matchData, "from requested user");
 
   return (
-    <div className="mt-10 flex flex-row justify-evenly">
+    <div className="mt-10  flex flex-row flex-wrap justify-evenly">
       {matchData?.length === 0 ? (
         <h3 className="text-primary-brightOrange text-xl ">
           There is no match found

@@ -90,7 +90,7 @@ const MatchStatistics = () => {
       {isLoading ? (
         <Loading />
       ) : (
-        <div className="container mx-auto p-4  shadow-md rounded-lg mt-5">
+        <div className="container mx-auto p-4 mb-2  shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] rounded-lg mt-5">
           <div className="flex flex-col md:flex-row justify-between items-stretch align-baseline  ">
             <div className=" w-full md:w-[45%] ">
               <div

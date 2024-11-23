@@ -270,11 +270,7 @@ const UpdateMatchBallByBall = () => {
     setSelectedBowlerId(selectedPlayer?.bowler?.id);
   }, [selectedPlayer]);
 
-  const {
-    data: requestingSquad,
-    refetch: requestingSquadRefetch,
-    isLoading: requestingSquadLoading,
-  } = useQuery({
+  const { data: requestingSquad, refetch: requestingSquadRefetch } = useQuery({
     queryKey: ["requestingSquad"],
     queryFn: () =>
       getSquadById({
@@ -283,11 +279,7 @@ const UpdateMatchBallByBall = () => {
       }),
   });
 
-  const {
-    data: requestedSquad,
-    refetch: requestedSquadRefetch,
-    isLoading: requestedSquadLoading,
-  } = useQuery({
+  const { data: requestedSquad, refetch: requestedSquadRefetch } = useQuery({
     queryKey: ["requestedSquad"],
     queryFn: () =>
       getSquadById({
@@ -628,13 +620,13 @@ const UpdateMatchBallByBall = () => {
       {isLoading ? (
         <Loading />
       ) : (
-        <div className=" shadow-lg p-6 mx-auto rounded-lg">
-          <div className="flex flex-row justify-between items-center ">
+        <div className=" shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] p-6 mx-auto rounded-lg">
+          <div className="flex flex-col md:flex-row justify-between items-center ">
             <div
               className={`${
                 battingTeamKey === "requestingTeam" &&
                 "border border-primary-brightOrange"
-              } p-5 w-[30%] `}
+              } p-5 w-full md:w-[30%] `}
             >
               <h3 className="text-xl font-semibold text-primary-brightOrange text-center mb-2 cursor-pointer">
                 {match?.teams?.requestingTeam?.name || "unknown"}
@@ -656,7 +648,7 @@ const UpdateMatchBallByBall = () => {
               className={`${
                 battingTeamKey === "requestedTeam" &&
                 "border border-primary-brightOrange"
-              } p-5 w-[30%]`}
+              } p-5 w-full md:w-[30%]`}
             >
               <h3 className="text-xl font-semibold text-primary-brightOrange text-center mb-2 cursor-pointer">
                 {match?.teams?.requestedTeam?.name || "unknown"}
@@ -683,11 +675,11 @@ const UpdateMatchBallByBall = () => {
               Select Batter
             </h4>
 
-            <div className="flex flex-row gap-5">
+            <div className="flex flex-col md:flex-row gap-5">
               {selectedPlayer?.batter1?.id === INIT_SELECT_PLAYER.batter1.id ? (
                 <button
                   onClick={() => setSelectBatter1(true)}
-                  className="w-full py-4 border hover:border-primary-brightOrange capitalize shadow rounded-md focus:ring-2 focus:ring-primary-brightOrange "
+                  className="w-full py-4 border hover:border-primary-brightOrange capitalize shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] rounded-md focus:ring-2 focus:ring-primary-brightOrange "
                 >
                   Click here to Select first player
                 </button>
@@ -699,7 +691,7 @@ const UpdateMatchBallByBall = () => {
                   className={`${
                     selectedBatterId === selectedPlayer?.batter1?.id &&
                     "bg-primary-brightOrange rounded-md text-natural-white"
-                  } flex w-full flex-row cursor-pointer justify-between rounded-md gap-5 items-center shadow p-2 mb-5`}
+                  } flex w-full flex-wrap xl:flex-nowrap xl:flex-row cursor-pointer justify-between rounded-md gap-5 items-center shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] p-2 mb-5`}
                 >
                   <div className="flex w-full flex-row items-center cursor-pointer gap-5">
                     <img
@@ -748,7 +740,7 @@ const UpdateMatchBallByBall = () => {
               INIT_SELECT_PLAYER?.batter2?.id ? (
                 <button
                   onClick={() => setSelectBatter2(true)}
-                  className="w-full py-4 border  hover:border-primary-brightOrange capitalize shadow rounded-md focus:ring-2 focus:ring-primary-brightOrange "
+                  className="w-full py-4 border  hover:border-primary-brightOrange capitalize shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] rounded-md focus:ring-2 focus:ring-primary-brightOrange "
                 >
                   Click here to Select 2nd player
                 </button>
@@ -760,7 +752,7 @@ const UpdateMatchBallByBall = () => {
                   className={`${
                     selectedBatterId === selectedPlayer?.batter2?.id &&
                     "bg-primary-brightOrange rounded-md text-natural-white"
-                  } flex w-full flex-row cursor-pointer justify-between rounded-md gap-5 items-center shadow p-2 mb-5`}
+                  } flex w-full flex-wrap xl:flex-nowrap xl:flex-row cursor-pointer justify-between rounded-md gap-5 items-center shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] p-2 mb-5`}
                 >
                   <div className="flex w-full flex-row items-center cursor-pointer gap-5">
                     <img
@@ -824,7 +816,7 @@ const UpdateMatchBallByBall = () => {
               {selectedPlayer?.bowler?.id === INIT_SELECT_PLAYER.bowler.id ? (
                 <button
                   onClick={() => setSelectBowling(true)}
-                  className="w-1/2 py-4 border capitalize shadow rounded-md focus:ring-2 focus:ring-primary-brightOrange "
+                  className="w-1/2 py-4 border capitalize shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] rounded-md focus:ring-2 focus:ring-primary-brightOrange "
                 >
                   Click here to Select player 1
                 </button>
@@ -833,7 +825,7 @@ const UpdateMatchBallByBall = () => {
                   className={`${
                     selectedBowlerId === selectedPlayer?.bowler?.id &&
                     "bg-primary-brightOrange rounded-md text-natural-white"
-                  } flex w-[50%] cursor-pointer justify-between flex-row gap-5 items-center shadow p-2 mb-5`}
+                  } flex  flex-wrap xl:flex-nowrap w-full md:w-[50%] cursor-pointer justify-between xl:flex-row gap-5 items-center shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] p-2 mb-5`}
                 >
                   <div className="flex w-full flex-row items-center cursor-pointer gap-5">
                     <img
@@ -862,11 +854,11 @@ const UpdateMatchBallByBall = () => {
                   </div>
                   <div className="flex gap-2">
                     <span>{bowlerStats?.givenRun}</span> /{" "}
-                    <span>
+                    <span>{bowlerStats?.wicketTaken}</span>
+                    <span className="ml-5">
                       {parseInt(bowlerStats?.ball / 6)}.
                       {parseInt(bowlerStats?.ball % 6)}
                     </span>{" "}
-                    <span className="ml-5">{bowlerStats?.wicketTaken}</span>
                   </div>
 
                   <div>
@@ -892,11 +884,11 @@ const UpdateMatchBallByBall = () => {
               "pointer-events-none opacity-25"
             } flex flex-col gap-10 `}
           >
-            <div className="flex gap-5 items-center">
+            <div className="flex flex-col md:flex-row gap-5 ">
               <h3 className="text-xl font-semibold text-primary-brightOrange mb-2">
                 Runs:
               </h3>
-              <div className="flex gap-5">
+              <div className="flex flex-wrap gap-5">
                 {runs.map((item, index) => (
                   <span key={index} onClick={() => handelRunOccurs(item)}>
                     <UpdateScoreButton title={item} key={index} />
@@ -904,13 +896,13 @@ const UpdateMatchBallByBall = () => {
                 ))}
               </div>
             </div>
-            <div className="flex gap-5">
+            <div className="flex flex-col md:flex-row gap-5">
               <h3 className="text-xl font-semibold text-primary-brightOrange mb-2">
                 Extras:
               </h3>
 
-              <div className="flex flex-col gap-5">
-                <div className="flex gap-5">
+              <div className="flex flex-wrap flex-col gap-5">
+                <div className="flex flex-wrap gap-2 md:gap-5">
                   <span
                     onClick={() => {
                       handelRunOccurs("wide");
@@ -978,7 +970,7 @@ const UpdateMatchBallByBall = () => {
                 )}
 
                 {turnOff && perBallOccurs?.ballOccurs === "noBall" && (
-                  <div className="flex flex-col gap-5">
+                  <div className="flex flex-col flex-wrap gap-5">
                     <WideNoByeRun
                       setTurnOff={setTurnOff}
                       title={"If have any bye run on No Ball"}
@@ -1011,12 +1003,12 @@ const UpdateMatchBallByBall = () => {
               </div>
             </div>
             <div>
-              <div className="flex gap-5">
+              <div className="flex flex-col md:flex-row gap-5">
                 <h3 className="text-xl font-semibold text-primary-brightOrange mb-2">
                   Wickets:
                 </h3>
 
-                <div className="flex gap-5">
+                <div className="flex flex-wrap gap-2 md:gap-5">
                   <span onClick={() => handelRunOccurs("bowled")}>
                     <UpdateScoreButton title={"Bowled"} classes={"w-[80px]"} />
                   </span>
@@ -1051,7 +1043,7 @@ const UpdateMatchBallByBall = () => {
 
       {(selectBatter1 || selectBatter2) && (
         <div className="absolute top-0 bottom-0 left-0 w-full backdrop-blur-sm">
-          <div className="shadow-lg p-6 rounded-lg fixed h-[500px] overflow-y-auto w-[90%] left-[5%] top-[5%] bg-secondary-coolGray">
+          <div className="shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]p-6 rounded-lg fixed h-[500px] overflow-y-auto w-[90%] left-[5%] top-[5%] bg-secondary-coolGray">
             <PlayersList
               players={battingPlayer}
               title={"Select Batting Player"}
@@ -1077,7 +1069,7 @@ const UpdateMatchBallByBall = () => {
 
       {selectBowling && (
         <div className="absolute top-0 bottom-0 left-0 w-full backdrop-blur-sm">
-          <div className="shadow-lg p-6 rounded-lg fixed h-[500px] overflow-y-auto w-[90%] left-[5%] top-[5%] bg-secondary-coolGray">
+          <div className="shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] p-6 rounded-lg fixed h-[500px] overflow-y-auto w-[90%] left-[5%] top-[5%] bg-secondary-coolGray">
             <PlayersList
               players={bowlingPlayer}
               title={"Select Bowling Player"}
@@ -1103,7 +1095,7 @@ const UpdateMatchBallByBall = () => {
         (perBallOccurs.ballOccurs === "caught" ||
           perBallOccurs.ballOccurs === "runOut") && (
           <div className="absolute top-0 bottom-0 left-0 w-full backdrop-blur-sm">
-            <div className="shadow-lg p-6 rounded-lg fixed h-[500px] overflow-y-auto w-[90%] left-[5%] top-[5%] bg-secondary-coolGray">
+            <div className="shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] p-6 rounded-lg fixed h-[500px] overflow-y-auto w-[90%] left-[5%] top-[5%] bg-secondary-coolGray">
               <PlayersList
                 players={bowlingPlayer}
                 title={

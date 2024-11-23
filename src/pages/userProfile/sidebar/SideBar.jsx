@@ -18,7 +18,7 @@ const SideBar = () => {
   };
 
   return (
-    <div className="bg-primary-darkNavy w-[210px] fixed shadow-lg  h-screen py-10 px-9 z-20 ">
+    <div className="bg-primary-darkNavy w-[210px] fixed shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]  h-screen py-10 px-9 z-20 ">
       <div className="flex flex-col gap-4">
         <div>
           <a href="/">

@@ -28,11 +28,7 @@ const Match = () => {
         />
       </div>
 
-      {selectActive ? (
-        <RequestingUser selectActive={selectActive} />
-      ) : (
-        <RequestedUser selectActive={selectActive} />
-      )}
+      {selectActive ? <RequestingUser /> : <RequestedUser />}
     </div>
   );
 };

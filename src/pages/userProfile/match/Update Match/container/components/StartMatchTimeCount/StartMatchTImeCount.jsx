@@ -27,7 +27,7 @@ const StartMatchTImeCount = ({ match }) => {
   return (
     <div>
       {!match?.toss?.tossWinner && (
-        <div className="shadow-md w-[40%] p-5 rounded-md m-auto flex flex-col gap-3 mt-5">
+        <div className="shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] w-[90%] sm:w-[40%] p-5 rounded-md m-auto flex flex-col gap-3 mt-5">
           <h3 className="text-xl font-semibold text-primary-brightOrange text-center mb-2 cursor-pointer">
             {match?.teams?.requestingTeam?.name || "unknown"} <br /> VS <br />
             {match?.teams?.requestedTeam?.name || "unknown"}

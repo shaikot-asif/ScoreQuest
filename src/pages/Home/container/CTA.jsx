@@ -1,5 +1,6 @@
 import PrimaryButton from "../../../components/shared/button/PrimaryButton";
 import SecondaryButton from "../../../components/shared/button/SecondaryButton";
+import { Link } from "react-router-dom";
 
 const CTA = () => {
   return (
@@ -9,8 +10,12 @@ const CTA = () => {
           Ready to Transform Your Cricket Experience?
         </h3>
         <div className="flex gap-6 flex-col md:flex-row items-center justify-center my-8">
-          <PrimaryButton text={"Sign Up For free"} />
-          <SecondaryButton text={"Today Match"} />
+          <Link to={"/signup"}>
+            <PrimaryButton text={"Sign Up For free"} />
+          </Link>
+          <Link to={"/today-match"}>
+            <SecondaryButton text={"Today Match"} />
+          </Link>
         </div>
       </div>
     </div>

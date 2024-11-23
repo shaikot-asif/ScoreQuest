@@ -178,7 +178,7 @@ const Squad = () => {
               squadData?.map((item, index) => (
                 <div
                   key={item?._id}
-                  className="flex gap-3 flex-col  rounded-md shadow-md px-6 py-4 uppercase "
+                  className="flex gap-3 flex-col  rounded-md shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] px-6 py-4 uppercase "
                 >
                   <h4
                     className="text-center text-[18px] font-bold text-primary-brightOrange cursor-pointer "

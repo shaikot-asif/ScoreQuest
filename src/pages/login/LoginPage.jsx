@@ -69,7 +69,7 @@ const LoginPage = () => {
   return (
     <MainLayout>
       <div className="flex px-4 sm:px-0 flex-col justify-center items-center mt-10">
-        <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+        <div className="bg-white p-8 rounded-lg shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] max-w-md w-full">
           <h2 className="text-2xl font-bold text-center mb-6 text-primary-darkNavy">
             Login Your Club
           </h2>

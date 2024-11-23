@@ -107,7 +107,7 @@ const UpdateProfile = () => {
 
   return (
     <div className="flex flex-col justify-center items-center   px-4 sm:px-0">
-      <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full relative">
+      <div className="bg-white p-8 rounded-lg shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] max-w-md w-full relative">
         {isLoading && <Loading />}
         <h2 className="text-2xl font-bold text-center mb-6 text-primary-darkNavy">
           Update Club

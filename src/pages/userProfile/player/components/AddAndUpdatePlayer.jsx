@@ -14,7 +14,7 @@ const AddAndUpdatePlayer = ({
   title,
 }) => {
   return (
-    <div className="max-w-lg mx-auto px-2 py-6 md:p-6 bg-white shadow-lg rounded-lg">
+    <div className="max-w-lg mx-auto px-2 py-6 md:p-6 bg-white shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] rounded-lg">
       <h2 className="text-xl md:text-2xl font-semibold text-primary-darkNavy mb-4 text-center">
         {title}
       </h2>

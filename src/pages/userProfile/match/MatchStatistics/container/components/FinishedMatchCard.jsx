@@ -2,14 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const FinishedMatchCard = ({ match, parentClass }) => {
-  console.log(
-    match,
-    parseInt(match?.score?.requestedTeam?.totalRuns),
-    parseInt(match?.score?.requestingTeam?.totalRuns)
-  );
   return (
     <div
-      className={`${parentClass} p-6 rounded-md shadow hover:shadow-sm transition-all duration-150 w-[100%] md:w-[48%] lg:w-[31%] `}
+      className={`${parentClass} p-6 rounded-md shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] hover:shadow-lg transition-all duration-150 w-[100%] md:w-[48%] lg:w-[31%] `}
     >
       <Link
         to={`/match-statistics/${match?._id}`}

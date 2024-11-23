@@ -4,7 +4,6 @@ import { getUsers } from "../../../service/user";
 import { useSelector } from "react-redux";
 import images from "../../../constants/images";
 import Search from "../../../components/Search";
-import Pagination from "../../../components/Pagination";
 
 import stables from "../../../constants/stable";
 import Loading from "../../../components/shared/Loading/Loading";
@@ -14,7 +13,7 @@ const GetAllUser = () => {
   const userState = useSelector((state) => state.user);
   const [searchKeywords, setSearchKeywords] = useState("");
 
-  const [match, setMatch] = useState([]);
+  const [user, setUser] = useState([]);
   const [pageChange, setPageChange] = useState(1);
   const [playMatchBtn, setPlayMatchBtn] = useState(false);
   const [requestedTeamId, setRequestedTeamId] = useState({
@@ -22,11 +21,6 @@ const GetAllUser = () => {
     requestedTeamName: "",
   });
   const limit = 4;
-
-  // const handlePageChange = (page) => {
-  //   console.log(page, "page");
-  //   setPageChange(page);
-  // };
 
   const handleClickPlayMatchBtn = ({ requestedTeam, requestedTeamName }) => {
     setRequestedTeamId({
@@ -39,7 +33,7 @@ const GetAllUser = () => {
   const handelInfinityScroll = async () => {
     try {
       if (
-        window.innerHeight + document.documentElement.scrollTop + 1 >=
+        window.innerHeight + document.documentElement.scrollTop + 1 >
         document.documentElement.scrollHeight
       ) {
         setPageChange((prev) => prev + 1);
@@ -49,7 +43,7 @@ const GetAllUser = () => {
     }
   };
 
-  const { data, isLoading, refetch, isFetching } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryFn: () =>
       getUsers({
         token: userState.userInfo.token,
@@ -63,18 +57,27 @@ const GetAllUser = () => {
   });
 
   useEffect(() => {
-    if (data) {
-      setMatch((prev) => [...new Set([...prev, ...data])]);
-    } else if (!isFetching) {
+    if (!data) {
       refetch();
     }
-  }, [data, pageChange]);
+  }, [pageChange, data]);
 
   useEffect(() => {
-    if (searchKeywords && data) {
-      setMatch(data);
+    if (data) {
+      if (searchKeywords === "") {
+        setUser((prev) => {
+          const combined = [...prev, ...data];
+          return combined.filter(
+            (item, index) =>
+              index === combined.findIndex((t) => t.id === item.id)
+          );
+        });
+      } else {
+        setUser(data);
+        setPageChange(1);
+      }
     }
-  }, [searchKeywords, data]);
+  }, [data, searchKeywords]);
 
   useEffect(() => {
     window.addEventListener("scroll", handelInfinityScroll);
@@ -104,11 +107,11 @@ const GetAllUser = () => {
           <Loading />
         ) : (
           <div>
-            {match?.map(
+            {user?.map(
               (item) =>
                 item.id !== userState.userInfo.id && (
                   <div
-                    className="flex flex-col md:flex-row gap-1 lg:gap-5 items-start md:justify-between shadow-md mb-5 p-3 md:align-middle md:items-center rounded-md hover:shadow-lg"
+                    className="flex flex-col md:flex-row gap-1 lg:gap-5 items-start md:justify-between shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] mb-5 p-3 md:align-middle md:items-center rounded-md hover:shadow-lg"
                     key={item.id}
                   >
                     <div className="flex flex-row gap-5 justify-center items-center mb-5">
@@ -125,8 +128,8 @@ const GetAllUser = () => {
                       />
 
                       <h3 className="font-bold text-xl text-primary-brightOrange">
-                        {item?.name.length > 20
-                          ? item?.name.substring(0, 20) + "..."
+                        {item?.name?.length > 20
+                          ? item?.name?.substring(0, 20) + "..."
                           : item?.name}
                       </h3>
                     </div>
@@ -149,19 +152,12 @@ const GetAllUser = () => {
             )}
           </div>
         )}
-        {match?.length === 0 && (
+        {user?.length === 0 && (
           <p className="text-primary-brightOrange text-[28px] ">
             Nothing Found
           </p>
         )}
       </div>
-
-      {/* <Pagination
-        limit={limit}
-        totalPageCount={userLength}
-        currentPage={currentPage}
-        onPageChange={(page) => handlePageChange(page)}
-      /> */}
 
       <div>
         {playMatchBtn && (

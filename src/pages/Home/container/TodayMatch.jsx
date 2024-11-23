@@ -4,6 +4,7 @@ import SecondaryButton from "../../../components/shared/button/SecondaryButton";
 import MatchCard from "../../userProfile/match/MatchStatistics/container/components/MatchCard";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { getTodayMatch } from "../../../service/match";
+import { Link } from "react-router-dom";
 
 // const matches = [
 //   {
@@ -61,7 +62,7 @@ const TodayMatch = () => {
       <HeadingH3 text={"Today's Match"} classes={"mb-5"} />
 
       <div className="flex flex-wrap gap-5 md:flex-row justify-center">
-        {matches?.map((match, index) => (
+        {matches?.splice(0, 6).map((match, index) => (
           <MatchCard
             match={match}
             key={index}
@@ -70,7 +71,9 @@ const TodayMatch = () => {
         ))}
       </div>
       <div className="flex justify-center mt-16 ">
-        <SecondaryButton text={"See More"} />
+        <Link to={"/today-match"}>
+          <SecondaryButton text={"See More"} />
+        </Link>
       </div>
     </div>
   );

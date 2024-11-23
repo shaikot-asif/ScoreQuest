@@ -21,7 +21,7 @@ const AddMatchCard = ({
 }) => {
   console.log(matchValues, "from add match card");
   return (
-    <div className="bg-natural-white overflow-auto p-4 lg:p-10 w-[95%]  md:w-[50%] lg:w-[45%] relative m-auto rounded-md shadow-lg ">
+    <div className="bg-natural-white overflow-auto p-4 lg:p-10 w-[95%]  md:w-[50%] lg:w-[45%] relative m-auto rounded-md shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] ">
       <h3 className="text-center text-xl lg:text-3xl font-bold text-primary-darkNavy ">
         {title}
       </h3>

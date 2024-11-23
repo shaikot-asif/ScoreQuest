@@ -74,7 +74,7 @@ const PlayerTable = ({
                       avatar: item.avatar,
                     })
                   }
-                  className={`${classes} flex flex-col flex-wrap lg:flex-row lg:gap-5 w-full lg:justify-between shadow-md mb-5 p-3 align-middle lg:items-center rounded-md hover:shadow-lg`}
+                  className={`${classes} flex flex-col flex-wrap lg:flex-row lg:gap-5 w-full lg:justify-between shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] mb-5 p-3 align-middle lg:items-center rounded-md hover:shadow-lg`}
                   key={item._id}
                 >
                   <div className="flex lg:w-[40%] flex-row gap-5 items-center mb-5">

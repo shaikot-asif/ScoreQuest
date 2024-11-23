@@ -1,3 +1,4 @@
+import React from "react";
 import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/Home/HomePage";
 import RegisterPage from "./pages/register/RegisterPage";
@@ -20,6 +21,7 @@ import TodayMatch from "./pages/userProfile/match/MatchStatistics/TodayMatch";
 import FinishedMatch from "./pages/userProfile/match/MatchStatistics/FinishedMatch";
 import UpcomingMatch from "./pages/userProfile/match/MatchStatistics/UpcomingMatch";
 import MatchStatistics from "./pages/userProfile/match/MatchStatistics/container/MatchStatistics";
+import PlayerRank from "./pages/userProfile/player/playerStatistics/PlayerRank";
 
 const App = () => {
   return (
@@ -31,6 +33,7 @@ const App = () => {
         <Route path="/today-match" element={<TodayMatch />} />
         <Route path="/finished-match" element={<FinishedMatch />} />
         <Route path="/upcoming-match" element={<UpcomingMatch />} />
+        <Route path="/player-rank" element={<PlayerRank />} />
         <Route
           path="/match-statistics/:matchId"
           element={<MatchStatistics />}

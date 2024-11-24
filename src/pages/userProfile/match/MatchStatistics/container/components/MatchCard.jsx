@@ -38,13 +38,13 @@ const MatchCard = ({ match, parentClass }) => {
               <p>
                 {match?.teams?.requestingTeam?.name} Wine the Toss{" "}
                 {match?.toss?.inningsType &&
-                  "and opt to " + match?.toss?.inningsType}
+                  "and decide to " + match?.toss?.inningsType}
               </p>
             ) : (
               <p>
                 {match?.teams?.requestedTeam?.name} Wine The Toss{" "}
                 {match?.toss?.inningsType &&
-                  "and opt to " + match?.toss?.inningsType}
+                  "and decide to " + match?.toss?.inningsType}
               </p>
             )
           ) : (

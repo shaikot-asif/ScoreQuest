@@ -9,7 +9,7 @@ export const addPlayer = async ({ formData, token }) => {
       },
     };
     const { data } = await axios.post(
-      "http://localhost:4000/api/players/addPlayer",
+      `${import.meta.env.VITE_API}/api/players/addPlayer`,
 
       formData,
       config
@@ -32,7 +32,7 @@ export const getPlayers = async ({ userId, token }) => {
       },
     };
     const { data } = await axios.get(
-      `http://localhost:4000/api/players/getPlayers?userId=${userId}`,
+      `${import.meta.env.VITE_API}/api/players/getPlayers?userId=${userId}`,
       config
     );
 
@@ -54,7 +54,7 @@ export const getPlayer = async ({ playerId, token }) => {
       },
     };
     const { data } = await axios.get(
-      `http://localhost:4000/api/players/getPlayer?playerId=${playerId}`,
+      `${import.meta.env.VITE_API}/api/players/getPlayer?playerId=${playerId}`,
       config
     );
 
@@ -77,7 +77,7 @@ export const updatePlayer = async ({ formData, token }) => {
       },
     };
     const { data } = await axios.put(
-      "http://localhost:4000/api/players/updatePlayer",
+      `${import.meta.env.VITE_API}/api/players/updatePlayer`,
 
       formData,
       config
@@ -100,7 +100,9 @@ export const deletePlayer = async ({ playerId, userId, token }) => {
       },
     };
     const { data } = await axios.delete(
-      `http://localhost:4000/api/players/deletePlayer?playerId=${playerId}&userId=${userId}`,
+      `${
+        import.meta.env.VITE_API
+      }/api/players/deletePlayer?playerId=${playerId}&userId=${userId}`,
       config
     );
 
@@ -117,7 +119,7 @@ export const deletePlayer = async ({ playerId, userId, token }) => {
 export const getTopPlayers = async () => {
   try {
     const { data } = await axios.get(
-      `http://localhost:4000/api/players/rankedPlayer`
+      `${import.meta.env.VITE_API}/api/players/rankedPlayer`
     );
 
     return data;

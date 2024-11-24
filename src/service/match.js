@@ -9,7 +9,7 @@ export const addMatch = async ({ matchValues, token }) => {
       },
     };
     const { data } = await axios.post(
-      "http://localhost:4000/api/match/addMatch",
+      `${import.meta.env.VITE_API}/api/match/addMatch`,
       matchValues,
       config
     );
@@ -35,7 +35,9 @@ export const getMatchByRequestingTeamId = async ({
       },
     };
     const { data } = await axios.get(
-      `http://localhost:4000/api/match/requestingTeam?userId=${RequestingTeamId}`,
+      `${
+        import.meta.env.VITE_API
+      }/api/match/requestingTeam?userId=${RequestingTeamId}`,
       config
     );
 
@@ -56,7 +58,9 @@ export const getMatchByRequestedTeamId = async ({ RequestedTeamId, token }) => {
       },
     };
     const { data } = await axios.get(
-      `http://localhost:4000/api/match/requestedTeam?userId=${RequestedTeamId}`,
+      `${
+        import.meta.env.VITE_API
+      }/api/match/requestedTeam?userId=${RequestedTeamId}`,
       config
     );
     console.log(typeof data, "type of data from match service");
@@ -80,7 +84,9 @@ export const cancelMatchByRequestingUser = async ({ matchId, token }) => {
       },
     };
     const { data } = await axios.delete(
-      `http://localhost:4000/api/match/cancelMatchByRequestingUser?matchId=${matchId}`,
+      `${
+        import.meta.env.VITE_API
+      }/api/match/cancelMatchByRequestingUser?matchId=${matchId}`,
       config
     );
 
@@ -103,7 +109,7 @@ export const rejectMatchByRequestedUser = async ({ matchId, note, token }) => {
       },
     };
     const { data } = await axios.put(
-      `http://localhost:4000/api/match/rejectMatchByRequestedUser`,
+      `${import.meta.env.VITE_API}/api/match/rejectMatchByRequestedUser`,
       rejectData,
       config
     );
@@ -131,7 +137,7 @@ export const acceptMatchByRequestedUser = async ({
       },
     };
     const { data } = await axios.put(
-      `http://localhost:4000/api/match/acceptMatchByRequestedUser`,
+      `${import.meta.env.VITE_API}/api/match/acceptMatchByRequestedUser`,
       acceptedData,
       config
     );
@@ -153,7 +159,9 @@ export const getMatchByMatchId = async ({ matchId, token }) => {
       },
     };
     const { data } = await axios.get(
-      `http://localhost:4000/api/match/getMatchDetails?matchId=${matchId}`,
+      `${
+        import.meta.env.VITE_API
+      }/api/match/getMatchDetails?matchId=${matchId}`,
       config
     );
 
@@ -193,7 +201,7 @@ export const updateOverAndTossWinner = async ({
       },
     };
     const { data } = await axios.put(
-      `http://localhost:4000/api/match/updateOverAndTosWinner`,
+      `${import.meta.env.VITE_API}/api/match/updateOverAndTosWinner`,
       bodyValues,
       config
     );
@@ -230,7 +238,7 @@ export const updateMatch = async ({
       },
     };
     const { data } = await axios.put(
-      `http://localhost:4000/api/match/updateMatch`,
+      `${import.meta.env.VITE_API}/api/match/updateMatch`,
       bodyValues,
       config
     );
@@ -251,7 +259,9 @@ export const getTodayMatch = async ({
 }) => {
   try {
     const { data } = await axios.get(
-      `http://localhost:4000/api/match/getTodayMatch?search=${searchKeywords}&limit=${limit}&page=${page}`
+      `${
+        import.meta.env.VITE_API
+      }/api/match/getTodayMatch?search=${searchKeywords}&limit=${limit}&page=${page}`
     );
 
     return data;
@@ -270,7 +280,9 @@ export const getCompleteMatch = async ({
 }) => {
   try {
     const { data } = await axios.get(
-      `http://localhost:4000/api/match/getCompleteMatch?search=${searchKeywords}&limit=${limit}&page=${page}`
+      `${
+        import.meta.env.VITE_API
+      }/api/match/getCompleteMatch?search=${searchKeywords}&limit=${limit}&page=${page}`
     );
 
     return data;
@@ -289,7 +301,9 @@ export const getUpcomingMatch = async ({
 }) => {
   try {
     const { data } = await axios.get(
-      `http://localhost:4000/api/match/getUpcomingMatch?search=${searchKeywords}&limit=${limit}&page=${page}`
+      `${
+        import.meta.env.VITE_API
+      }/api/match/getUpcomingMatch?search=${searchKeywords}&limit=${limit}&page=${page}`
     );
 
     return data;

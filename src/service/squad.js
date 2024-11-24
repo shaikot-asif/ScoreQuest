@@ -8,7 +8,7 @@ export const addSquad = async ({ userId, token, selectedPlayer }) => {
       },
     };
     const { data } = await axios.post(
-      `http://localhost:4000/api/squad/addSquad`,
+      `${import.meta.env.VITE_API}/api/squad/addSquad`,
       { selectedPlayer, userId },
       config
     );
@@ -31,7 +31,7 @@ export const getSquad = async ({ userId, token }) => {
       },
     };
     const { data } = await axios.get(
-      `http://localhost:4000/api/squad/getSquad?userId=${userId}`,
+      `${import.meta.env.VITE_API}/api/squad/getSquad?userId=${userId}`,
       config
     );
 
@@ -53,7 +53,7 @@ export const deleteSquad = async ({ squadId, token }) => {
       },
     };
     const { data } = await axios.delete(
-      `http://localhost:4000/api/squad/deleteSquad?squadId=${squadId}`,
+      `${import.meta.env.VITE_API}/api/squad/deleteSquad?squadId=${squadId}`,
       config
     );
     return data;
@@ -74,7 +74,7 @@ export const getSquadById = async ({ squadId, token }) => {
       },
     };
     const { data } = await axios.get(
-      `http://localhost:4000/api/squad/getSquadById?squadId=${squadId}`,
+      `${import.meta.env.VITE_API}/api/squad/getSquadById?squadId=${squadId}`,
       config
     );
 

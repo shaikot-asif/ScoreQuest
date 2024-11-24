@@ -112,24 +112,40 @@ const MatchCard = ({
         <span className="">{item.venue}</span>
       </div>
 
-      <div className="text-secondary-slateGray flex flex-row gap-1">
-        <span className="font-semibold">Remaining:</span>
+      {!item.toss.tossWinner && (
+        <div className="text-secondary-slateGray flex flex-row gap-1">
+          <span className="font-semibold">Remaining:</span>
 
-        <span className="">
-          {minute / 60 > 24
-            ? parseInt(minute / 60 / 24) +
-              "D  " +
-              (parseInt(minute / 60) % 24) +
-              "H"
-            : minute / 60 < 24 &&
-              parseInt(minute / 60) +
-                "H " +
-                parseInt(minute % 60) +
-                "M " +
-                second +
-                " S"}
-        </span>
-      </div>
+          <span className="">
+            {minute / 60 > 24
+              ? parseInt(minute / 60 / 24) +
+                "D  " +
+                (parseInt(minute / 60) % 24) +
+                "H"
+              : minute / 60 < 24 &&
+                parseInt(minute / 60) +
+                  "H " +
+                  parseInt(minute % 60) +
+                  "M " +
+                  second +
+                  " S"}
+          </span>
+        </div>
+      )}
+
+      {item.status === "completed" && (
+        <div className="text-secondary-slateGray block">
+          <span className="font-semibold text-center">
+            {parseInt(item?.score?.requestedTeam?.totalRuns) <
+            parseInt(item?.score?.requestingTeam?.totalRuns)
+              ? item?.teams?.requestingTeam?.name + " win the match"
+              : parseInt(item?.score?.requestedTeam?.totalRuns) >
+                parseInt(item?.score?.requestingTeam?.totalRuns)
+              ? item?.teams?.requestedTeam?.name + " win the match"
+              : "Match Draw"}
+          </span>
+        </div>
+      )}
 
       {item.status === "pending" &&
       item.teams.requestedTeam.userId === userState.userInfo.id ? (

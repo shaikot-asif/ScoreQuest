@@ -28,7 +28,7 @@ const MatchStatistics = () => {
       }),
   });
 
-  const socket = io("http://localhost:4000");
+  const socket = io(`${import.meta.env.VITE_API}`);
 
   useEffect(() => {
     // Listen for updates from the server
@@ -91,6 +91,19 @@ const MatchStatistics = () => {
         <Loading />
       ) : (
         <div className="container mx-auto p-4 mb-2  shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] rounded-lg mt-5">
+          {match?.status === "completed" && (
+            <div className="text-secondary-slateGray block">
+              <span className="font-semibold text-center">
+                {parseInt(match?.score?.requestedTeam?.totalRuns) <
+                parseInt(match?.score?.requestingTeam?.totalRuns)
+                  ? match?.teams?.requestingTeam?.name + " win the match"
+                  : parseInt(match?.score?.requestedTeam?.totalRuns) >
+                    parseInt(match?.score?.requestingTeam?.totalRuns)
+                  ? match?.teams?.requestedTeam?.name + " win the match"
+                  : "Match Draw"}
+              </span>
+            </div>
+          )}
           <div className="flex flex-col md:flex-row justify-between items-stretch align-baseline  ">
             <div className=" w-full md:w-[45%] ">
               <div

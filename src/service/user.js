@@ -3,7 +3,7 @@ import axios from "axios";
 export const signup = async ({ name, email, phone, password }) => {
   try {
     const { data } = await axios.post(
-      "http://localhost:4000/api/users/register",
+      `${import.meta.env.VITE_API}/api/users/register`,
       {
         name,
         email,
@@ -22,11 +22,14 @@ export const signup = async ({ name, email, phone, password }) => {
 
 export const login = async ({ valueType, value, password }) => {
   try {
-    const { data } = await axios.post("http://localhost:4000/api/users/login", {
-      value,
-      password,
-      valueType,
-    });
+    const { data } = await axios.post(
+      `${import.meta.env.VITE_API}/api/users/login`,
+      {
+        value,
+        password,
+        valueType,
+      }
+    );
     return data;
   } catch (error) {
     if (error.response && error.response.data.message) {
@@ -50,7 +53,9 @@ export const getUsers = async ({
       },
     };
     const { data } = await axios.get(
-      `http://localhost:4000/api/users/getAllUsers?search=${searchKeywords}&limit=${limit}&page=${page}&userId=${userId}`,
+      `${
+        import.meta.env.VITE_API
+      }/api/users/getAllUsers?search=${searchKeywords}&limit=${limit}&page=${page}&userId=${userId}`,
       config
     );
 
@@ -72,7 +77,7 @@ export const getUser = async ({ userId, token }) => {
       },
     };
     const { data } = await axios.get(
-      `http://localhost:4000/api/users/getUser?userId=${userId}`,
+      `${import.meta.env.VITE_API}/api/users/getUser?userId=${userId}`,
       config
     );
 
@@ -95,7 +100,7 @@ export const updateUserProfile = async ({ formData, token }) => {
       },
     };
     const { data } = await axios.put(
-      `http://localhost:4000/api/users/updateUser`,
+      `${import.meta.env.VITE_API}/api/users/updateUser`,
 
       formData,
       config

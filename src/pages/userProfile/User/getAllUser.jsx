@@ -117,7 +117,7 @@ const GetAllUser = () => {
                   >
                     <div className="flex flex-row gap-5 justify-center items-center mb-5">
                       <img
-                        className="rounded-full"
+                        className="rounded-full h-12 w-12 "
                         height={50}
                         width={50}
                         src={

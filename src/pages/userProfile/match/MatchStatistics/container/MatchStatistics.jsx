@@ -90,8 +90,8 @@ const MatchStatistics = () => {
       ) : (
         <div className="container mx-auto p-4 mb-2  shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] rounded-lg mt-5">
           {match?.status === "completed" && (
-            <div className="text-secondary-slateGray block">
-              <span className="font-semibold text-center">
+            <div className="text-secondary-slateGray text-center block">
+              <span className="font-semibold ">
                 {parseInt(match?.score?.requestedTeam?.totalRuns) <
                 parseInt(match?.score?.requestingTeam?.totalRuns)
                   ? match?.teams?.requestingTeam?.name + " win the match"

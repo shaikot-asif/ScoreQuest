@@ -103,7 +103,7 @@ const AddAndUpdatePlayer = ({
               height={50}
               src={AvatarUrl}
               alt="profile"
-              className="rounded-full border border-gray-300"
+              className="rounded-full h-12 w-12 border border-gray-300"
             />
           </button>
           <input

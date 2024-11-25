@@ -687,7 +687,7 @@ const UpdateMatchBallByBall = () => {
                 >
                   <div className="flex w-full flex-row items-center cursor-pointer gap-5">
                     <img
-                      className="rounded-full"
+                      className="rounded-full w-12 h-12 "
                       height={50}
                       width={50}
                       src={
@@ -748,7 +748,7 @@ const UpdateMatchBallByBall = () => {
                 >
                   <div className="flex w-full flex-row items-center cursor-pointer gap-5">
                     <img
-                      className="rounded-full"
+                      className="rounded-full w-12 h-12 "
                       height={50}
                       width={50}
                       src={
@@ -821,7 +821,7 @@ const UpdateMatchBallByBall = () => {
                 >
                   <div className="flex w-full flex-row items-center cursor-pointer gap-5">
                     <img
-                      className="rounded-full"
+                      className="rounded-full h-12 w-12 "
                       height={50}
                       width={50}
                       src={

@@ -69,12 +69,11 @@ const TodayMatch = () => {
 
   return (
     <div>
+      <Header />
       {isLoading ? (
         <Loading />
       ) : (
         <div>
-          {" "}
-          <Header />
           <div className="container px-4 xl:px-0 block m-auto mt-10 ">
             <HeadingH3 text={"Today's Match"} classes={"mb-5"} />
             <div className="self-center mb-10 sm:w-[40%] m-auto ">

@@ -16,7 +16,7 @@ const Header = () => {
       {scroll > 150 && (
         <HeaderLayout
           classes={
-            "!fixed top-0 w-full transition-all duration-300 backdrop-blur shadow-xl"
+            "!fixed top-0 w-full z-[999999] transition-all duration-300 backdrop-blur shadow-xl"
           }
         />
       )}

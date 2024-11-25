@@ -15,7 +15,7 @@ const TodayMatch = () => {
 
   const limit = 10;
 
-  const { data, isLoading, refetch, isFetching } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ["todayMatch", searchKeywords, pageChange],
     queryFn: () =>
       getTodayMatch({

@@ -15,8 +15,8 @@ const UpcomingMatch = () => {
 
   const limit = 10;
 
-  const { data, isLoading, refetch, isFetching } = useQuery({
-    queryKey: ["todayMatch", searchKeywords, pageChange],
+  const { data, isLoading, refetch } = useQuery({
+    queryKey: ["upcomingMatch", searchKeywords, pageChange],
     queryFn: () =>
       getUpcomingMatch({
         searchKeywords: searchKeywords,

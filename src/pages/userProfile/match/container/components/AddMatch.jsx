@@ -36,7 +36,6 @@ const AddMatch = ({ requestedTeam, setPlayMatchBtn }) => {
   const [matchValues, setMatchValues] = useState({ ...InitValue });
   const [isDisabled, setIsDisabled] = useState(true);
 
-  console.log(matchValues);
   useEffect(() => {
     setMatchValues({
       ...matchValues,
@@ -109,7 +108,6 @@ const AddMatch = ({ requestedTeam, setPlayMatchBtn }) => {
       return addMatch({ matchValues, token: userState.userInfo.token });
     },
     onSuccess: (data) => {
-      console.log(data);
       toast.success("Match Add Successfully");
     },
     onError: (error) => {

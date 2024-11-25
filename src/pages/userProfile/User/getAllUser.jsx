@@ -8,6 +8,7 @@ import Search from "../../../components/Search";
 import stables from "../../../constants/stable";
 import Loading from "../../../components/shared/Loading/Loading";
 import AddMatch from "../match/container/components/AddMatch";
+import { toast } from "react-hot-toast";
 
 const GetAllUser = () => {
   const userState = useSelector((state) => state.user);
@@ -39,7 +40,7 @@ const GetAllUser = () => {
         setPageChange((prev) => prev + 1);
       }
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     }
   };
 

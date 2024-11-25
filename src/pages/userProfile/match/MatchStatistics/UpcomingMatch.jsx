@@ -6,6 +6,7 @@ import Header from "../../../../components/Header";
 import HeadingH3 from "../../../../components/shared/HeadingH3";
 import Search from "../../../../components/Search";
 import MatchCard from "./container/components/MatchCard";
+import { toast } from "react-hot-toast";
 
 const UpcomingMatch = () => {
   const [searchKeywords, setSearchKeywords] = useState("");
@@ -40,7 +41,7 @@ const UpcomingMatch = () => {
         setPageChange((prev) => prev + 1);
       }
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     }
   };
 

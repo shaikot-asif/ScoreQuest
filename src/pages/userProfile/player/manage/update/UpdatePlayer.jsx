@@ -56,7 +56,6 @@ const UpdatePlayer = () => {
       toast.success("Player update successfully");
     },
     onError: (error) => {
-      console.log("mutation error", error);
       toast.error(error);
     },
   });

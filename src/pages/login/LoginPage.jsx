@@ -23,7 +23,6 @@ const LoginPage = () => {
       dispatch(userActions.setUserInfo(data));
       localStorage.setItem("userAccount", JSON.stringify(data));
       toast.success("Account Login Successfully");
-      console.log(data, "data");
     },
     onError: (error) => {
       toast.error(error.message);
@@ -34,7 +33,6 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (userState.userInfo) navigate("/");
-    console.log("from useEffect");
   }, [navigate, userState.userInfo]);
 
   const {

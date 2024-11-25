@@ -14,8 +14,6 @@ const RegisterPage = () => {
   const navigate = useNavigate();
   const userState = useSelector((state) => state.user);
 
-  console.log(userState, "userState");
-
   const { mutate } = useMutation({
     mutationFn: ({ name, email, phone, password }) => {
       return signup({ name, email, phone, password });
@@ -24,7 +22,6 @@ const RegisterPage = () => {
       dispatch(userActions.setUserInfo(data));
       localStorage.setItem("userAccount", JSON.stringify(data));
       toast.success("Account created Successfully");
-      console.log(data, "data");
     },
     onError: (error) => {
       toast.error(error.message);

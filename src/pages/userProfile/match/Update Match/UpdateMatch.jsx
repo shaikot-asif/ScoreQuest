@@ -32,10 +32,7 @@ const UpdateMatch = () => {
     } else refetch();
   }, [data]);
 
-  console.log(match, "match");
-
   useEffect(() => {
-    console.log("from useEffect");
     if (match) {
       if (match?.status === "completed") {
         navigate(`/match-statistics/${matchId}`);
@@ -53,8 +50,6 @@ const UpdateMatch = () => {
         userState?.userInfo?.id !== match?.bowlingUser?.userId?.toString() &&
         match?.status !== "completed"
       ) {
-        console.log("working from condition");
-
         navigate(`/profile/match/update-match/${matchId}`);
       }
 

@@ -35,7 +35,6 @@ const PlayerRank = () => {
     }
   }, [data]);
 
-  // console.log(batter, bowler);
   return (
     <div className="">
       <Header />

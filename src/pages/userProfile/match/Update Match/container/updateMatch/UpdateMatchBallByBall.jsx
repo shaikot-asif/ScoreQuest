@@ -104,8 +104,6 @@ const UpdateMatchBallByBall = () => {
     wicketTaken: 0,
   });
 
-  console.log(perBallOccurs, "perBallOccurs");
-
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["match"],
     queryFn: () =>
@@ -129,7 +127,6 @@ const UpdateMatchBallByBall = () => {
         match?.battingUser?.userId?.toString() !== userState?.userInfo?.id &&
         userState?.userInfo?.id === match?.bowlingUser?.userId?.toString()
       ) {
-        console.log("from first condition");
         localStorage.removeItem(`overCount:${matchId}`);
         localStorage.removeItem(`playerInfo:${matchId}`);
         setSelectedPlayer(
@@ -140,14 +137,10 @@ const UpdateMatchBallByBall = () => {
       }
 
       if (match?.status === "completed") {
-        console.log("from sec condition");
         navigate(`/match-statistics/${matchId}`);
       }
 
-      console.log(match, "from update ball by ball");
-
       if (match?.battingUser?.userId?.toString() !== userState?.userInfo?.id) {
-        console.log("from 3rd condition");
         navigate(`/match-statistics/${matchId}`);
       }
     }
@@ -156,7 +149,6 @@ const UpdateMatchBallByBall = () => {
   useEffect(() => {
     // Listen for updates from the server
     socket.on("scoreUpdated", (data) => {
-      // console.log("Score updated:", data);
       setMatch(data);
     });
 

@@ -15,8 +15,6 @@ const SelectInningsType = () => {
   const { matchId } = useParams();
   const navigate = useNavigate();
 
-  console.log(matchId, "matchId");
-
   const [selectInnings, setSelectInnings] = useState("");
 
   const { data: match, isLoading } = useQuery({
@@ -39,8 +37,6 @@ const SelectInningsType = () => {
     onSuccess: (data) => {
       toast.success("Update Successfully");
 
-      console.log(data, "from select innings type check data");
-
       if (
         data?.match?.battingUser?.userId?.toString() === userState?.userInfo?.id
       ) {
@@ -50,24 +46,9 @@ const SelectInningsType = () => {
       }
     },
     onError: (error) => {
-      console.log(error);
       toast.error(error.message);
     },
   });
-
-  console.log(match, "match");
-
-  // useEffect(() => {
-  //   if (match?.battingUser?.userId?.toString() === userState?.userInfo?.id) {
-  //     navigate(`/profile/match/update-match/${matchId}`);
-  //   } else {
-  //     navigate(`/match-statistics/${matchId}`);
-  //   }
-  // }, [match]);
-
-  console.log(selectInnings);
-
-  console.log(match, userState);
 
   const handelSubmit = () => {
     mutate({

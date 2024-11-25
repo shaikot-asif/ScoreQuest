@@ -61,7 +61,6 @@ export const getUsers = async ({
 
     return data;
   } catch (error) {
-    console.log(error, "error");
     if (error.response && error.response.data.message) {
       throw new Error(error.response.data.message);
     }
@@ -83,7 +82,6 @@ export const getUser = async ({ userId, token }) => {
 
     return data;
   } catch (error) {
-    console.log(error, "error");
     if (error.response && error.response.data.message) {
       throw new Error(error.response.data.message);
     }
@@ -108,7 +106,6 @@ export const updateUserProfile = async ({ formData, token }) => {
 
     return data;
   } catch (error) {
-    console.log(error, "error");
     if (error.response && error.response.data.message) {
       throw new Error(error.response.data.message);
     }

@@ -3,10 +3,10 @@ import HeadingH3 from "../../../../components/shared/HeadingH3";
 import MatchCard from "./container/components/MatchCard";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { getTodayMatch } from "../../../../service/match";
-import MainLayout from "../../../../components/MainLayout";
 import Loading from "../../../../components/shared/Loading/Loading";
 import Search from "../../../../components/Search";
 import Header from "../../../../components/Header";
+import { toast } from "react-hot-toast";
 
 const TodayMatch = () => {
   const [searchKeywords, setSearchKeywords] = useState("");
@@ -41,7 +41,7 @@ const TodayMatch = () => {
         setPageChange((prev) => prev + 1);
       }
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     }
   };
 

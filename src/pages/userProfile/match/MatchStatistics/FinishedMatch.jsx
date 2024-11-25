@@ -6,6 +6,7 @@ import { getCompleteMatch } from "../../../../service/match";
 import Search from "../../../../components/Search";
 import Header from "../../../../components/Header";
 import Loading from "../../../../components/shared/Loading/Loading";
+import { toast } from "react-hot-toast";
 
 const FinishedMatch = () => {
   const [searchKeywords, setSearchKeywords] = useState("");
@@ -34,7 +35,7 @@ const FinishedMatch = () => {
         setPageChange((prev) => prev + 1);
       }
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     }
   };
 

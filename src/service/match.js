@@ -2,7 +2,6 @@ import axios from "axios";
 
 export const addMatch = async ({ matchValues, token }) => {
   try {
-    console.log(matchValues, "matchValues");
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -63,7 +62,6 @@ export const getMatchByRequestedTeamId = async ({ RequestedTeamId, token }) => {
       }/api/match/requestedTeam?userId=${RequestedTeamId}`,
       config
     );
-    console.log(typeof data, "type of data from match service");
 
     return data;
   } catch (error) {
@@ -76,8 +74,6 @@ export const getMatchByRequestedTeamId = async ({ RequestedTeamId, token }) => {
 
 export const cancelMatchByRequestingUser = async ({ matchId, token }) => {
   try {
-    console.log(matchId);
-
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -168,8 +164,6 @@ export const getMatchByMatchId = async ({ matchId, token }) => {
     return data;
   } catch (error) {
     if (error.response && error.response.data.message) {
-      console.log(error, "from match.js");
-
       throw new Error(error.response.data.message);
     }
     throw new Error(error.message);

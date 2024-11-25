@@ -41,7 +41,6 @@ const UpdateProfile = () => {
       toast.success("User update successfully");
     },
     onError: (error) => {
-      console.log(error);
       toast(error);
     },
   });

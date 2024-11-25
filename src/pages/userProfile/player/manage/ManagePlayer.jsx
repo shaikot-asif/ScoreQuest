@@ -10,8 +10,6 @@ const ManagePlayer = () => {
   const userState = useSelector((state) => state.user);
 
   const deletePlayerById = (playerId) => {
-    console.log(playerId, "deletePlayerId");
-
     if (window.confirm("are you sure to delete this player?")) {
       mutate({ playerId, userId: userState.userInfo.id });
     }
@@ -44,8 +42,6 @@ const ManagePlayer = () => {
       toast.success("Player Delete Successfully");
     },
     onError: (error) => {
-      console.log(error);
-
       toast.error(error.message);
     },
     mutationKey: ["player"],

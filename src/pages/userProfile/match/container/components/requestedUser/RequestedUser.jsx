@@ -128,8 +128,6 @@ const RequestedUser = () => {
   };
 
   const handleClickSingleSquad = ({ requestedTeamSquad }) => {
-    console.log(requestedTeamSquad, "requestedTEam squad from requested USer");
-
     setMatchValues({
       ...matchValues,
       squads: { requestedTeamSquad: { squadId: requestedTeamSquad } },
@@ -145,8 +143,6 @@ const RequestedUser = () => {
     setMatchValues({ ...InitValue });
     setIsAccept(false);
   };
-
-  console.log(matchValues, matchData, "from requested user");
 
   return (
     <div className="mt-10  flex flex-row flex-wrap justify-evenly">

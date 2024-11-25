@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PlayerRankCard from "../components/PlayerRankCard";
 import Loading from "../../../../../components/shared/Loading/Loading";
+import { toast } from "react-hot-toast";
 
 const Bowler = ({ isLoading, bowler }) => {
   const [limit, setLimit] = useState(3);
@@ -23,7 +24,7 @@ const Bowler = ({ isLoading, bowler }) => {
         setLimit((prev) => prev + prev);
       }
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     }
   };
 

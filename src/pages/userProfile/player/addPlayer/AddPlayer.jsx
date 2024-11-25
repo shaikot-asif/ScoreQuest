@@ -24,13 +24,11 @@ const AddPlayer = () => {
     },
 
     onSuccess: (data) => {
-      console.log("mutation Data: ", data);
       reset();
       setAvatarUrl(images.Profile);
       toast.success("Player added successfully");
     },
     onError: (error) => {
-      console.log("mutation error", error);
       toast.error(error);
     },
     mutationKey: ["player"],
@@ -64,7 +62,6 @@ const AddPlayer = () => {
   const submitHandle = (data) => {
     const { firstName, lastName, birthday, role } = data;
 
-    console.log(firstName, lastName, birthday, role);
     const formData = new FormData();
     formData.append("profilePicture", uploadProfile);
     formData.append("firstName", firstName);

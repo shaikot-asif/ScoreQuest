@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PlayerRankCard from "../components/PlayerRankCard";
 import Loading from "../../../../../components/shared/Loading/Loading";
+import { toast } from "react-hot-toast";
 
 const batterHeading = [
   "NO",
@@ -25,7 +26,7 @@ const Batter = ({ batter, isLoading }) => {
         setLimit((prev) => prev + prev);
       }
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     }
   };
 

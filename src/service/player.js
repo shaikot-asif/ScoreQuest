@@ -38,7 +38,6 @@ export const getPlayers = async ({ userId, token }) => {
 
     return data;
   } catch (error) {
-    console.log(error, "error");
     if (error.response && error.response.data.message) {
       throw new Error(error.response.data.message);
     }
@@ -60,7 +59,6 @@ export const getPlayer = async ({ playerId, token }) => {
 
     return data;
   } catch (error) {
-    console.log(error, "error");
     if (error.response && error.response.data.message) {
       throw new Error(error.response.data.message);
     }
@@ -108,7 +106,6 @@ export const deletePlayer = async ({ playerId, userId, token }) => {
 
     return data;
   } catch (error) {
-    console.log(error, "error");
     if (error.response && error.response.data.message) {
       throw new Error(error.response.data.message);
     }
@@ -124,7 +121,6 @@ export const getTopPlayers = async () => {
 
     return data;
   } catch (error) {
-    console.log(error, "error");
     if (error.response && error.response.data.message) {
       throw new Error(error.response.data.message);
     }

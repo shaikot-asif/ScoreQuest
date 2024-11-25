@@ -15,7 +15,6 @@ export const addSquad = async ({ userId, token, selectedPlayer }) => {
 
     return data;
   } catch (error) {
-    console.log(error, "error");
     if (error.response && error.response.data.message) {
       throw new Error(error.response.data.message);
     }
@@ -37,7 +36,6 @@ export const getSquad = async ({ userId, token }) => {
 
     return data;
   } catch (error) {
-    console.log(error, "error");
     if (error.response && error.response.data.message) {
       throw new Error(error.response.data.message);
     }
@@ -58,7 +56,6 @@ export const deleteSquad = async ({ squadId, token }) => {
     );
     return data;
   } catch (error) {
-    console.log(error, "error");
     if (error.response && error.response.data.message) {
       throw new Error(error.response.data.message);
     }

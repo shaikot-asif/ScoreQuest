@@ -33,7 +33,6 @@ const MatchStatistics = () => {
   useEffect(() => {
     // Listen for updates from the server
     socket.on("scoreUpdated", (data) => {
-      // console.log("Score updated:", data);
       setMatch(data);
     });
 
@@ -63,7 +62,6 @@ const MatchStatistics = () => {
       }
     }
   }, [match, data]);
-  console.log(match, "match");
 
   const requestingNameMap = useFetchUserNames(
     match?.score?.requestingTeam?.playerStats

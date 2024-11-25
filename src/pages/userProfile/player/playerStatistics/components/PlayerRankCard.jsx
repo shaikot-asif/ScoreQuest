@@ -8,7 +8,6 @@ const PlayerRankCard = ({
   limit,
   isBatter = true,
 }) => {
-  console.log(limit, "limit");
   return (
     <div className="min-h-screen py-10 px-5 overflow-hidden">
       <div className="mx-auto overflow-x-auto">

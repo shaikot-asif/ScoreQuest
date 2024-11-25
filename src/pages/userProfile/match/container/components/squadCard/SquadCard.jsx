@@ -6,8 +6,6 @@ const SquadCard = ({
   matchValues,
   TeamSquad,
 }) => {
-  console.log(matchValues, "from Squad Card");
-
   return squadData?.map((item, index) => (
     <div
       onClick={() => handleClickSingleSquad({ [TeamSquad]: item._id })}

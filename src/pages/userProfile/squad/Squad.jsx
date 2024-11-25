@@ -39,7 +39,6 @@ const Squad = () => {
       setIsActive(false);
     },
     onError: (error) => {
-      console.log(error, "error");
       toast.error("only 3 squad you can added");
     },
   });
@@ -78,7 +77,6 @@ const Squad = () => {
       toast.success(data.message);
     },
     onError: (error) => {
-      console.log(error);
       toast.error(error.message);
     },
   });
@@ -90,8 +88,6 @@ const Squad = () => {
   };
 
   const handleClickSingleSquad = async ({ _id }) => {
-    console.log(_id, "id form click single squad");
-
     const data = await getSquadById({
       squadId: _id,
       token: userState.userInfo.token,
@@ -122,7 +118,6 @@ const Squad = () => {
 
   if (error) {
     toast.error(error.message);
-    console.log(error);
   }
 
   useEffect(() => {

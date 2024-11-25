@@ -6,50 +6,6 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { getTodayMatch } from "../../../service/match";
 import { Link } from "react-router-dom";
 
-// const matches = [
-//   {
-//     teams: {
-//       requestingTeam: { userId: 1234, name: "asif" },
-//       requestedTeam: { userId: 12345, name: "ahmed" },
-//     },
-//     date: new Date("2024-11-16T14:57:00.000+00:00"),
-//   },
-//   {
-//     teams: {
-//       requestingTeam: { userId: 1234, name: "asif" },
-//       requestedTeam: { userId: 12345, name: "ahmed" },
-//     },
-//     date: new Date("2024-11-16T14:57:00.000+00:00"),
-//   },
-//   {
-//     teams: {
-//       requestingTeam: { userId: 1234, name: "asif" },
-//       requestedTeam: { userId: 12345, name: "ahmed" },
-//     },
-//     date: new Date("2024-11-16T14:57:00.000+00:00"),
-//   },
-//   {
-//     teams: {
-//       requestingTeam: { userId: 1234, name: "asif" },
-//       requestedTeam: { userId: 12345, name: "ahmed" },
-//     },
-//     date: new Date("2024-11-16T14:57:00.000+00:00"),
-//   },
-//   {
-//     teams: {
-//       requestingTeam: { userId: 1234, name: "asif" },
-//       requestedTeam: { userId: 12345, name: "ahmed" },
-//     },
-//     date: new Date("2024-11-16T14:57:00.000+00:00"),
-//   },
-//   {
-//     teams: {
-//       requestingTeam: { userId: 1234, name: "asif" },
-//       requestedTeam: { userId: 12345, name: "ahmed" },
-//     },
-//     date: new Date("2024-11-16T14:57:00.000+00:00"),
-//   },
-// ];
 const TodayMatch = () => {
   const { data: matches } = useQuery({
     queryKey: ["todayMatch"],
@@ -62,13 +18,16 @@ const TodayMatch = () => {
       <HeadingH3 text={"Today's Match"} classes={"mb-5"} />
 
       <div className="flex flex-wrap gap-5 md:flex-row justify-center">
-        {matches?.slice(0, 6).map((match, index) => (
-          <MatchCard
-            match={match}
-            key={index}
-            parentClass={"w-[100%] md:w-[48%] lg:w-[31%] "}
-          />
-        ))}
+        {Array.isArray(matches) &&
+          matches
+            ?.slice(0, 6)
+            ?.map((match, index) => (
+              <MatchCard
+                match={match}
+                key={index}
+                parentClass={"w-[100%] md:w-[48%] lg:w-[31%] "}
+              />
+            ))}
       </div>
       <div className="flex justify-center mt-16 ">
         <Link to={"/today-match"}>

@@ -23,9 +23,12 @@ const FinishedMatch = () => {
       <HeadingH3 text={"Finished Match"} classes={"mb-5"} />
 
       <div className="flex flex-col gap-4 md:flex-row flex-wrap justify-center">
-        {match?.slice(0, 6).map((match, index) => (
-          <FinishedMatchCard match={match} key={match?._id} />
-        ))}
+        {Array.isArray(match) &&
+          match
+            ?.slice(0, 6)
+            .map((match, index) => (
+              <FinishedMatchCard match={match} key={match?._id} />
+            ))}
       </div>
       <div className="flex justify-center mt-16 ">
         <Link to={"/finished-match"}>

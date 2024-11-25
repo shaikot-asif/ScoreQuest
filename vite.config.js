@@ -4,18 +4,15 @@ import { config } from "dotenv";
 
 config();
 
+// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
   build: {
     rollupOptions: {
-      external: [], // Leave this empty unless explicitly required
+      external: [], // Ensure axios is not in this array
     },
-    outDir: "dist",
   },
   define: {
-    "process.env": Object.entries(process.env).reduce((env, [key, value]) => {
-      env[key] = JSON.stringify(value);
-      return env;
-    }, {}),
+    "process.env": process.env,
   },
 });

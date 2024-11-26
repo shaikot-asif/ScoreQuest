@@ -72,7 +72,7 @@ const FinishedMatch = () => {
       {isLoading ? (
         <Loading />
       ) : (
-        <div className="container px-4 xl:px-0 block m-auto mt-10 ">
+        <div className="container px-4 xl:px-0 block m-auto my-10 ">
           <HeadingH3 text={"Finished Match"} classes={"mb-5"} />
           <div className="self-center mb-10 sm:w-[40%] m-auto ">
             <Search

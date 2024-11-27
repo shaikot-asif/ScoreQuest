@@ -13,7 +13,7 @@ const FinishedMatch = () => {
   const [match, setMatch] = useState([]);
   const [pageChange, setPageChange] = useState(1);
 
-  const limit = 10;
+  const limit = 6;
 
   const { data, isLoading, refetch, isFetching } = useQuery({
     queryKey: ["completeMatch", searchKeywords, pageChange],
@@ -29,7 +29,7 @@ const FinishedMatch = () => {
   const handelInfinityScroll = async () => {
     try {
       if (
-        window.innerHeight + document.documentElement.scrollTop + 1 >=
+        window.innerHeight + document.documentElement.scrollTop + 1 >
         document.documentElement.scrollHeight
       ) {
         setPageChange((prev) => prev + 1);
@@ -82,7 +82,7 @@ const FinishedMatch = () => {
           </div>
 
           <div className="flex flex-col gap-4 md:flex-row flex-wrap justify-center">
-            {match?.map((match, index) => (
+            {match.map((match, index) => (
               <FinishedMatchCard match={match} key={index} />
             ))}
           </div>

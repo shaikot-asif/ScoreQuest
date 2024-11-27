@@ -71,6 +71,16 @@ const PlayerRankCard = ({
                   </td>
                 )}
 
+                {isBatter && (
+                  <td className="p-2 border">
+                    {parseFloat(
+                      (player.statistics.totalRun /
+                        player.statistics.playBalls) *
+                        100
+                    ).toFixed(2) || 0}
+                  </td>
+                )}
+
                 {!isBatter && (
                   <td className="p-4 md:p-6">
                     {player.statistics.totalGivenRun}
@@ -94,10 +104,19 @@ const PlayerRankCard = ({
                   <td className="p-4 md:p-6">
                     {parseFloat(
                       player.statistics.totalGivenRun /
-                        parseFloat(
-                          player.statistics.totalBowlsThrough / 6
-                        ).toFixed(2)
+                        (player.statistics.totalBowlsThrough / 6)
                     ).toFixed(2)}
+                  </td>
+                )}
+
+                {!isBatter && (
+                  <td className="p-4 md:p-6">
+                    {player.statistics.totalWicket
+                      ? parseFloat(
+                          player.statistics.totalGivenRun /
+                            player.statistics.totalWicket
+                        ).toFixed(2)
+                      : 0}
                   </td>
                 )}
               </tr>

@@ -13,7 +13,7 @@ const UpcomingMatch = () => {
   const [match, setMatch] = useState([]);
   const [pageChange, setPageChange] = useState(1);
 
-  const limit = 10;
+  const limit = 4;
 
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["upcomingMatch", searchKeywords, pageChange],
@@ -26,6 +26,8 @@ const UpcomingMatch = () => {
     placeholderData: keepPreviousData,
   });
 
+  console.log(match, data);
+
   useEffect(() => {
     if (!data) {
       refetch();
@@ -35,7 +37,7 @@ const UpcomingMatch = () => {
   const handelInfinityScroll = async () => {
     try {
       if (
-        window.innerHeight + document.documentElement.scrollTop + 1 >=
+        window.innerHeight + document.documentElement.scrollTop + 1 >
         document.documentElement.scrollHeight
       ) {
         setPageChange((prev) => prev + 1);
@@ -69,12 +71,11 @@ const UpcomingMatch = () => {
 
   return (
     <div>
+      <Header />
       {isLoading ? (
         <Loading />
       ) : (
         <div>
-          {" "}
-          <Header />
           <div className="container px-4 xl:px-0 block m-auto my-10 ">
             <HeadingH3 text={"Upcoming Match"} classes={"mb-5"} />
             <div className="self-center mb-10 sm:w-[40%] m-auto ">

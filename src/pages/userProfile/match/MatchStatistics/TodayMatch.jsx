@@ -13,7 +13,7 @@ const TodayMatch = () => {
   const [match, setMatch] = useState([]);
   const [pageChange, setPageChange] = useState(1);
 
-  const limit = 10;
+  const limit = 4;
 
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["todayMatch", searchKeywords, pageChange],
@@ -35,7 +35,7 @@ const TodayMatch = () => {
   const handelInfinityScroll = async () => {
     try {
       if (
-        window.innerHeight + document.documentElement.scrollTop + 1 >=
+        window.innerHeight + document.documentElement.scrollTop + 1 >
         document.documentElement.scrollHeight
       ) {
         setPageChange((prev) => prev + 1);

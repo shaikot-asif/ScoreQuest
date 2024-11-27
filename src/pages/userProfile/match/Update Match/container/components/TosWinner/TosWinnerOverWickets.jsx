@@ -25,12 +25,7 @@ const TosWinnerOverWickets = () => {
   const navigate = useNavigate();
   const [winnerDate, setWinnerDate] = useState({ ...INIT });
 
-  const {
-    data: match,
-    isLoading,
-    refetch,
-    error,
-  } = useQuery({
+  const { data: match, isLoading } = useQuery({
     queryKey: ["match"],
     queryFn: () =>
       getMatchByMatchId({
@@ -43,7 +38,7 @@ const TosWinnerOverWickets = () => {
     setWinnerDate((prev) => ({ ...prev, tossWinner: data }));
   };
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationKey: ["match"],
     mutationFn: ({
       matchId,

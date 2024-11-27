@@ -21,18 +21,19 @@ const MatchStatistics = () => {
   const [requestedTeamPlayerName, setRequestedTeamPlayerName] = useState({});
 
   const { data, isLoading, refetch } = useQuery({
-    queryKey: ["match"],
+    queryKey: [`match:${matchId}`],
     queryFn: () =>
       getMatchByMatchId({
         matchId: matchId,
       }),
   });
 
-  const socket = io(`${import.meta.env.VITE_API}`);
+  const socket = io(import.meta.env.VITE_API);
 
   useEffect(() => {
     // Listen for updates from the server
     socket.on("scoreUpdated", (data) => {
+      console.log(data, "data from ");
       setMatch(data);
     });
 
@@ -45,6 +46,7 @@ const MatchStatistics = () => {
   useEffect(() => {
     if (data) {
       const emitData = matchState.match ? matchState.match : data;
+
       socket.emit("updateScore", emitData);
     } else {
       refetch();
@@ -60,6 +62,12 @@ const MatchStatistics = () => {
       ) {
         navigate(`/profile/match/update-match/${matchId}`);
       }
+    }
+  }, [match, data]);
+
+  useEffect(() => {
+    if (match?._id !== data?._id) {
+      setMatch(data);
     }
   }, [match, data]);
 
@@ -85,7 +93,7 @@ const MatchStatistics = () => {
   return (
     <div>
       <Header />
-      {isLoading ? (
+      {isLoading && match?._id === data?._id ? (
         <Loading />
       ) : (
         <div className="container mx-auto p-4 mb-2  shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] rounded-lg mt-5">

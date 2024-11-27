@@ -13,6 +13,7 @@ const Bowler = ({ isLoading, bowler }) => {
     "Overs",
     "Wickets",
     "Economy",
+    "Average",
   ];
 
   const handelInfinityScroll = async () => {

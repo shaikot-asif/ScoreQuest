@@ -51,7 +51,7 @@ const HeaderItem = ({ userState, navItem, classes, parentClass }) => {
               className="hover:text-primary-brightOrange transition-all duration-500"
               to={"/signup"}
             >
-              Sign in
+              Sign Up
             </Link>
           </li>
         </ul>

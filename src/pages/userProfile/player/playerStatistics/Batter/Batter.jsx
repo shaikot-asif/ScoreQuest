@@ -12,6 +12,7 @@ const batterHeading = [
   "Total 4s",
   "Total 6s",
   "Average",
+  "Strike Rate",
 ];
 
 const Batter = ({ batter, isLoading }) => {

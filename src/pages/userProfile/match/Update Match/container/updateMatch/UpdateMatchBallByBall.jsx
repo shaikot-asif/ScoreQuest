@@ -50,6 +50,7 @@ const INIT_PER_BALL_OCCURS = {
   byeRun: null, // bye or legBye
   catchKeeperId: "",
   runOutThrowerId: "",
+  outTaken: "",
 };
 
 const INIT_STATS = {
@@ -105,7 +106,7 @@ const UpdateMatchBallByBall = () => {
   });
 
   const { data, isLoading, refetch } = useQuery({
-    queryKey: ["match"],
+    queryKey: [`updateMatch:${matchId}`],
     queryFn: () =>
       getMatchByMatchId({
         matchId: matchId,
@@ -113,7 +114,7 @@ const UpdateMatchBallByBall = () => {
       }),
   });
 
-  const socket = io(`${import.meta.env.VITE_API}`);
+  const socket = io(import.meta.env.VITE_API);
 
   useEffect(() => {
     if (!match) {
@@ -342,11 +343,16 @@ const UpdateMatchBallByBall = () => {
         catchKeeperId: "",
         runOutThrowerId: "",
         ballOccurs: data,
+        outTaken:
+          data === "lbw" || data === "bowled"
+            ? selectedPlayer.bowler.fName
+            : "",
       });
     }
   };
 
   const handelCatchOrRunOutId = (data) => {
+    console.log(data, "data from handelCatchOrRunOut");
     if (perBallOccurs.ballOccurs === "caught") {
       setPerBallOccurs({
         ...perBallOccurs,
@@ -354,8 +360,9 @@ const UpdateMatchBallByBall = () => {
         batterScore: null,
         byeScore: null,
         byeRun: null,
-        catchKeeperId: data.id,
+        catchKeeperId: data.fName,
         runOutThrowerId: "",
+        outTaken: selectedPlayer.bowler.fName,
       });
     }
 
@@ -366,8 +373,9 @@ const UpdateMatchBallByBall = () => {
         batterScore: null,
         byeScore: null,
         byeRun: null,
-        runOutThrowerId: data.id,
+        runOutThrowerId: data.fName,
         catchKeeperId: "",
+        outTaken: selectedPlayer.bowler.fName,
       });
     }
   };
@@ -594,6 +602,7 @@ const UpdateMatchBallByBall = () => {
     }
 
     if (batter2Stats?.isOut) {
+      toast.success("Out");
       setSelectedPlayer({
         ...selectedPlayer,
         batter2: {
@@ -604,6 +613,7 @@ const UpdateMatchBallByBall = () => {
         },
       });
       setBatter2Stats({ ...INIT_STATS });
+      setSelectedBatterId("");
     }
   }, [batter1Stats, batter2Stats]);
 

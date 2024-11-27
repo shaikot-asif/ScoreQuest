@@ -3,8 +3,10 @@ import images from "../../../constants/images";
 import PrimaryButton from "../../../components/shared/button/PrimaryButton";
 import SecondaryButton from "../../../components/shared/button/SecondaryButton";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Hero = () => {
+  const userState = useSelector((state) => state.user);
   return (
     <div className="container px-5 xl:px-0 block m-auto overflow-x-hidden text-center">
       <div className="flex flex-row justify-between mt-10 md:mt-24 mb-[200px]">
@@ -26,9 +28,11 @@ const Hero = () => {
         </div>
       </div>
       <div className="md:justify-center translate-y-[-185px] flex flex-col md:flex-row items-start md:items-center gap-4 ">
-        <Link to={"/signup"}>
-          <PrimaryButton text={"Get Started"} />
-        </Link>
+        {!userState.userInfo && (
+          <Link to={"/signup"}>
+            <PrimaryButton text={"Get Started"} />
+          </Link>
+        )}
         <Link to={"/today-match"}>
           <SecondaryButton text={"Explore Live Match"} />
         </Link>

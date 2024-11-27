@@ -62,7 +62,6 @@ const UpdateMatch = () => {
     match?.bowlingUser?.userId,
     match?.toss?.tossWinner,
     match?.toss?.inningsType,
-    !isLoading,
   ]);
 
   return (
@@ -72,19 +71,6 @@ const UpdateMatch = () => {
       ) : (
         <div>
           {!match?.toss?.tossWinner && <StartMatchTImeCount match={match} />}
-
-          {/* {nextPage && (
-            <TosWinnerOverWickets match={match} setNextPage={setNextPage} />
-          )} */}
-
-          {/* {userState.userInfo.id === match?.toss?.tossWinner &&
-            !match?.battingUser?.userId &&
-            !match?.bowlingUser?.userId && <SelectInningsType match={match} />} */}
-
-          {/* {match?.battingUser?.userId?.toString() ===
-            userState?.userInfo?.id?.toString() &&
-          match?.status === "accepted" ? (
-            <UpdateMatchBallByBall match={match} /> */}
         </div>
       )}
     </div>

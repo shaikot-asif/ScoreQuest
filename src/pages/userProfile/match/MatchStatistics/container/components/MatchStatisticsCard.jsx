@@ -40,7 +40,26 @@ const MatchStatisticsCard = ({
                         {battingPlayerNameKey?.[item.playerId]}
                       </td>
                       <td className="p-2 border">
-                        {item.out.out ? "out" : "Not Out"}
+                        {item.out.out
+                          ? (item.out.outType === "bowled" &&
+                              item.out.outType +
+                                "(" +
+                                item.out.outTaken +
+                                ")") ||
+                            (item.out.outType === "caught" &&
+                              item.out.outType +
+                                "(" +
+                                item.out.catchKeeper +
+                                ")") ||
+                            (item.out.outType === "lbw" &&
+                              item.out.outType +
+                                "(" +
+                                item.out.outTaken +
+                                ")") ||
+                            (item.out.outType === "runOut" &&
+                              item.out.outType + "(" + item.out.runOut + ")") ||
+                            (item.out.outType === "stumped" && item.out.outType)
+                          : "Not Out"}
                       </td>
 
                       <td className="p-2 border">{item.runs}</td>
@@ -48,7 +67,9 @@ const MatchStatisticsCard = ({
                       <td className="p-2 border">{item.total4s || 0}</td>
                       <td className="p-2 border">{item.total6s || 0}</td>
                       <td className="p-2 border">
-                        {parseInt((item.runs / item.playBalls) * 100) || 0}
+                        {parseFloat((item.runs / item.playBalls) * 100).toFixed(
+                          2
+                        ) || 0}
                       </td>
                     </tr>
                   )
@@ -74,6 +95,7 @@ const MatchStatisticsCard = ({
                 <th className="p-2 border">WD</th>
                 <th className="p-2 border">NB</th>
                 <th className="p-2 border">Wickets</th>
+                <th className="p-2 border">Economy</th>
               </tr>
             </thead>
             <tbody>
@@ -99,6 +121,11 @@ const MatchStatisticsCard = ({
                       <td className="p-2 border">{item.overs.extra.noBall}</td>
                       <td className="p-2 border">
                         {item.wicketTaken.totalWickets}
+                      </td>
+                      <td className="p-2 border">
+                        {parseFloat(
+                          item.overs.givenRun / (item.overs.ball / 6)
+                        ).toFixed(2)}
                       </td>
                     </tr>
                   )

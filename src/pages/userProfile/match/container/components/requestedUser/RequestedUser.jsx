@@ -124,6 +124,7 @@ const RequestedUser = () => {
 
   const handelClickAcceptMatch = (data) => {
     setMatchId(data);
+    console.log(data, "handel click accept match");
     setIsAccept(!isAccept);
   };
 
@@ -144,6 +145,8 @@ const RequestedUser = () => {
     setIsAccept(false);
   };
 
+  console.log(matchValues, "matchValues");
+
   return (
     <div className="mt-10  flex flex-row flex-wrap justify-evenly">
       {matchData?.length === 0 ? (
@@ -154,6 +157,7 @@ const RequestedUser = () => {
         matchData?.map((item) => {
           return (
             <MatchCard
+              matchData={matchData}
               handelClickDeleteMatch={handelClickDeleteMatch}
               handelClickAcceptMatch={handelClickAcceptMatch}
               note={note}

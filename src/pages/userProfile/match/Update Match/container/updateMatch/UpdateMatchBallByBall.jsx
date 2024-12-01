@@ -818,7 +818,7 @@ const UpdateMatchBallByBall = () => {
               {selectedPlayer?.bowler?.id === INIT_SELECT_PLAYER.bowler.id ? (
                 <button
                   onClick={() => setSelectBowling(true)}
-                  className="w-1/2 py-4 border capitalize shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] rounded-md focus:ring-2 focus:ring-primary-brightOrange "
+                  className=" w-full md:w-1/2 py-4 border capitalize shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] rounded-md focus:ring-2 focus:ring-primary-brightOrange "
                 >
                   Click here to Select player 1
                 </button>
@@ -1044,8 +1044,8 @@ const UpdateMatchBallByBall = () => {
       )}
 
       {(selectBatter1 || selectBatter2) && (
-        <div className="absolute top-0 bottom-0 left-0 w-full backdrop-blur-sm">
-          <div className="shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]p-6 rounded-lg fixed h-[500px] overflow-y-auto w-[90%] left-[5%] top-[5%] bg-secondary-coolGray">
+        <div className="fixed top-0 bottom-0 left-0 w-full z-[999] backdrop-blur-sm">
+          <div className="shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] p-6 rounded-lg fixed h-[500px] overflow-y-auto w-[90%] left-[5%] top-[5%] bg-secondary-coolGray">
             <PlayersList
               players={battingPlayer}
               title={"Select Batting Player"}
@@ -1070,7 +1070,7 @@ const UpdateMatchBallByBall = () => {
       )}
 
       {selectBowling && (
-        <div className="absolute top-0 bottom-0 left-0 w-full backdrop-blur-sm">
+        <div className="fixed top-0 bottom-0 left-0 w-full z-[999] backdrop-blur-sm">
           <div className="shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] p-6 rounded-lg fixed h-[500px] overflow-y-auto w-[90%] left-[5%] top-[5%] bg-secondary-coolGray">
             <PlayersList
               players={bowlingPlayer}
@@ -1096,7 +1096,7 @@ const UpdateMatchBallByBall = () => {
       {turnOff &&
         (perBallOccurs.ballOccurs === "caught" ||
           perBallOccurs.ballOccurs === "runOut") && (
-          <div className="absolute top-0 bottom-0 left-0 w-full backdrop-blur-sm">
+          <div className="fixed top-0 bottom-0 left-0 w-full z-[999] backdrop-blur-sm">
             <div className="shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] p-6 rounded-lg fixed h-[500px] overflow-y-auto w-[90%] left-[5%] top-[5%] bg-secondary-coolGray">
               <PlayersList
                 players={bowlingPlayer}

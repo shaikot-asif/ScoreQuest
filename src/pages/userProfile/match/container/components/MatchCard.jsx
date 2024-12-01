@@ -16,9 +16,12 @@ const MatchCard = ({
   note,
   setMatchValues,
   isAccept,
+  matchData = null,
 }) => {
   const [minute, setMinute] = useState(0);
   const [second, setSecond] = useState(0);
+  const [clickedMatchId, setClickedMatchId] = useState("");
+
   const [isRejectNote, setIsRejectNote] = useState(false);
   const userState = useSelector((state) => state.user);
 
@@ -47,37 +50,56 @@ const MatchCard = ({
       }
     }
   }, [item, setAutoCancel]);
-
   useEffect(() => {
-    if (typeof setMatchValues === "function") {
-      let date = new Date(item.date);
+    if (matchData !== null) {
+      matchData.map((item) => {
+        console.log(
+          item._id,
+          "item",
+          item._id === clickedMatchId,
+          "is same",
+          clickedMatchId,
+          "clicked match Id"
+        );
+        if (
+          typeof setMatchValues === "function" &&
+          item._id == clickedMatchId
+        ) {
+          let date = new Date(item.date);
 
-      // Calculate GMT+6 offset in milliseconds (6 hours * 60 minutes * 60 seconds * 1000 milliseconds)
-      const offset = 6 * 60 * 60 * 1000;
+          // Calculate GMT+6 offset in milliseconds (6 hours * 60 minutes * 60 seconds * 1000 milliseconds)
+          const offset = 6 * 60 * 60 * 1000;
 
-      // Add the offset to the date
-      date = new Date(date.getTime() + offset);
-      setMatchValues({
-        teams: {
-          requestingTeam: {
-            name: item.teams.requestingTeam.name,
-            userId: item.teams.requestingTeam.userId,
-          },
-          requestedTeam: {
-            name: item.teams.requestedTeam.name,
-            userId: item.teams.requestedTeam.userId,
-          },
-        },
-        squads: {
-          requestedTeamSquad: {
-            squadId: "",
-          },
-        },
-        date: date.toISOString().slice(0, 16),
-        venue: item.venue,
+          // Add the offset to the date
+          date = new Date(date.getTime() + offset);
+          return setMatchValues({
+            teams: {
+              requestingTeam: {
+                name: item.teams.requestingTeam.name,
+                userId: item.teams.requestingTeam.userId,
+              },
+              requestedTeam: {
+                name: item.teams.requestedTeam.name,
+                userId: item.teams.requestedTeam.userId,
+              },
+            },
+            squads: {
+              requestedTeamSquad: {
+                squadId: "",
+              },
+            },
+            date: date.toISOString().slice(0, 16),
+            venue: item.venue,
+          });
+        }
       });
     }
-  }, [setMatchValues]);
+  }, [clickedMatchId]);
+
+  const handelClickSetAcceptedMatch = (data) => {
+    setClickedMatchId(data);
+    handelClickAcceptMatch(data);
+  };
 
   const handelRejectMatch = (data) => {
     handelClickDeleteMatch(data);
@@ -155,7 +177,7 @@ const MatchCard = ({
               <SecondaryButton text={"Reject"} />
             </span>
 
-            <span onClick={() => handelClickAcceptMatch(item._id)}>
+            <span onClick={() => handelClickSetAcceptedMatch(item._id)}>
               <PrimaryButton text={"Accept"} />
             </span>
           </div>
@@ -174,9 +196,8 @@ const MatchCard = ({
             </div>
           )}
 
-          <div className="fixed top-[3%] w-[70%] left-[25%] ">
-            {isAccept && AddMatchCard}
-          </div>
+          {/* fixed top-[3%] w-[70%] left-[25%]  */}
+          <div className="">{isAccept && AddMatchCard}</div>
         </div>
       ) : (
         (item.status === "pending" || item.status === "rejected") && (

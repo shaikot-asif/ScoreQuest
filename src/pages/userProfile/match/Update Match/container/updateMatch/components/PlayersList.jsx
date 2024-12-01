@@ -11,7 +11,7 @@ const PlayersList = ({
   setSelectBatter2,
 }) => {
   return (
-    <div className="">
+    <>
       <PlayerTable
         players={players}
         title={title}
@@ -21,7 +21,7 @@ const PlayersList = ({
         setSelectBatter1={setSelectBatter1}
         setSelectBatter2={setSelectBatter2}
       />
-    </div>
+    </>
   );
 };
 

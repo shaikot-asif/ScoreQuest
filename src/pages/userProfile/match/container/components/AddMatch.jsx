@@ -4,10 +4,6 @@ import { useSelector } from "react-redux";
 import { getSquad } from "../../../../../service/squad";
 import { toast } from "react-hot-toast";
 import { addMatch } from "../../../../../service/match";
-import Loading from "../../../../../components/shared/Loading/Loading";
-import SecondaryButton from "../../../../../components/shared/button/SecondaryButton";
-import { IoMdClose } from "react-icons/io";
-import SquadCard from "./squadCard/SquadCard";
 import AddMatchCard from "./AddMatchCard/AddMatchCard";
 
 const InitValue = {
@@ -124,7 +120,7 @@ const AddMatch = ({ requestedTeam, setPlayMatchBtn }) => {
   };
   // lg:top-[2%] fixed z-50 top-[60%] left-[50%] w-full -translate-x-1/2  -translate-y-1/2 lg:-translate-y-0 backdrop-blur-sm
   return (
-    <div className=" absolute top-0 left-0 w-full py-10 z-50 backdrop-blur-sm ">
+    <div className="">
       <AddMatchCard
         handleChange={handleChange}
         handleClickSingleSquad={handleClickSingleSquad}

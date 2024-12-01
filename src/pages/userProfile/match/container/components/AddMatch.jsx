@@ -118,7 +118,7 @@ const AddMatch = ({ requestedTeam, setPlayMatchBtn }) => {
     setMatchValues({ ...InitValue });
     setPlayMatchBtn(false);
   };
-  // lg:top-[2%] fixed z-50 top-[60%] left-[50%] w-full -translate-x-1/2  -translate-y-1/2 lg:-translate-y-0 backdrop-blur-sm
+
   return (
     <div className="">
       <AddMatchCard

@@ -3,6 +3,8 @@ import { IoMdClose } from "react-icons/io";
 import Loading from "../../../../../../components/shared/Loading/Loading";
 import SquadCard from "../squadCard/SquadCard";
 import SecondaryButton from "../../../../../../components/shared/button/SecondaryButton";
+import { adjustToLocalTime } from "../../../../../../utils/adjusedTimeAndTImeZone";
+import { format } from "date-fns";
 
 const AddMatchCard = ({
   title,
@@ -63,7 +65,16 @@ const AddMatchCard = ({
                   inputDisabled && "cursor-not-allowed"
                 } w-full cursor-pointer px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-accentColor-skyBlur`}
                 type="datetime-local"
-                value={matchValues.date}
+                value={
+                  matchValues.date
+                    ? import.meta.env.VITE_ENVIROMENT === "development"
+                      ? matchValues.date
+                      : format(
+                          adjustToLocalTime(matchValues.date),
+                          "yyyy-MM-dd'T'HH:mm"
+                        )
+                    : ""
+                }
                 disabled={inputDisabled}
                 name="date"
                 onChange={handleChange}

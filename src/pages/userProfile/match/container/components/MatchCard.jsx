@@ -4,6 +4,8 @@ import SecondaryButton from "../../../../../components/shared/button/SecondaryBu
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getDateDifference } from "../../../../../utils/getDateDifference";
+import { format } from "date-fns";
+import { adjustToLocalTime } from "../../../../../utils/adjusedTimeAndTImeZone";
 
 const MatchCard = ({
   item,
@@ -67,11 +69,10 @@ const MatchCard = ({
         ) {
           let date = new Date(item.date);
 
-          // Calculate GMT+6 offset in milliseconds (6 hours * 60 minutes * 60 seconds * 1000 milliseconds)
-          const offset = 6 * 60 * 60 * 1000;
-
-          // Add the offset to the date
-          date = new Date(date.getTime() + offset);
+          if (import.meta.env.VITE_ENVIROMENT === "development") {
+            const offset = 6 * 60 * 60 * 1000;
+            date = new Date(date.getTime() + offset);
+          }
           return setMatchValues({
             teams: {
               requestingTeam: {
@@ -125,7 +126,13 @@ const MatchCard = ({
       </div>
       <div className="text-secondary-slateGray flex flex-row gap-1">
         <span className="font-semibold">Date:</span>
-        <span className="">{new Date(item.date).toLocaleString()}</span>
+        <span className="">
+          {item.date
+            ? format(adjustToLocalTime(item.date), "yyyy-MM-dd hh:mm a")
+            : "N/A" ||
+              (import.meta.env.VITE_ENVIROMENT === "development" &&
+                new Date(item.date).toLocaleString())}
+        </span>
       </div>
 
       <div className="text-secondary-slateGray flex flex-row gap-1">
@@ -196,7 +203,6 @@ const MatchCard = ({
             </div>
           )}
 
-          {/* fixed top-[3%] w-[70%] left-[25%]  */}
           <div className="">{isAccept && AddMatchCard}</div>
         </div>
       ) : (

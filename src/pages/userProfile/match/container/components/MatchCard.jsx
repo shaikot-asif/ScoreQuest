@@ -118,10 +118,7 @@ const MatchCard = ({
                 squadId: "",
               },
             },
-            date:
-              import.meta.env.VITE_ENVIROMENT === "development"
-                ? adjustToLocalTime(item.date, 6).toISOString().slice(0, 16)
-                : adjustToLocalTime(item.date, -6).toISOString().slice(0, 16),
+            date: adjustToLocalTime(item.date, 6).toISOString().slice(0, 16),
             venue: item.venue,
           });
         }

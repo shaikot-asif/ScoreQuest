@@ -27,13 +27,56 @@ const MatchCard = ({
   const [isRejectNote, setIsRejectNote] = useState(false);
   const userState = useSelector((state) => state.user);
 
+  console.log(
+    format(adjustToLocalTime(item.date), "yyyy-MM-dd hh:mm:ss a"),
+    "from console.log"
+  );
+
   useEffect(() => {
     const interval = setInterval(() => {
       if (minute / 60 < 24) {
-        setSecond(getDateDifference(new Date(item.date), new Date()).seconds);
-      }
+        if (import.meta.env.VITE_ENVIROMENT === "development") {
+          setSecond(
+            getDateDifference(
+              format(adjustToLocalTime(item.date), "yyyy-MM-dd hh:mm:ss a"),
+              format(
+                adjustToLocalTime(new Date().toISOString()),
+                "yyyy-MM-dd hh:mm:ss a"
+              )
+            ).seconds
+          );
 
-      setMinute(getDateDifference(new Date(item.date), new Date()).minutes);
+          setMinute(
+            getDateDifference(
+              format(adjustToLocalTime(item.date), "yyyy-MM-dd hh:mm:ss a"),
+              format(
+                adjustToLocalTime(new Date().toISOString()),
+                "yyyy-MM-dd hh:mm:ss a"
+              )
+            ).minutes
+          );
+        } else {
+          setSecond(
+            getDateDifference(
+              format(adjustToLocalTime(item.date, -6), "yyyy-MM-dd hh:mm:ss a"),
+              format(
+                adjustToLocalTime(new Date().toISOString()),
+                "yyyy-MM-dd hh:mm:ss a"
+              )
+            ).seconds
+          );
+
+          setMinute(
+            getDateDifference(
+              format(adjustToLocalTime(item.date, -6), "yyyy-MM-dd hh:mm:ss a"),
+              format(
+                adjustToLocalTime(new Date().toISOString()),
+                "yyyy-MM-dd hh:mm:ss a"
+              )
+            ).minutes
+          );
+        }
+      }
     }, 1000);
 
     return () => {
@@ -59,7 +102,7 @@ const MatchCard = ({
           typeof setMatchValues === "function" &&
           item._id == clickedMatchId
         ) {
-          let date = new Date(item.date);
+          // let date = new Date(item.date);
 
           // if (import.meta.env.VITE_ENVIROMENT === "development") {
           //   const offset = 6 * 60 * 60 * 1000;
@@ -81,7 +124,10 @@ const MatchCard = ({
                 squadId: "",
               },
             },
-            date: date.toISOString(),
+            date:
+              import.meta.env.VITE_ENVIROMENT === "development"
+                ? adjustToLocalTime(item.date, 6).toISOString().slice(0, 16)
+                : adjustToLocalTime(item.date).toISOString().slice(0, 16),
             venue: item.venue,
           });
         }
@@ -120,8 +166,8 @@ const MatchCard = ({
         <span className="font-semibold">Date:</span>
         <span className="">
           {import.meta.env.VITE_ENVIROMENT === "development"
-            ? new Date(item.date).toLocaleString()
-            : format(adjustToLocalTime(item.date), "yyyy-MM-dd hh:mm a")}
+            ? format(adjustToLocalTime(item.date), "yyyy-MM-dd hh:mm a")
+            : format(adjustToLocalTime(item.date, -6), "yyyy-MM-dd hh:mm a")}
         </span>
       </div>
 

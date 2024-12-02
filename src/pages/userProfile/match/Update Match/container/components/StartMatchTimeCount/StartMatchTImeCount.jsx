@@ -92,8 +92,7 @@ const StartMatchTImeCount = ({ match }) => {
                     " S"}
             </span>
 
-            {new Date(match?.date).toLocaleDateString() <=
-              new Date().toLocaleDateString() &&
+            {minute <= 300 &&
               userState.userInfo.id === match?.teams?.requestingTeam?.userId &&
               match?.status === "accepted" && (
                 <span

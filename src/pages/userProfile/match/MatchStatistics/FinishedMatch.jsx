@@ -82,9 +82,15 @@ const FinishedMatch = () => {
           </div>
 
           <div className="flex flex-col gap-4 md:flex-row flex-wrap justify-center">
-            {match.map((match, index) => (
-              <FinishedMatchCard match={match} key={index} />
-            ))}
+            {match?.length <= 0 ? (
+              <p className="text-[20px] text-primary-brightOrange ">
+                There have no finished match
+              </p>
+            ) : (
+              match.map((match, index) => (
+                <FinishedMatchCard match={match} key={index} />
+              ))
+            )}
           </div>
         </div>
       )}

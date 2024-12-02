@@ -86,13 +86,19 @@ const UpcomingMatch = () => {
             </div>
 
             <div className="flex flex-wrap gap-5 md:flex-row justify-center">
-              {match?.map((match, index) => (
-                <MatchCard
-                  match={match}
-                  key={index}
-                  parentClass={"w-[100%] md:w-[48%] lg:w-[31%] "}
-                />
-              ))}
+              {match?.length === 0 ? (
+                <p className="text-[20px] text-primary-brightOrange ">
+                  There have no upcoming match
+                </p>
+              ) : (
+                match?.map((match, index) => (
+                  <MatchCard
+                    match={match}
+                    key={index}
+                    parentClass={"w-[100%] md:w-[48%] lg:w-[31%] "}
+                  />
+                ))
+              )}
             </div>
           </div>
         </div>

@@ -66,14 +66,11 @@ const AddMatchCard = ({
                 } w-full cursor-pointer px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-accentColor-skyBlur`}
                 type="datetime-local"
                 value={
-                  matchValues.date
-                    ? import.meta.env.VITE_ENVIROMENT === "development"
-                      ? matchValues.date
-                      : format(
-                          adjustToLocalTime(matchValues.date),
-                          "yyyy-MM-dd'T'HH:mm"
-                        )
-                    : ""
+                  matchValues.date &&
+                  format(
+                    adjustToLocalTime(matchValues.date),
+                    "yyyy-MM-dd'T'HH:mm"
+                  )
                 }
                 disabled={inputDisabled}
                 name="date"

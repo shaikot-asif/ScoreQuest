@@ -55,24 +55,16 @@ const MatchCard = ({
   useEffect(() => {
     if (matchData !== null) {
       matchData.map((item) => {
-        console.log(
-          item._id,
-          "item",
-          item._id === clickedMatchId,
-          "is same",
-          clickedMatchId,
-          "clicked match Id"
-        );
         if (
           typeof setMatchValues === "function" &&
           item._id == clickedMatchId
         ) {
           let date = new Date(item.date);
 
-          if (import.meta.env.VITE_ENVIROMENT === "development") {
-            const offset = 6 * 60 * 60 * 1000;
-            date = new Date(date.getTime() + offset);
-          }
+          // if (import.meta.env.VITE_ENVIROMENT === "development") {
+          //   const offset = 6 * 60 * 60 * 1000;
+          //   date = new Date(date.getTime() + offset);
+          // }
           return setMatchValues({
             teams: {
               requestingTeam: {
@@ -89,7 +81,7 @@ const MatchCard = ({
                 squadId: "",
               },
             },
-            date: date.toISOString().slice(0, 16),
+            date: date.toISOString(),
             venue: item.venue,
           });
         }
@@ -127,11 +119,9 @@ const MatchCard = ({
       <div className="text-secondary-slateGray flex flex-row gap-1">
         <span className="font-semibold">Date:</span>
         <span className="">
-          {item.date
-            ? format(adjustToLocalTime(item.date), "yyyy-MM-dd hh:mm a")
-            : "N/A" ||
-              (import.meta.env.VITE_ENVIROMENT === "development" &&
-                new Date(item.date).toLocaleString())}
+          {import.meta.env.VITE_ENVIROMENT === "development"
+            ? new Date(item.date).toLocaleString()
+            : format(adjustToLocalTime(item.date), "yyyy-MM-dd hh:mm a")}
         </span>
       </div>
 

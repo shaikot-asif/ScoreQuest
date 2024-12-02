@@ -29,8 +29,8 @@ const MatchCard = ({
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (minute / 60 < 24) {
-        if (import.meta.env.VITE_ENVIROMENT === "development") {
+      if (import.meta.env.VITE_ENVIROMENT === "development") {
+        if (minute / 60 < 24) {
           setSecond(
             getDateDifference(
               format(adjustToLocalTime(item.date), "yyyy-MM-dd hh:mm:ss a"),
@@ -39,38 +39,39 @@ const MatchCard = ({
                 "yyyy-MM-dd hh:mm:ss a"
               )
             ).seconds
-          );
-
-          setMinute(
-            getDateDifference(
-              format(adjustToLocalTime(item.date), "yyyy-MM-dd hh:mm:ss a"),
-              format(
-                adjustToLocalTime(new Date().toISOString()),
-                "yyyy-MM-dd hh:mm:ss a"
-              )
-            ).minutes
-          );
-        } else {
-          setSecond(
-            getDateDifference(
-              format(adjustToLocalTime(item.date, -6), "yyyy-MM-dd hh:mm:ss a"),
-              format(
-                adjustToLocalTime(new Date().toISOString()),
-                "yyyy-MM-dd hh:mm:ss a"
-              )
-            ).seconds
-          );
-
-          setMinute(
-            getDateDifference(
-              format(adjustToLocalTime(item.date, -6), "yyyy-MM-dd hh:mm:ss a"),
-              format(
-                adjustToLocalTime(new Date().toISOString()),
-                "yyyy-MM-dd hh:mm:ss a"
-              )
-            ).minutes
           );
         }
+        setMinute(
+          getDateDifference(
+            format(adjustToLocalTime(item.date), "yyyy-MM-dd hh:mm:ss a"),
+            format(
+              adjustToLocalTime(new Date().toISOString()),
+              "yyyy-MM-dd hh:mm:ss a"
+            )
+          ).minutes
+        );
+      } else {
+        if (minute / 60 < 24) {
+          setSecond(
+            getDateDifference(
+              format(adjustToLocalTime(item.date, -6), "yyyy-MM-dd hh:mm:ss a"),
+              format(
+                adjustToLocalTime(new Date().toISOString()),
+                "yyyy-MM-dd hh:mm:ss a"
+              )
+            ).seconds
+          );
+        }
+
+        setMinute(
+          getDateDifference(
+            format(adjustToLocalTime(item.date, -6), "yyyy-MM-dd hh:mm:ss a"),
+            format(
+              adjustToLocalTime(new Date().toISOString()),
+              "yyyy-MM-dd hh:mm:ss a"
+            )
+          ).minutes
+        );
       }
     }, 1000);
 

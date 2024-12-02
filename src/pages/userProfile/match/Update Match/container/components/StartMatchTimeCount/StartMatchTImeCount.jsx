@@ -3,6 +3,8 @@ import PrimaryButton from "../../../../../../../components/shared/button/Primary
 import { getDateDifference } from "../../../../../../../utils/getDateDifference";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { adjustToLocalTime } from "../../../../../../../utils/adjusedTimeAndTImeZone";
+import { format } from "date-fns";
 
 const StartMatchTImeCount = ({ match }) => {
   const [minute, setMinute] = useState(0);
@@ -12,11 +14,53 @@ const StartMatchTImeCount = ({ match }) => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (minute / 60 < 24) {
-        setSecond(getDateDifference(new Date(match.date), new Date()).seconds);
-      }
+      if (import.meta.env.VITE_ENVIROMENT === "development") {
+        if (minute / 60 < 24) {
+          setSecond(
+            getDateDifference(
+              format(adjustToLocalTime(match?.date), "yyyy-MM-dd hh:mm:ss a"),
+              format(
+                adjustToLocalTime(new Date().toISOString()),
+                "yyyy-MM-dd hh:mm:ss a"
+              )
+            ).seconds
+          );
+        }
+        setMinute(
+          getDateDifference(
+            format(adjustToLocalTime(match?.date), "yyyy-MM-dd hh:mm:ss a"),
+            format(
+              adjustToLocalTime(new Date().toISOString()),
+              "yyyy-MM-dd hh:mm:ss a"
+            )
+          ).minutes
+        );
+      } else {
+        if (minute / 60 < 24) {
+          setSecond(
+            getDateDifference(
+              format(
+                adjustToLocalTime(match?.date, -6),
+                "yyyy-MM-dd hh:mm:ss a"
+              ),
+              format(
+                adjustToLocalTime(new Date().toISOString()),
+                "yyyy-MM-dd hh:mm:ss a"
+              )
+            ).seconds
+          );
+        }
 
-      setMinute(getDateDifference(new Date(match.date), new Date()).minutes);
+        setMinute(
+          getDateDifference(
+            format(adjustToLocalTime(match?.date, -6), "yyyy-MM-dd hh:mm:ss a"),
+            format(
+              adjustToLocalTime(new Date().toISOString()),
+              "yyyy-MM-dd hh:mm:ss a"
+            )
+          ).minutes
+        );
+      }
     }, 1000);
 
     return () => {

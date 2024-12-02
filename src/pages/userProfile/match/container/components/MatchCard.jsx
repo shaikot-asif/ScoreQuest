@@ -27,11 +27,6 @@ const MatchCard = ({
   const [isRejectNote, setIsRejectNote] = useState(false);
   const userState = useSelector((state) => state.user);
 
-  console.log(
-    format(adjustToLocalTime(item.date), "yyyy-MM-dd hh:mm:ss a"),
-    "from console.log"
-  );
-
   useEffect(() => {
     const interval = setInterval(() => {
       if (minute / 60 < 24) {
@@ -98,33 +93,36 @@ const MatchCard = ({
   useEffect(() => {
     if (matchData !== null) {
       matchData.map((item) => {
-        if (
-          typeof setMatchValues === "function" &&
-          item._id == clickedMatchId
-        ) {
-          return setMatchValues({
-            teams: {
-              requestingTeam: {
-                name: item.teams.requestingTeam.name,
-                userId: item.teams.requestingTeam.userId,
+        if (typeof setMatchValues === "function") {
+          if (clickedMatchId === item._id) {
+            setMatchValues({
+              teams: {
+                requestingTeam: {
+                  name: item.teams.requestingTeam.name,
+                  userId: item.teams.requestingTeam.userId,
+                },
+                requestedTeam: {
+                  name: item.teams.requestedTeam.name,
+                  userId: item.teams.requestedTeam.userId,
+                },
               },
-              requestedTeam: {
-                name: item.teams.requestedTeam.name,
-                userId: item.teams.requestedTeam.userId,
+              squads: {
+                requestedTeamSquad: {
+                  squadId: "",
+                },
               },
-            },
-            squads: {
-              requestedTeamSquad: {
-                squadId: "",
-              },
-            },
-            date: adjustToLocalTime(item.date, 6).toISOString().slice(0, 16),
-            venue: item.venue,
-          });
+              date:
+                import.meta.env.VITE_ENVIROMENT === "development"
+                  ? adjustToLocalTime(item.date, 6).toISOString().slice(0, 16)
+                  : adjustToLocalTime(item.date, -6).toISOString().slice(0, 16),
+              venue: item.venue,
+            });
+            setClickedMatchId("");
+          }
         }
       });
     }
-  }, [clickedMatchId]);
+  }, [clickedMatchId, item, setMatchValues]);
 
   const handelClickSetAcceptedMatch = (data) => {
     setClickedMatchId(data);

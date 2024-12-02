@@ -102,12 +102,6 @@ const MatchCard = ({
           typeof setMatchValues === "function" &&
           item._id == clickedMatchId
         ) {
-          // let date = new Date(item.date);
-
-          // if (import.meta.env.VITE_ENVIROMENT === "development") {
-          //   const offset = 6 * 60 * 60 * 1000;
-          //   date = new Date(date.getTime() + offset);
-          // }
           return setMatchValues({
             teams: {
               requestingTeam: {
@@ -127,7 +121,7 @@ const MatchCard = ({
             date:
               import.meta.env.VITE_ENVIROMENT === "development"
                 ? adjustToLocalTime(item.date, 6).toISOString().slice(0, 16)
-                : adjustToLocalTime(item.date).toISOString().slice(0, 16),
+                : adjustToLocalTime(item.date, -6).toISOString().slice(0, 16),
             venue: item.venue,
           });
         }

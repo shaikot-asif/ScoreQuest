@@ -71,7 +71,7 @@ const AddMatchCard = ({
                     ? adjustToLocalTime(matchValues.date, 6)
                         .toISOString()
                         .slice(0, 16) // Ensure ISO format for `datetime-local`
-                    : adjustToLocalTime(matchValues.date, 6)
+                    : adjustToLocalTime(matchValues.date, -6)
                         .toISOString()
                         .slice(0, 16))
                 }

@@ -67,9 +67,13 @@ const AddMatchCard = ({
                 type="datetime-local"
                 value={
                   matchValues.date &&
-                  adjustToLocalTime(matchValues.date, 6)
-                    .toISOString()
-                    .slice(0, 16)
+                  (import.meta.env.VITE_ENVIROMENT === "development"
+                    ? adjustToLocalTime(matchValues.date, 6)
+                        .toISOString()
+                        .slice(0, 16) // Ensure ISO format for `datetime-local`
+                    : adjustToLocalTime(matchValues.date, 6)
+                        .toISOString()
+                        .slice(0, 16))
                 }
                 disabled={inputDisabled}
                 name="date"

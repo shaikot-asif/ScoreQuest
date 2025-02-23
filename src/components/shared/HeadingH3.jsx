@@ -1,13 +1,18 @@
+import { motion } from "framer-motion";
 import React from "react";
 
 const HeadingH3 = ({ text, classes }) => {
   return (
     <div>
-      <h3
-        className={`text-center text-[22px] md:text-[28px] font-bold  text-primary-darkNavy ${classes}`}
+      <motion.h3
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        viewport={{ once: true }}
+        className={`text-center text-[22px] md:text-[28px] font-bold  text-white ${classes}`}
       >
         {text}
-      </h3>
+      </motion.h3>
     </div>
   );
 };

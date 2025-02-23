@@ -9,12 +9,12 @@ const HeaderItem = ({ userState, navItem, classes, parentClass }) => {
         {navItem.map((item, index) => (
           <li
             className={` text-natural-white  font-semibold   ${
-              location.pathname === item.link && "text-primary-brightOrange"
+              location.pathname === item.link && "text-secondary-goldenPoppy"
             }`}
             key={index}
           >
             <Link
-              className="hover:text-primary-brightOrange transition-all duration-500"
+              className="hover:text-secondary-goldenPoppy transition-all duration-500"
               to={item.link}
             >
               {item.name}
@@ -27,11 +27,11 @@ const HeaderItem = ({ userState, navItem, classes, parentClass }) => {
         <ul>
           <li
             className={` text-natural-white transition-all font-semibold duration-500  ${
-              location.pathname === "/profile" && "text-primary-brightOrange"
+              location.pathname === "/profile" && "text-secondary-goldenPoppy"
             }`}
           >
             <Link
-              className="hover:text-primary-brightOrange transition-all duration-500"
+              className="hover:text-secondary-goldenPoppy transition-all duration-500"
               to={"/profile"}
             >
               Profile
@@ -44,14 +44,14 @@ const HeaderItem = ({ userState, navItem, classes, parentClass }) => {
             className={` text-natural-white font-semibold transition-all duration-500  ${
               (location.pathname === "/signup" ||
                 location.pathname === "/login") &&
-              "text-primary-brightOrange"
+              "text-secondary-goldenPoppy"
             }`}
           >
             <Link
-              className="hover:text-primary-brightOrange transition-all duration-500"
-              to={"/signup"}
+              className="hover:text-secondary-goldenPoppy transition-all duration-500"
+              to={"/login"}
             >
-              Sign Up
+              Login
             </Link>
           </li>
         </ul>

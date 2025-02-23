@@ -1,28 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { memo } from "react";
 import HeaderLayout from "./container/HeaderLayout";
 
 const Header = () => {
-  const [scroll, setScroll] = useState(0);
-
-  const handelInfinityScroll = () => {
-    setScroll(document.documentElement.scrollTop);
-  };
-  useEffect(() => {
-    window.addEventListener("scroll", handelInfinityScroll);
-    return () => window.removeEventListener("scroll", handelInfinityScroll);
-  }, []);
-  return (
-    <div className="">
-      {scroll > 150 && (
-        <HeaderLayout
-          classes={
-            "!fixed top-0 w-full z-[99999] transition-all duration-300 backdrop-blur shadow-xl"
-          }
-        />
-      )}
-      <HeaderLayout />
-    </div>
-  );
+  return <HeaderLayout />;
 };
 
-export default Header;
+export default memo(Header);

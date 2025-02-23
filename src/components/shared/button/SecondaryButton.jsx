@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 const SecondaryButton = ({
   text,
@@ -10,15 +11,20 @@ const SecondaryButton = ({
 }) => {
   return (
     <div>
-      <button
+      <motion.button
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        whileHover={{ scale: 1.1 }}
+        transition={{ duration: 0.5 }}
+        viewport={{ once: true }}
         disabled={isDisabled}
         type={type}
         className={`${classes} ${
           isDisabled && "cursor-not-allowed"
-        } bg-accentColor-skyBlur hover:[box-shadow:0px_5px_15px_rgba(255,_255,_255)] px-[20px] py-[10px] rounded-[6px] font-normal text-natural-white`}
+        } border-secondary-goldenPoppy border hover:bg-secondary-goldenPoppy transition-all duration-200 hover:text-primary-blackRussian  px-[20px] py-[10px] rounded-[6px] font-normal text-natural-white`}
       >
         {text}
-      </button>
+      </motion.button>
     </div>
   );
 };

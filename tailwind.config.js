@@ -5,16 +5,12 @@ export default {
     extend: {
       colors: {
         primary: {
-          darkNavy: "#0B3D91",
-          brightOrange: "#FF7043",
+          midNight: "#1E2939",
+          blackRussian: "#101828",
         },
         secondary: {
-          coolGray: "#E0E0E0",
-          slateGray: "#4A4A4A",
-        },
-        accentColor: {
-          limeGreen: "#76FF03",
-          skyBlur: "#42A5F5",
+          goldenPoppy: "#FDC700",
+          cloudBrust: "#364153",
         },
         natural: {
           white: "#FFFFFF",

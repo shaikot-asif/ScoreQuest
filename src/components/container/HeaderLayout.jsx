@@ -22,7 +22,7 @@ const HeaderLayout = ({ classes }) => {
 
   return (
     <div
-      className={`${classes} bg-primary-darkNavy block m-auto relative z-[9999]  py-4 px-4 xl:px-0 `}
+      className={`${classes} bg-primary-midNight m-auto fixed top-0 shadow-lg backdrop-blur-md w-full z-[9999] opacity-90  py-2 px-2 xl:px-0 `}
     >
       <div className="container m-auto flex flex-row justify-between">
         <div className="w-[200px] md:w-[160px] ">

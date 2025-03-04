@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { detectInputType } from "../../utils/detectInputType";
@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../service/user";
 import { userActions } from "../../store/reducers/userReducer";
 import Loading from "../../components/shared/Loading/Loading";
-import LoginCard from "./container/components/Logincard";
+import LoginCard from "./container/components/LoginCard";
 const LoginPage = () => {
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.user);

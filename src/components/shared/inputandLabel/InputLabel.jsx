@@ -13,6 +13,8 @@ const InputLabel = ({
   textMsg,
   unregister,
   valueFalse = false,
+  inputClass = "",
+  labelClass = "",
 }) => {
   useEffect(() => {
     if (valueFalse && name === "currentPassword") {
@@ -53,7 +55,7 @@ const InputLabel = ({
   return (
     <div>
       <label
-        className="block text-gray-700 text-sm font-bold mb-2"
+        className={`${labelClass} block text-natural-white  text-sm font-bold mb-2`}
         htmlFor={name}
       >
         {label}
@@ -74,14 +76,14 @@ const InputLabel = ({
         id={name}
         placeholder={placeholder}
         error={errors[name]?.message}
-        className={`${
+        className={` ${inputClass} ${
           errors[name]?.message
             ? "border-primary-brightOrange"
             : "border-secondary-slateGray "
-        } w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-accentColor-skyBlur `}
+        } w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-secondary-cloudBrust `}
       />
 
-      <p className={`${errors[name]?.message && "text-primary-brightOrange"}`}>
+      <p className={`${errors[name]?.message && "text-secondary-goldenPoppy"}`}>
         {errors[name]?.message}
       </p>
     </div>

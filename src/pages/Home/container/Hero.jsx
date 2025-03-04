@@ -21,7 +21,7 @@ const Hero = () => {
         <source className="" src={images.heroVideo} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
-      <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-80"></div>
+      <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-90"></div>
       <motion.div className=" mt-24 md:mt-44 md:w-3/4 m-auto mb-[200px] relative">
         <motion.h1
           className="text-primary-brightOrange  text-natural-white text-left text-3xl md:text-5xl md:text-center leading-tight font-bold"

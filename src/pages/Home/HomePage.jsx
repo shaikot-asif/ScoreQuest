@@ -15,7 +15,7 @@ const HomePage = () => {
       <KeyFeatures />
       <HowItWorks />
       <HowToUse />
-      <TodayMatch />
+      {/* <TodayMatch /> */}
       <FinishedMatch />
       <CTA />
     </MainLayout>

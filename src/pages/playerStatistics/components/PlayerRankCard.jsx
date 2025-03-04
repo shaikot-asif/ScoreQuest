@@ -1,6 +1,6 @@
 import React from "react";
-import stables from "../../../../../constants/stable";
-import images from "../../../../../constants/images";
+import stables from "../../../constants/stable";
+import images from "../../../constants/images";
 
 const PlayerRankCard = ({
   topPlayers,
@@ -13,7 +13,7 @@ const PlayerRankCard = ({
       <div className="mx-auto overflow-x-auto">
         <table className="w-full table-auto border-separate border-spacing-y-4">
           <thead>
-            <tr className="text-primary-darkNavy text-left">
+            <tr className="text-natural-white text-left">
               {playerHeading?.map((item) => (
                 <th key={item} className="p-3">
                   {item}
@@ -25,7 +25,7 @@ const PlayerRankCard = ({
             {topPlayers?.slice(0, limit).map((player, index) => (
               <tr
                 key={player._id}
-                className="shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] rounded-md  md:table-row  mb-5 md:mb-0"
+                className="bg-primary-midNight text-natural-white rounded-xl md:table-row  mb-5 md:mb-0"
               >
                 <td className="p-4 md:p-6">{index + 1}</td>
                 <td className="flex flex-col md:flex-row justify-start gap-2 items-center p-4 md:p-6 font-semibold ">
@@ -72,7 +72,7 @@ const PlayerRankCard = ({
                 )}
 
                 {isBatter && (
-                  <td className="p-2 border">
+                  <td className="p-2 ">
                     {parseFloat(
                       (player.statistics.totalRun /
                         player.statistics.playBalls) *

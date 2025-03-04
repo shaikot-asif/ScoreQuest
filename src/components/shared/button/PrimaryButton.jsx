@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
 
-const PrimaryButton = ({ text, func = null }) => {
+const PrimaryButton = ({ text, func = null, y = 50 }) => {
   return (
     <div>
       <motion.button
-        initial={{ opacity: 0, y: 50 }}
+        initial={{ opacity: 0, y: y }}
         whileHover={{ scale: 1.1 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}

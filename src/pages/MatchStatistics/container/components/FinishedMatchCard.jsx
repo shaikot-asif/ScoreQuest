@@ -1,14 +1,27 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
-const FinishedMatchCard = ({ match, parentClass }) => {
+const FinishedMatchCard = ({
+  match,
+  parentClass,
+  y = 0,
+  x = 0,
+  initialX = 0,
+  initialY = 0,
+}) => {
   return (
-    <div
-      className={`${parentClass} p-6 rounded-md shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] hover:shadow-lg transition-all duration-150 w-[100%] md:w-[48%] lg:w-[31%] `}
+    <motion.div
+      initial={{ opacity: 0, y: -100, x: initialX }}
+      whileInView={{ opacity: 1, y: 0, x: x }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      viewport={{ once: true }}
+      whileHover={{ scale: 1.1 }}
+      className={`${parentClass} p-6 rounded-md  w-[100%] md:w-[44%]  bg-primary-midNight text-natural-white `}
     >
       <Link
         to={`/match-statistics/${match?._id}`}
-        className="text-xl font-semibold text-primary-brightOrange text-center mb-2"
+        className="text-xl font-semibold text-primary-brightOrange text-center block mb-2"
       >
         {match?.teams?.requestingTeam?.name} vs{" "}
         {match?.teams?.requestedTeam?.name}
@@ -38,7 +51,7 @@ const FinishedMatchCard = ({ match, parentClass }) => {
           </span>
         </div>
         <div className="text-secondary-slateGray">
-          <span className="font-semibold">
+          <span className="font-semibold text-secondary-goldenPoppy">
             {parseInt(match?.score?.requestedTeam?.totalRuns) <
             parseInt(match?.score?.requestingTeam?.totalRuns)
               ? match?.teams?.requestingTeam?.name + " win the match"
@@ -49,7 +62,7 @@ const FinishedMatchCard = ({ match, parentClass }) => {
           </span>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

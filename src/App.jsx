@@ -17,11 +17,11 @@ import UpdateMatch from "./pages/userProfile/match/Update Match/UpdateMatch";
 import TosWinnerOverWickets from "./pages/userProfile/match/Update Match/container/components/TosWinner/TosWinnerOverWickets";
 import SelectInningsType from "./pages/userProfile/match/Update Match/container/components/SelectInningsType/SelectInningsType";
 import UpdateMatchBallByBall from "./pages/userProfile/match/Update Match/container/updateMatch/UpdateMatchBallByBall";
-import TodayMatch from "./pages/userProfile/match/MatchStatistics/TodayMatch";
-import FinishedMatch from "./pages/userProfile/match/MatchStatistics/FinishedMatch";
-import UpcomingMatch from "./pages/userProfile/match/MatchStatistics/UpcomingMatch";
-import MatchStatistics from "./pages/userProfile/match/MatchStatistics/container/MatchStatistics";
-import PlayerRank from "./pages/userProfile/player/playerStatistics/PlayerRank";
+import TodayMatch from "./pages/MatchStatistics/TodayMatch";
+import FinishedMatch from "./pages/MatchStatistics/FinishedMatch";
+import UpcomingMatch from "./pages/MatchStatistics/UpcomingMatch";
+import MatchStatistics from "./pages/MatchStatistics/container/MatchStatistics";
+import PlayerRank from "./pages/playerStatistics/PlayerRank";
 
 const App = () => {
   return (

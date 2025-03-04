@@ -27,7 +27,7 @@ const Search = ({ placeholder = "", setSearchKeywords }) => {
           placeholder={placeholder}
         />
         <div className="btn">
-          <PrimaryButton type="submit" text={"Search"} />
+          <PrimaryButton y={0} type="submit" text={"Search"} />
         </div>
       </form>
     </div>

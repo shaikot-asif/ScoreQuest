@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import HeadingH3 from "../../../../components/shared/HeadingH3";
+import HeadingH3 from "../../components/shared/HeadingH3";
 import MatchCard from "./container/components/MatchCard";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { getTodayMatch } from "../../../../service/match";
-import Loading from "../../../../components/shared/Loading/Loading";
-import Search from "../../../../components/Search";
-import Header from "../../../../components/Header";
+import { getTodayMatch } from "../../service/match";
+import Loading from "../../components/shared/Loading/Loading";
+import Search from "../../components/Search";
+import Header from "../../components/Header";
 import { toast } from "react-hot-toast";
+import TodayMatchCart from "./container/components/TodayMatchCart";
 
 const TodayMatch = () => {
   const [searchKeywords, setSearchKeywords] = useState("");
@@ -73,33 +74,7 @@ const TodayMatch = () => {
       {isLoading ? (
         <Loading />
       ) : (
-        <div>
-          <div className="container px-4 xl:px-0 block m-auto my-10 ">
-            <HeadingH3 text={"Today's Match"} classes={"mb-5"} />
-            <div className="self-center mb-10 sm:w-[40%] m-auto ">
-              <Search
-                placeholder="Find Match By Club / Area name"
-                setSearchKeywords={setSearchKeywords}
-              />
-            </div>
-
-            <div className="flex flex-wrap gap-5 md:flex-row justify-center">
-              {match?.length === 0 ? (
-                <p className="text-[20px] text-primary-brightOrange ">
-                  There have no today match
-                </p>
-              ) : (
-                match?.map((match, index) => (
-                  <MatchCard
-                    match={match}
-                    key={index}
-                    parentClass={"w-[100%] md:w-[48%] lg:w-[31%] "}
-                  />
-                ))
-              )}
-            </div>
-          </div>
-        </div>
+        <TodayMatchCart match={match} setSearchKeywords={setSearchKeywords} />
       )}
     </div>
   );

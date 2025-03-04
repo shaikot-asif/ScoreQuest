@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getDateDifference } from "../../../../../../utils/getDateDifference";
+import { getDateDifference } from "../../../../utils/getDateDifference";
 import { Link } from "react-router-dom";
 
 const MatchCard = ({ match, parentClass }) => {

@@ -14,6 +14,8 @@ const HowItWorks = () => {
       <div className="flex flex-col md:flex-row gap-5 justify-evenly mt-10">
         <div className="w-[100%] md:w-[48%] lg:w-[31%] ">
           <FeaturesCard
+            initialX={-100}
+            x={0}
             icon={<MdAppRegistration />}
             text={
               "Sign up and create a team profile. Get your local cricket games into ScoreQuest."
@@ -23,6 +25,8 @@ const HowItWorks = () => {
         </div>
         <div className="w-[100%] md:w-[48%] lg:w-[31%] ">
           <FeaturesCard
+            initialY={100}
+            y={0}
             icon={<MdOutlineScoreboard />}
             text={
               "Start the match and track every ball. Add player stats, runs, overs, and wickets in real-time."
@@ -32,6 +36,8 @@ const HowItWorks = () => {
         </div>
         <div className="w-[100%] md:w-[48%] lg:w-[31%] ">
           <FeaturesCard
+            initialX={100}
+            x={0}
             icon={<MdEmergencyShare />}
             text={
               "Share live scores with your teammates, fans, or even on social media in real-time."

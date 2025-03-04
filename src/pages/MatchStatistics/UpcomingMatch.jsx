@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { getTodayMatch, getUpcomingMatch } from "../../../../service/match";
-import Loading from "../../../../components/shared/Loading/Loading";
-import Header from "../../../../components/Header";
-import HeadingH3 from "../../../../components/shared/HeadingH3";
-import Search from "../../../../components/Search";
+import { getUpcomingMatch, getTodayMatch } from "../../service/match";
+// import Loading from "../../components/shared/Loading/Loading";
+import Loading from "../../components/shared/Loading/Loading";
+// import Header from "../../components/Header";
+import Header from "../../components/Header";
+// import HeadingH3 from "../../components/shared/HeadingH3";
+import HeadingH3 from "../../components/shared/HeadingH3";
+// import Search from "../../components/Search";
+import Search from "../../components/Search";
+// import MatchCard from "./container/components/MatchCard";
 import MatchCard from "./container/components/MatchCard";
 import { toast } from "react-hot-toast";
 
@@ -76,7 +81,7 @@ const UpcomingMatch = () => {
         <Loading />
       ) : (
         <div>
-          <div className="container px-4 xl:px-0 block m-auto my-10 ">
+          <div className="container px-4 xl:px-0 block m-auto my-28 ">
             <HeadingH3 text={"Upcoming Match"} classes={"mb-5"} />
             <div className="self-center mb-10 sm:w-[40%] m-auto ">
               <Search

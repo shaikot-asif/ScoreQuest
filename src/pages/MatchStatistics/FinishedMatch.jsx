@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
-import HeadingH3 from "../../../../components/shared/HeadingH3";
+// import HeadingH3 from "../../../../components/shared/HeadingH3";
+import HeadingH3 from "../../components/shared/HeadingH3";
 import FinishedMatchCard from "./container/components/FinishedMatchCard";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { getCompleteMatch } from "../../../../service/match";
-import Search from "../../../../components/Search";
-import Header from "../../../../components/Header";
-import Loading from "../../../../components/shared/Loading/Loading";
+// import { getCompleteMatch } from "../../../../service/match";
+import { getCompleteMatch } from "../../service/match";
+// import Search from "../../../../components/Search";
+import Search from "../../components/Search";
+// import Header from "../../../../components/Header";
+import Header from "../../components/Header";
+// import Loading from "../../../../components/shared/Loading/Loading";
+import Loading from "../../components/shared/Loading/Loading";
 import { toast } from "react-hot-toast";
 
 const FinishedMatch = () => {
@@ -72,7 +77,7 @@ const FinishedMatch = () => {
       {isLoading ? (
         <Loading />
       ) : (
-        <div className="container px-4 xl:px-0 block m-auto my-10 ">
+        <div className="container px-4 xl:px-0 block m-auto my-28 ">
           <HeadingH3 text={"Finished Match"} classes={"mb-5"} />
           <div className="self-center mb-10 sm:w-[40%] m-auto ">
             <Search
@@ -81,7 +86,7 @@ const FinishedMatch = () => {
             />
           </div>
 
-          <div className="flex flex-col gap-4 md:flex-row flex-wrap justify-center">
+          <div className="flex flex-col gap-10 md:flex-row flex-wrap justify-center">
             {match?.length <= 0 ? (
               <p className="text-[20px] text-primary-brightOrange ">
                 There have no finished match

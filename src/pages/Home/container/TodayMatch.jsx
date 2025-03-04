@@ -1,7 +1,7 @@
 import React from "react";
 import HeadingH3 from "../../../components/shared/HeadingH3";
 import SecondaryButton from "../../../components/shared/button/SecondaryButton";
-import MatchCard from "../../userProfile/match/MatchStatistics/container/components/MatchCard";
+import MatchCard from "../../MatchStatistics/container/components/MatchCard";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { getTodayMatch } from "../../../service/match";
 import { Link } from "react-router-dom";

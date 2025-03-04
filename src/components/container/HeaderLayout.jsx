@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, memo } from "react";
 
 import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -22,7 +22,7 @@ const HeaderLayout = ({ classes }) => {
 
   return (
     <div
-      className={`${classes} bg-primary-midNight m-auto fixed top-0 shadow-lg backdrop-blur-md w-full z-[9999] opacity-90  py-2 px-2 xl:px-0 `}
+      className={`${classes} h-[76.81px] bg-primary-midNight m-auto fixed top-0 shadow-lg backdrop-blur-md w-full z-[9999] opacity-90  py-2 px-2 xl:px-0 `}
     >
       <div className="container m-auto flex flex-row justify-between">
         <div className="w-[200px] md:w-[160px] ">
@@ -72,4 +72,4 @@ const HeaderLayout = ({ classes }) => {
   );
 };
 
-export default HeaderLayout;
+export default memo(HeaderLayout);

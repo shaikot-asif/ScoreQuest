@@ -1,7 +1,7 @@
 import React from "react";
 import HeadingH3 from "../../../components/shared/HeadingH3";
 import SecondaryButton from "../../../components/shared/button/SecondaryButton";
-import FinishedMatchCard from "../../userProfile/match/MatchStatistics/container/components/FinishedMatchCard";
+import FinishedMatchCard from "../../MatchStatistics/container/components/FinishedMatchCard";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { getCompleteMatch } from "../../../service/match";
 import { Link } from "react-router-dom";
@@ -22,11 +22,11 @@ const FinishedMatch = () => {
     <div className="container px-4 xl:px-0 block m-auto mt-[100px] sm:mt-[150px] ">
       <HeadingH3 text={"Finished Match"} classes={"mb-5"} />
 
-      <div className="flex flex-col gap-4 md:flex-row flex-wrap justify-center">
+      <div className="flex flex-col gap-4 md:flex-row flex-wrap  justify-evenly">
         {Array.isArray(match) &&
           match
             ?.slice(0, 6)
-            .map((match, index) => (
+            .map((match) => (
               <FinishedMatchCard match={match} key={match?._id} />
             ))}
       </div>

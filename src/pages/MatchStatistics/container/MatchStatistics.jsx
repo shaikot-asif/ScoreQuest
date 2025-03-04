@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
-import Header from "../../../../../components/Header";
+// import Header from "../../../../../components/Header";
+import Header from "../../../components/Header";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
 import { io } from "socket.io-client";
-import { getMatchByMatchId } from "../../../../../service/match";
-import { useFetchUserNames } from "../../../../../hook/useFetchUserNames";
+// import { getMatchByMatchId } from "../../../../../service/match";
+import { getMatchByMatchId } from "../../../service/match";
+// import { useFetchUserNames } from "../../../../../hook/useFetchUserNames";
+import { useFetchUserNames } from "../../../hook/useFetchUserNames";
 import MatchStatisticsCard from "./components/MatchStatisticsCard";
-import Loading from "../../../../../components/shared/Loading/Loading";
+// import Loading from "../../../../../components/shared/Loading/Loading";
+import Loading from "../../../components/shared/Loading/Loading";
 
 const MatchStatistics = () => {
   const { matchId } = useParams();

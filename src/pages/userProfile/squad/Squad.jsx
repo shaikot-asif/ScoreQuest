@@ -3,9 +3,7 @@ import { useSelector } from "react-redux";
 import { getPlayer, getPlayers } from "../../../service/player";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
-import { IoAddOutline } from "react-icons/io5";
 
-import PlayerTable from "../player/components/PlayerTable";
 import {
   addSquad,
   deleteSquad,
@@ -13,6 +11,7 @@ import {
   getSquadById,
 } from "../../../service/squad";
 import Loading from "../../../components/shared/Loading/Loading";
+import SquadCard from "./container/components/SquadCard";
 
 const Squad = () => {
   const [players, setPlayers] = useState([]);
@@ -159,85 +158,22 @@ const Squad = () => {
   }, [oneSquad, userState.userInfo]);
 
   return (
-    <div className="flex flex-col mt-5 w-full ">
-      <div className="">
-        <h2 className="text-2xl font-bold text-center mb-6 text-primary-darkNavy">
-          Manage Squad
-        </h2>
-
-        <div className="flex flex-col gap-5 lg:flex-row items-center justify-center">
-          <div className=" flex flex-row flex-wrap px-2 gap-5 justify-center items-center">
-            {squadIsLoading ? (
-              <Loading />
-            ) : (
-              squadData?.map((item, index) => (
-                <div
-                  key={item?._id}
-                  className="flex gap-3 flex-col  rounded-md shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] px-6 py-4 uppercase "
-                >
-                  <h4
-                    className="text-center text-[18px] font-bold text-primary-brightOrange cursor-pointer "
-                    onClick={() => handleClickSingleSquad({ _id: item?._id })}
-                  >
-                    squad {index + 1}
-                  </h4>
-
-                  <span className="border-b border-primary-darkNavy "></span>
-                  <h6
-                    className="cursor-pointer"
-                    onClick={() => handleClickSingleSquad({ _id: item?._id })}
-                  >
-                    total player {item?.selectedPlayer.length}{" "}
-                  </h6>
-                  <span
-                    className="cursor-pointer hover:underline inline"
-                    onClick={() => handleClick({ squadId: item?._id })}
-                  >
-                    delete
-                  </span>
-                </div>
-              ))
-            )}
-          </div>
-
-          <div className="">
-            {squadData?.length < 3 && (
-              <div>
-                <button
-                  className="text-6xl text-primary-darkNavy "
-                  onClick={() => {
-                    setIsActive(!isActive);
-                    setIsSquadActive(false);
-                  }}
-                >
-                  <IoAddOutline />
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {isActive &&
-          (playersLoading ? (
-            <Loading />
-          ) : (
-            <PlayerTable
-              players={players}
-              checkBox={true}
-              handleSubmit={handleSubmit}
-              handleChange={handleChange}
-            />
-          ))}
-
-        {isSquadActive && (
-          <PlayerTable
-            players={playersFromSquad}
-            buttons={false}
-            closeSquad={closeSquad}
-          />
-        )}
-      </div>
-    </div>
+    <SquadCard
+      closeSquad={closeSquad}
+      handleChange={handleChange}
+      handleClick={handleClick}
+      handleClickSingleSquad={handleClickSingleSquad}
+      handleSubmit={handleSubmit}
+      isActive={isActive}
+      isSquadActive={isSquadActive}
+      players={players}
+      playersFromSquad={playersFromSquad}
+      playersLoading={playersLoading}
+      setIsActive={setIsActive}
+      setIsSquadActive={setIsSquadActive}
+      squadData={squadData}
+      squadIsLoading={squadIsLoading}
+    />
   );
 };
 

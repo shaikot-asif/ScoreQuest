@@ -10,9 +10,9 @@ const SquadCard = ({
     <div
       onClick={() => handleClickSingleSquad({ [TeamSquad]: item._id })}
       key={item._id}
-      className={`border shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] mb-2 lg:mb-5 p-2 lg:p-5 rounded-md cursor-pointer capitalize ${
+      className={`border  mb-2 lg:mb-5 p-2 lg:p-5 rounded-md text-natural-white active:scale-90 transition-all duration-200  cursor-pointer capitalize ${
         matchValues?.squads[TeamSquad]?.squadId === item._id &&
-        "border-primary-brightOrange"
+        "border-secondary-goldenPoppy bg-secondary-goldenPoppy !text-primary-blackRussian"
       } `}
     >
       <h4>squad {index + 1}</h4>

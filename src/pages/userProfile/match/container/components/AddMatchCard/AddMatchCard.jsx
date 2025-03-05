@@ -23,16 +23,16 @@ const AddMatchCard = ({
 }) => {
   return (
     <div className="w-full fixed top-0 left-0 h-full backdrop-blur-sm  z-[999] ">
-      <div className="bg-natural-white overflow-auto p-4 lg:p-10 w-[95%] mt-2 lg:mt-0 xl:mt-2  md:w-[50%] lg:w-[45%] relative m-auto rounded-md shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] ">
-        <h3 className="text-center text-xl lg:text-3xl font-bold text-primary-darkNavy ">
+      <div className="bg-primary-midNight overflow-auto p-4 lg:p-10 w-[95%] mt-2 lg:mt-0 xl:mt-2  md:w-[50%] lg:w-[45%] relative m-auto rounded-md shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] ">
+        <h3 className="text-center text-xl lg:text-3xl font-bold text-natural-white ">
           {title}
         </h3>
-        <span className="border-b border-primary-brightOrange w-full block py-2"></span>
-        <span className="text-center text-sm my-2 font-semibold capitalize text-accentColor-skyBlur block">
+        <span className="border-b border-secondary-goldenPoppy w-full block py-2"></span>
+        <span className="text-center text-sm my-2 font-semibold capitalize text-secondary-goldenPoppy block">
           {matchValues?.teams.requestingTeam?.name} VS{" "}
           {matchValues?.teams.requestedTeam?.name}{" "}
         </span>
-        <h4 className="mt-5 text-sm lg:text-md font-semibold capitalize text-accentColor-skyBlur mb-2 ">
+        <h4 className="mt-5 text-sm lg:text-md font-semibold capitalize text-natural-white mb-2 ">
           Select a squad for this match
         </h4>
 
@@ -54,44 +54,42 @@ const AddMatchCard = ({
             )}
           </div>
 
-          <div className="">
-            <h4 className="mt-2 text-sm lg:text-md font-semibold capitalize text-accentColor-skyBlur mb-2 ">
-              {title2}
-            </h4>
+          <h4 className="mt-2 text-sm lg:text-md font-semibold capitalize text-natural-white mb-2 ">
+            {title2}
+          </h4>
 
-            <div className="">
-              <input
-                className={`${
-                  inputDisabled && "cursor-not-allowed"
-                } w-full cursor-pointer px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-accentColor-skyBlur`}
-                type="datetime-local"
-                value={
-                  matchValues.date &&
-                  (import.meta.env.VITE_ENVIROMENT === "development"
-                    ? adjustToLocalTime(matchValues.date, 6)
-                        .toISOString()
-                        .slice(0, 16) // Ensure ISO format for `datetime-local`
-                    : adjustToLocalTime(matchValues.date, 6)
-                        .toISOString()
-                        .slice(0, 16))
-                }
-                disabled={inputDisabled}
-                name="date"
-                onChange={handleChange}
-              />
-            </div>
+          <div className="">
+            <input
+              className={`${
+                inputDisabled && "cursor-not-allowed"
+              } w-full cursor-pointer px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-secondary-goldenPoppy`}
+              type="datetime-local"
+              value={
+                matchValues.date &&
+                (import.meta.env.VITE_ENVIROMENT === "development"
+                  ? adjustToLocalTime(matchValues.date, 6)
+                      .toISOString()
+                      .slice(0, 16) // Ensure ISO format for `datetime-local`
+                  : adjustToLocalTime(matchValues.date, 6)
+                      .toISOString()
+                      .slice(0, 16))
+              }
+              disabled={inputDisabled}
+              name="date"
+              onChange={handleChange}
+            />
           </div>
 
           <div>
             <h4
-              className={`mt-6 text-sm md:text-md font-semibold text-accentColor-skyBlur capitalize mb-2  `}
+              className={`mt-6 text-sm md:text-md font-semibold text-natural-white capitalize mb-2  `}
             >
               Venue
             </h4>
             <input
               type="text"
               disabled={inputDisabled}
-              className={` w-full px-3 md:text-md text-sm py-2 border rounded-lg focus:outline-none focus:ring focus:border-accentColor-skyBlur ${
+              className={` w-full text-primary-blackRussian px-3 md:text-md text-sm py-2 border rounded-lg focus:outline-none focus:ring focus:border-secondary-goldenPoppy ${
                 inputDisabled && "cursor-not-allowed"
               }`}
               placeholder="Venue Location"
@@ -103,6 +101,7 @@ const AddMatchCard = ({
 
           <SecondaryButton
             isDisabled={isDisabled}
+            y={0}
             text={buttonText}
             classes={"w-full mt-6"}
           />

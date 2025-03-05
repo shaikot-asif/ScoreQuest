@@ -120,22 +120,20 @@ const AddMatch = ({ requestedTeam, setPlayMatchBtn }) => {
   };
 
   return (
-    <div className="">
-      <AddMatchCard
-        handleChange={handleChange}
-        handleClickSingleSquad={handleClickSingleSquad}
-        handleSubmit={handleSubmit}
-        isDisabled={isDisabled}
-        matchValues={matchValues}
-        setPlayMatchBtn={setPlayMatchBtn}
-        squadData={squadData}
-        squadIsLoading={squadIsLoading}
-        title={"Add New Match"}
-        title2={"Select Date and Time"}
-        teamSquad={"requestingTeamSquad"}
-        buttonText={"Add Match"}
-      />
-    </div>
+    <AddMatchCard
+      handleChange={handleChange}
+      handleClickSingleSquad={handleClickSingleSquad}
+      handleSubmit={handleSubmit}
+      isDisabled={isDisabled}
+      matchValues={matchValues}
+      setPlayMatchBtn={setPlayMatchBtn}
+      squadData={squadData}
+      squadIsLoading={squadIsLoading}
+      title={"Add New Match"}
+      title2={"Select Date and Time"}
+      teamSquad={"requestingTeamSquad"}
+      buttonText={"Add Match"}
+    />
   );
 };
 

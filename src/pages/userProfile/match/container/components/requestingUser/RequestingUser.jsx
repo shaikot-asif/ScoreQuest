@@ -56,7 +56,7 @@ const RequestingUser = () => {
   return (
     <div className="mt-10 flex flex-row flex-wrap justify-evenly">
       {data?.length === 0 ? (
-        <h3 className="text-primary-brightOrange text-xl ">
+        <h3 className="text-secondary-goldenPoppy text-xl ">
           There is no match found
         </h3>
       ) : !isLoading ? (

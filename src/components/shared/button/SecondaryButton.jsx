@@ -6,8 +6,6 @@ const SecondaryButton = ({
   classes,
   type = "text",
   isDisabled = false,
-  func,
-  data,
   y = 50,
 }) => {
   return (

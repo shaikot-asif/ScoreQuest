@@ -41,7 +41,7 @@ const SideBar = () => {
             <Link
               className={`text-natural-white font-normal transition-all duration-500 hover:bg-secondary-cloudBrust hover:scale-110 cursor-default w-full flex justify-center gap-2 items-center text-center rounded-md py-2 ${
                 location.pathname === "/profile" &&
-                "bg-secondary-goldenPoppy hover:!bg-secondary-goldenPoppy text-black "
+                "bg-secondary-goldenPoppy hover:!bg-secondary-goldenPoppy !text-black "
               }`}
               to={"/profile"}
             >
@@ -53,7 +53,7 @@ const SideBar = () => {
             <Link
               className={`text-natural-white font-normal transition-all duration-500 hover:bg-secondary-cloudBrust hover:scale-110 cursor-default w-full flex justify-center gap-2 text-center rounded-md py-2 ${
                 location.pathname === "/profile/squad" &&
-                "bg-secondary-goldenPoppy hover:!bg-secondary-goldenPoppy text-black"
+                "bg-secondary-goldenPoppy hover:!bg-secondary-goldenPoppy !text-black"
               }`}
               to={"squad"}
             >
@@ -65,7 +65,7 @@ const SideBar = () => {
             <Link
               className={`text-natural-white font-normal transition-all duration-500 hover:bg-secondary-cloudBrust hover:scale-110 cursor-default w-full flex justify-center gap-2 text-center rounded-md py-2 ${
                 location.pathname === "/profile/allUsers" &&
-                "bg-secondary-goldenPoppy hover:!bg-secondary-goldenPoppy text-black"
+                "bg-secondary-goldenPoppy hover:!bg-secondary-goldenPoppy !text-black"
               }`}
               to={"allUsers"}
             >
@@ -78,7 +78,7 @@ const SideBar = () => {
             <Link
               className={`text-natural-white font-normal transition-all duration-500 hover:bg-secondary-cloudBrust hover:scale-110 cursor-default w-full flex justify-center gap-2 text-center rounded-md py-2 ${
                 location.pathname === "/profile/match" &&
-                "bg-secondary-goldenPoppy hover:!bg-secondary-goldenPoppy text-black"
+                "bg-secondary-goldenPoppy hover:!bg-secondary-goldenPoppy !text-black"
               }`}
               to={"match"}
             >
@@ -108,9 +108,9 @@ const SideBar = () => {
             <ul className="flex flex-col gap-4 pl-5">
               <li>
                 <Link
-                  className={`text-natural-white font-normal transition-all duration-500 hover:bg-secondary-cloudBrust hover:scale-110 cursor-default w-full flex justify-center text-center rounded-md py-2 ${
+                  className={`text-natural-white text-[14px] font-normal transition-all duration-500 hover:bg-secondary-cloudBrust hover:scale-110 cursor-default w-full flex justify-center text-center rounded-md py-2 ${
                     location.pathname === "/profile/managePlayer" &&
-                    "bg-secondary-goldenPoppy hover:!bg-secondary-goldenPoppy text-black"
+                    "bg-secondary-goldenPoppy hover:!bg-secondary-goldenPoppy !text-black"
                   }`}
                   to={"managePlayer"}
                 >
@@ -122,7 +122,7 @@ const SideBar = () => {
                 <Link
                   className={`text-natural-white font-normal transition-all duration-500 hover:bg-secondary-cloudBrust hover:scale-110 cursor-default w-full flex justify-center gap-2 text-center rounded-md py-2 ${
                     location.pathname === "/profile/addPlayer" &&
-                    "bg-secondary-goldenPoppy hover:!bg-secondary-goldenPoppy text-black"
+                    "bg-secondary-goldenPoppy hover:!bg-secondary-goldenPoppy !text-black"
                   }`}
                   to={"addPlayer"}
                 >

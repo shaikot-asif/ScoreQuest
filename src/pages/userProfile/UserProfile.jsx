@@ -17,7 +17,7 @@ const UserProfile = () => {
   return (
     <>
       <div
-        className={`absolute right-2 z-40 top-2 text-[28px] text-primary-darkNavy lg:hidden`}
+        className={`absolute right-2 z-40 top-2 text-[28px] text-red-700 lg:hidden`}
       >
         <span onClick={() => setHide(!hide)}>
           {hide ? <IoCloseOutline /> : <IoMenuOutline />}

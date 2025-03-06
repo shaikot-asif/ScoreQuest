@@ -622,15 +622,15 @@ const UpdateMatchBallByBall = () => {
       {isLoading ? (
         <Loading />
       ) : (
-        <div className=" shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] p-6 mx-auto rounded-lg">
+        <div className=" p-6 mx-auto rounded-lg">
           <div className="flex flex-col md:flex-row justify-between items-center ">
             <div
               className={`${
                 battingTeamKey === "requestingTeam" &&
-                "border border-primary-brightOrange"
-              } p-5 w-full md:w-[30%] `}
+                "border !border-secondary-goldenPoppy !bg-secondary-goldenPoppy !text-primary-midNight "
+              } rounded-md bg-primary-midNight border border-primary-midNight text-natural-white p-5 w-full md:w-[30%] `}
             >
-              <h3 className="text-xl font-semibold text-primary-brightOrange text-center mb-2 cursor-pointer">
+              <h3 className="text-xl font-semibold text-center mb-2 cursor-pointer">
                 {match?.teams?.requestingTeam?.name || "unknown"}
               </h3>
 
@@ -645,14 +645,18 @@ const UpdateMatchBallByBall = () => {
                 </span>
               </div>
             </div>
-            <span className="flex-1 text-center p-5 ">VS</span>
+            <span className="flex-1 text-center p-5  ">
+              <span className="border !border-secondary-goldenPoppy !bg-secondary-goldenPoppy rounded-md p-5">
+                VS
+              </span>
+            </span>
             <div
               className={`${
                 battingTeamKey === "requestedTeam" &&
-                "border border-primary-brightOrange"
-              } p-5 w-full md:w-[30%]`}
+                "border !border-secondary-goldenPoppy !bg-secondary-goldenPoppy !text-primary-midNight "
+              } bg-primary-midNight rounded-md border border-primary-midNight text-natural-white p-5 w-full md:w-[30%]`}
             >
-              <h3 className="text-xl font-semibold text-primary-brightOrange text-center mb-2 cursor-pointer">
+              <h3 className="text-xl font-semibold  text-center mb-2 cursor-pointer">
                 {match?.teams?.requestedTeam?.name || "unknown"}
               </h3>
 
@@ -669,11 +673,11 @@ const UpdateMatchBallByBall = () => {
             </div>
           </div>
 
-          <span className="border-b border-primary-brightOrange mb-5 w-full block py-2"></span>
+          <span className="border-b border-secondary-goldenPoppy mb-5 w-full block py-2"></span>
 
           {/* Batting Players Selection */}
           <div className="mb-4">
-            <h4 className="mt-5 text-md font-semibold capitalize text-accentColor-skyBlur mb-2 ">
+            <h4 className="mt-5 text-md font-semibold capitalize text-natural-white mb-2 ">
               Select Batter
             </h4>
 
@@ -681,7 +685,7 @@ const UpdateMatchBallByBall = () => {
               {selectedPlayer?.batter1?.id === INIT_SELECT_PLAYER.batter1.id ? (
                 <button
                   onClick={() => setSelectBatter1(true)}
-                  className="w-full py-4 border hover:border-primary-brightOrange capitalize shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] rounded-md focus:ring-2 focus:ring-primary-brightOrange "
+                  className="w-full py-4 border capitalize  rounded-md transition-all duration-200 hover:scale-95 focus:ring-2 focus:ring-secondary-goldenPoppy bg-secondary-goldenPoppy border-secondary-goldenPoppy "
                 >
                   Click here to Select first player
                 </button>
@@ -692,8 +696,8 @@ const UpdateMatchBallByBall = () => {
                   }
                   className={`${
                     selectedBatterId === selectedPlayer?.batter1?.id &&
-                    "bg-primary-brightOrange rounded-md text-natural-white"
-                  } flex w-full flex-wrap xl:flex-nowrap xl:flex-row cursor-pointer justify-between rounded-md gap-5 items-center shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] p-2 mb-5`}
+                    " rounded-md !bg-secondary-goldenPoppy !text-primary-midNight"
+                  } hover:scale-95 transition-all duration-200 flex w-full flex-wrap xl:flex-nowrap xl:flex-row cursor-pointer justify-between rounded-md gap-5 items-center bg-primary-midNight text-natural-white p-2 mb-5`}
                 >
                   <div className="flex w-full flex-row items-center cursor-pointer gap-5">
                     <img
@@ -711,8 +715,8 @@ const UpdateMatchBallByBall = () => {
                     <h3
                       className={`font-bold text-xl ${
                         selectedBatterId === selectedPlayer?.batter1?.id
-                          ? "text-natural-white"
-                          : "text-primary-brightOrange"
+                          ? "text-primary-midNight"
+                          : "text-natural-white"
                       } `}
                     >
                       {selectedPlayer?.batter1?.fName}{" "}
@@ -742,7 +746,7 @@ const UpdateMatchBallByBall = () => {
               INIT_SELECT_PLAYER?.batter2?.id ? (
                 <button
                   onClick={() => setSelectBatter2(true)}
-                  className="w-full py-4 border  hover:border-primary-brightOrange capitalize shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] rounded-md focus:ring-2 focus:ring-primary-brightOrange "
+                  className="w-full py-4 border capitalize  rounded-md focus:ring-2 transition-all duration-200 hover:scale-95 focus:ring-secondary-goldenPoppy bg-secondary-goldenPoppy border-secondary-goldenPoppy "
                 >
                   Click here to Select 2nd player
                 </button>
@@ -753,8 +757,8 @@ const UpdateMatchBallByBall = () => {
                   }
                   className={`${
                     selectedBatterId === selectedPlayer?.batter2?.id &&
-                    "bg-primary-brightOrange rounded-md text-natural-white"
-                  } flex w-full flex-wrap xl:flex-nowrap xl:flex-row cursor-pointer justify-between rounded-md gap-5 items-center shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] p-2 mb-5`}
+                    "rounded-md !bg-secondary-goldenPoppy !text-primary-midNight"
+                  } hover:scale-95 transition-all duration-200 flex w-full flex-wrap xl:flex-nowrap xl:flex-row cursor-pointer justify-between rounded-md gap-5 items-center bg-primary-midNight text-natural-white p-2 mb-5`}
                 >
                   <div className="flex w-full flex-row items-center cursor-pointer gap-5">
                     <img
@@ -772,8 +776,8 @@ const UpdateMatchBallByBall = () => {
                     <h3
                       className={`font-bold text-xl ${
                         selectedBatterId === selectedPlayer?.batter2?.id
-                          ? "text-natural-white"
-                          : "text-primary-brightOrange"
+                          ? "text-primary-midNight"
+                          : "text-natural-white"
                       } `}
                     >
                       {selectedPlayer?.batter2?.fName}{" "}
@@ -802,7 +806,7 @@ const UpdateMatchBallByBall = () => {
             {!selectedBatterId &&
               selectedPlayer?.batter1?.id &&
               selectedPlayer?.batter2?.id && (
-                <p className="text-primary-brightOrange font-semibold ">
+                <p className="text-secondary-goldenPoppy font-semibold ">
                   Please click a player who on the strick
                 </p>
               )}
@@ -810,7 +814,7 @@ const UpdateMatchBallByBall = () => {
 
           {/* Bowling Player Selection */}
           <div className="mb-4">
-            <h4 className="mt-5 text-md font-semibold capitalize text-accentColor-skyBlur mb-2 ">
+            <h4 className="mt-5 text-md font-semibold capitalize text-natural-white mb-2 ">
               Select Bowler
             </h4>
 
@@ -818,7 +822,7 @@ const UpdateMatchBallByBall = () => {
               {selectedPlayer?.bowler?.id === INIT_SELECT_PLAYER.bowler.id ? (
                 <button
                   onClick={() => setSelectBowling(true)}
-                  className=" w-full md:w-1/2 py-4 border capitalize shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] rounded-md focus:ring-2 focus:ring-primary-brightOrange "
+                  className=" w-full md:w-1/2 py-4 border capitalize rounded-md focus:ring-2 transition-all duration-200 hover:scale-95 focus:ring-secondary-goldenPoppy bg-secondary-goldenPoppy border-secondary-goldenPoppy "
                 >
                   Click here to Select player 1
                 </button>
@@ -826,8 +830,8 @@ const UpdateMatchBallByBall = () => {
                 <div
                   className={`${
                     selectedBowlerId === selectedPlayer?.bowler?.id &&
-                    "bg-primary-brightOrange rounded-md text-natural-white"
-                  } flex  flex-wrap xl:flex-nowrap w-full md:w-[50%] cursor-pointer justify-between xl:flex-row gap-5 items-center shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] p-2 mb-5`}
+                    " rounded-md text-natural-white"
+                  } hover:scale-95 transition-all duration-200 flex  flex-wrap xl:flex-nowrap w-full md:w-[50%] cursor-pointer justify-between xl:flex-row gap-5 items-center bg-primary-midNight text-natural-white p-2 mb-5`}
                 >
                   <div className="flex w-full flex-row items-center cursor-pointer gap-5">
                     <img
@@ -844,11 +848,8 @@ const UpdateMatchBallByBall = () => {
                     />
 
                     <h3
-                      className={`font-bold text-xl ${
-                        selectedBowlerId === selectedPlayer?.bowler?.id
-                          ? "text-natural-white"
-                          : "text-primary-brightOrange"
-                      }`}
+                      className={`font-bold text-xl  text-natural-white
+                      `}
                     >
                       {selectedPlayer?.bowler?.fName}{" "}
                       {selectedPlayer?.bowler?.lName}{" "}
@@ -887,7 +888,7 @@ const UpdateMatchBallByBall = () => {
             } flex flex-col gap-10 `}
           >
             <div className="flex flex-col md:flex-row gap-5 ">
-              <h3 className="text-xl font-semibold text-primary-brightOrange mb-2">
+              <h3 className="text-xl font-semibold text-natural-white mb-2">
                 Runs:
               </h3>
               <div className="flex flex-wrap gap-5">
@@ -899,7 +900,7 @@ const UpdateMatchBallByBall = () => {
               </div>
             </div>
             <div className="flex flex-col md:flex-row gap-5">
-              <h3 className="text-xl font-semibold text-primary-brightOrange mb-2">
+              <h3 className="text-xl font-semibold text-natural-white mb-2">
                 Extras:
               </h3>
 
@@ -915,7 +916,7 @@ const UpdateMatchBallByBall = () => {
                       title={"Wide"}
                       classes={`${
                         perBallOccurs?.ballOccurs === "wide" &&
-                        "bg-primary-brightOrange "
+                        "bg-secondary-goldenPoppy text-primary-midNight "
                       } w-[80px] `}
                     />
                   </span>
@@ -929,7 +930,7 @@ const UpdateMatchBallByBall = () => {
                       title={"No ball"}
                       classes={`${
                         perBallOccurs?.ballOccurs === "noBall" &&
-                        "bg-primary-brightOrange "
+                        "bg-secondary-goldenPoppy text-primary-midNight "
                       } w-[80px]`}
                     />
                   </span>
@@ -943,7 +944,7 @@ const UpdateMatchBallByBall = () => {
                       title={"Leg Bye"}
                       classes={`${
                         perBallOccurs?.ballOccurs === "legBye" &&
-                        "bg-primary-brightOrange "
+                        "bg-secondary-goldenPoppy text-primary-midNight"
                       } w-[80px]`}
                     />
                   </span>
@@ -957,7 +958,7 @@ const UpdateMatchBallByBall = () => {
                       title={"Bye"}
                       classes={`${
                         perBallOccurs?.ballOccurs === "bye" &&
-                        "bg-primary-brightOrange "
+                        "bg-secondary-goldenPoppy text-primary-midNight"
                       } w-[80px]`}
                     />
                   </span>
@@ -1006,7 +1007,7 @@ const UpdateMatchBallByBall = () => {
             </div>
             <div>
               <div className="flex flex-col md:flex-row gap-5">
-                <h3 className="text-xl font-semibold text-primary-brightOrange mb-2">
+                <h3 className="text-xl font-semibold text-natural-white mb-2">
                   Wickets:
                 </h3>
 

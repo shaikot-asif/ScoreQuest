@@ -44,6 +44,9 @@ const AddPlayer = () => {
     lastName: "",
     birthday: "",
     role: "",
+    defaultValues: {
+      birthday: "1990-01-30",
+    },
   });
 
   const handleClick = (event) => {

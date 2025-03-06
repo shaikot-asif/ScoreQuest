@@ -63,8 +63,8 @@ const SelectInningsType = () => {
       {isLoading ? (
         <Loading />
       ) : (
-        <div className="shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] rounded-md p-5 w-[95%] sm:w-[60%] xl:w-[40%] block m-auto ">
-          <span className="text-center my-2 font-semibold capitalize text-primary-brightOrange block">
+        <div className="bg-primary-midNight rounded-md p-5 w-[95%] sm:w-[60%] xl:w-[40%] block m-auto ">
+          <span className="text-center my-2 font-semibold capitalize text-secondary-goldenPoppy block">
             Congratulations{" "}
             {match?.toss?.tossWinner?.toString() ===
             match?.teams?.requestingTeam?.userId?.toString()
@@ -74,7 +74,7 @@ const SelectInningsType = () => {
           </span>
 
           <div className="flex flex-col gap-5">
-            <span className="mt-5 text-md font-semibold capitalize text-accentColor-skyBlur mb-[-15px] ">
+            <span className="mt-5 text-md font-semibold capitalize text-natural-white mb-[-15px] ">
               What{" "}
               {match?.toss?.tossWinner?.toString() ===
               match?.teams?.requestingTeam?.userId?.toString()
@@ -85,8 +85,9 @@ const SelectInningsType = () => {
             <div className="flex flex-row justify-between">
               <h2
                 onClick={() => setSelectInnings("Bat")}
-                className={`border shadow  p-5 rounded-md cursor-pointer capitalize ${
-                  selectInnings === "Bat" && "border-primary-brightOrange"
+                className={`border-secondary-goldenPoppy border transition-all duration-150 active:scale-95 text-natural-white p-5 rounded-md cursor-pointer capitalize ${
+                  selectInnings === "Bat" &&
+                  "bg-secondary-goldenPoppy !text-primary-midNight"
                 }
        `}
               >
@@ -95,15 +96,18 @@ const SelectInningsType = () => {
 
               <h2
                 onClick={() => setSelectInnings("Bowl")}
-                className={`border shadow  p-5 rounded-md cursor-pointer capitalize 
-                ${selectInnings === "Bowl" && "border-primary-brightOrange"}
+                className={`border-secondary-goldenPoppy border transition-all duration-150 active:scale-95 text-natural-white p-5 rounded-md cursor-pointer capitalize 
+                ${
+                  selectInnings === "Bowl" &&
+                  "bg-secondary-goldenPoppy !text-primary-midNight"
+                }
              `}
               >
                 Bowling First
               </h2>
             </div>
             <span onClick={handelSubmit}>
-              <SecondaryButton text={"Submit"} classes={"w-full"} />
+              <SecondaryButton y={0} text={"Submit"} classes={"w-full"} />
             </span>
           </div>
         </div>

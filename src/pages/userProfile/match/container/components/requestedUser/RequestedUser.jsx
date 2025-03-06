@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, memo } from "react";
 import MatchCard from "../MatchCard";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
@@ -37,30 +37,21 @@ const RequestedUser = () => {
   const [matchValues, setMatchValues] = useState({ ...InitValue });
   const [isAccept, setIsAccept] = useState(false);
   const [matchId, setMatchId] = useState("");
-  const [matchData, setMatchData] = useState([]);
 
   const [note, setNote] = useState("");
 
-  const { data, isLoading, refetch } = useQuery({
-    queryKey: ["match"],
+  const {
+    data: matchData,
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["requestedMatch"],
     queryFn: () =>
       getMatchByRequestedTeamId({
         RequestedTeamId: userState.userInfo.id,
         token: userState.userInfo.token,
       }),
   });
-
-  useEffect(() => {
-    if (!data) {
-      refetch();
-    } else {
-      if (Array.isArray(data)) {
-        setMatchData(data);
-      } else {
-        setMatchData([data]);
-      }
-    }
-  }, [data]);
 
   const {
     data: squadData,
@@ -149,8 +140,8 @@ const RequestedUser = () => {
 
   return (
     <div className="mt-10  flex flex-row flex-wrap justify-evenly">
-      {matchData?.length === 0 ? (
-        <h3 className="text-primary-brightOrange text-xl ">
+      {!isLoading && matchData?.length === 0 ? (
+        <h3 className="text-secondary-goldenPoppy text-xl ">
           There is no match found
         </h3>
       ) : !isLoading ? (

@@ -136,23 +136,23 @@ const MatchCard = ({
 
   return (
     <div
-      className={`${classes} w-full mx-1 mb-5 md:w-[48%] flex flex-col gap-3 p-6 rounded-md transition-all duration-150`}
+      className={`${classes} w-full mx-1 mb-5 md:w-[48%] bg-primary-midNight hover:scale-[0.99] text-white flex flex-col gap-3 p-6 rounded-md transition-all duration-150`}
       key={item?._id}
     >
       <Link to={`${item._id}`}>
-        <h3 className="text-xl font-semibold text-primary-brightOrange text-center mb-2 cursor-pointer">
+        <h3 className="text-xl font-semibold text-secondary-goldenPoppy text-center mb-2 cursor-pointer">
           {item.teams.requestingTeam.name || "unknown"} <br /> VS <br />
           {item.teams.requestedTeam.name || "unknown"}
         </h3>
       </Link>
-      <span className="w-full block h-[1px] bg-primary-brightOrange "></span>
+      <span className="w-full block h-[1px] bg-secondary-goldenPoppy "></span>
 
-      <div className="text-secondary-slateGray flex flex-row gap-1">
+      <div className=" flex flex-row gap-1">
         <span className="font-semibold">Status:</span>
 
         <span className="">{item.status}</span>
       </div>
-      <div className="text-secondary-slateGray flex flex-row gap-1">
+      <div className=" flex flex-row gap-1">
         <span className="font-semibold">Date:</span>
         <span className="">
           {import.meta.env.VITE_ENVIROMENT === "development"
@@ -161,14 +161,14 @@ const MatchCard = ({
         </span>
       </div>
 
-      <div className="text-secondary-slateGray flex flex-row gap-1">
+      <div className=" flex flex-row gap-1">
         <span className="font-semibold">Venue:</span>
 
         <span className="">{item.venue}</span>
       </div>
 
       {!item.toss.tossWinner && (
-        <div className="text-secondary-slateGray flex flex-row gap-1">
+        <div className=" flex flex-row gap-1">
           <span className="font-semibold">Remaining:</span>
 
           <span className="">
@@ -189,8 +189,8 @@ const MatchCard = ({
       )}
 
       {item.status === "completed" && (
-        <div className="text-secondary-slateGray block">
-          <span className="font-semibold text-center">
+        <div className=" block">
+          <span className="font-semibold text-center text-secondary-goldenPoppy ">
             {parseInt(item?.score?.requestedTeam?.totalRuns) <
             parseInt(item?.score?.requestingTeam?.totalRuns)
               ? item?.teams?.requestingTeam?.name + " win the match"
@@ -218,7 +218,7 @@ const MatchCard = ({
             <div className="w-full flex flex-row gap-5">
               <input
                 type="text"
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-accentColor-skyBlur border-secondary-slateGray"
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-secondary-goldenPoppy border-secondary-goldenPoppy"
                 value={note}
                 placeholder="Note"
                 onChange={(e) => setNote(e.target.value)}

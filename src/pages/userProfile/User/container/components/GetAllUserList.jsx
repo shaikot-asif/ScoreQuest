@@ -45,7 +45,7 @@ const GetAllUserList = ({
                     className="flex flex-col md:flex-row gap-1 lg:gap-5 items-start md:justify-between  mb-5 p-3 md:align-middle md:items-center rounded-md text-natural-white bg-primary-midNight hover:scale-[0.99] transition-all duration-200 "
                     key={item.id}
                   >
-                    <div className="flex flex-row gap-5 justify-center items-center mb-5">
+                    <div className="flex flex-row gap-5 justify-center items-center ">
                       <img
                         className="rounded-full h-12 w-12 "
                         height={50}

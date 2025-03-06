@@ -76,7 +76,7 @@ const PlayerTable = ({
                 className={`${classes} flex flex-col flex-wrap lg:flex-row lg:gap-5 w-full lg:justify-between bg-primary-midNight mb-5 p-3 align-middle lg:items-center rounded-md hover:shadow-lg`}
                 key={item._id}
               >
-                <div className="flex lg:w-[40%] flex-row gap-5 items-center mb-5">
+                <div className="flex lg:w-[40%] flex-row gap-5 items-center ">
                   <img
                     className="rounded-full h-12 w-12 "
                     height={50}

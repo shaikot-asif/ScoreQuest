@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from "react";
-// import Header from "../../../../../components/Header";
 import Header from "../../../components/Header";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
 import { io } from "socket.io-client";
-// import { getMatchByMatchId } from "../../../../../service/match";
 import { getMatchByMatchId } from "../../../service/match";
-// import { useFetchUserNames } from "../../../../../hook/useFetchUserNames";
 import { useFetchUserNames } from "../../../hook/useFetchUserNames";
 import MatchStatisticsCard from "./components/MatchStatisticsCard";
-// import Loading from "../../../../../components/shared/Loading/Loading";
 import Loading from "../../../components/shared/Loading/Loading";
 
 const MatchStatistics = () => {
@@ -100,7 +96,7 @@ const MatchStatistics = () => {
       {isLoading && match?._id === data?._id ? (
         <Loading />
       ) : (
-        <div className="container mx-auto p-4 mb-2  shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] rounded-lg mt-5">
+        <div className="container mx-auto p-4 mb-2   rounded-lg mt-28">
           {match?.status === "completed" && (
             <div className="text-secondary-slateGray text-center block">
               <span className="font-semibold ">

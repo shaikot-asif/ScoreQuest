@@ -81,7 +81,7 @@ const UpdatePlayer = () => {
       };
     }),
   });
-
+  console.log(playerData, "player data");
   const handleClick = (event) => {
     event.preventDefault();
     profileUseRef.current.click();

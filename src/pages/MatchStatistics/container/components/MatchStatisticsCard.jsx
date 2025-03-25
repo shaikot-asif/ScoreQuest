@@ -11,13 +11,13 @@ const MatchStatisticsCard = ({
     <div>
       {/* Batters Table */}
       <div className="mb-8">
-        <h2 className="text-xl mt-2 font-semibold text-primary-brightOrange mb-2">
+        <h2 className="text-xl mt-2 font-semibold text-secondary-goldenPoppy mb-2">
           Batters
         </h2>
         <div className="overflow-x-auto">
           <table className="w-full table-auto border-collapse">
             <thead>
-              <tr className="text-left text-primary-darkNavy">
+              <tr className="text-left text-secondary-goldenPoppy">
                 <th className="p-2 border">Name</th>
                 <th className="p-2 border">Out</th>
 
@@ -34,7 +34,7 @@ const MatchStatisticsCard = ({
                   item?.playBalls > 0 && (
                     <tr
                       key={item?.playerId}
-                      className="hover:bg-secondary-slateGray hover:text-natural-white"
+                      className="hover:bg-secondary-goldenPoppy text-white hover:text-primary-blackRussian"
                     >
                       <td className="p-2 border font-semibold ">
                         {battingPlayerNameKey?.[item.playerId]}
@@ -82,13 +82,13 @@ const MatchStatisticsCard = ({
 
       {/* Bowlers Table */}
       <div>
-        <h2 className="text-xl font-semibold text-primary-brightOrange mb-2">
+        <h2 className="text-xl font-semibold text-secondary-goldenPoppy mb-2">
           Bowlers
         </h2>
         <div className="overflow-x-auto">
           <table className="w-full table-auto border-collapse">
             <thead>
-              <tr className="text-primary-darkNavy text-left">
+              <tr className="text-secondary-goldenPoppy text-left">
                 <th className="p-2 border">Name</th>
                 <th className="p-2 border">Overs</th>
                 <th className="p-2 border">Runs</th>
@@ -104,7 +104,7 @@ const MatchStatisticsCard = ({
                   item?.overs.ball > 0 && (
                     <tr
                       key={item.playerId}
-                      className="hover:bg-secondary-slateGray hover:text-natural-white "
+                      className="hover:bg-secondary-goldenPoppy hover:text-primary-blackRussian text-white"
                     >
                       <td className="p-2 border font-semibold ">
                         {bowlingPlayerKey?.[item.playerId]}

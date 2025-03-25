@@ -98,7 +98,7 @@ const MatchStatistics = () => {
       ) : (
         <div className="container mx-auto p-4 mb-2   rounded-lg mt-28">
           {match?.status === "completed" && (
-            <div className="text-secondary-slateGray text-center block">
+            <div className="text-secondary-goldenPoppy text-center block">
               <span className="font-semibold ">
                 {parseInt(match?.score?.requestedTeam?.totalRuns) <
                 parseInt(match?.score?.requestingTeam?.totalRuns)
@@ -117,10 +117,10 @@ const MatchStatistics = () => {
                   match?.teams?.requestingTeam?.userId?.toString() ===
                     match?.battingUser?.userId?.toString() &&
                   match?.status !== "completed" &&
-                  "border border-primary-brightOrange"
-                } p-5 `}
+                  "border border-secondary-goldenPoppy !text-primary-blackRussian bg-secondary-goldenPoppy"
+                } p-5 bg-primary-midNight text-white rounded-lg `}
               >
-                <h3 className="text-xl font-semibold text-primary-brightOrange text-center mb-2 cursor-pointer">
+                <h3 className="text-xl font-semibold text-center mb-2 cursor-pointer">
                   {match?.teams?.requestingTeam?.name || "unknown"}
                 </h3>
 
@@ -158,8 +158,10 @@ const MatchStatistics = () => {
                 teamKeyBowling={"requestedTeam"}
               />
             </div>
-            <span className=" w-full mt-5 md:mt-0 md:flex-1 text-center p-5 ">
-              VS
+            <span className=" w-full mt-5 md:mt-0 md:flex-1 text-center   p-5">
+              <p className="flex justify-center m-auto items-center w-16 h-16 rounded-xl  bg-secondary-goldenPoppy">
+                VS
+              </p>
             </span>
             <div className="w-full md:w-[45%] ">
               <div
@@ -167,8 +169,8 @@ const MatchStatistics = () => {
                   match?.teams?.requestedTeam?.userId?.toString() ===
                     match?.battingUser?.userId?.toString() &&
                   match?.status !== "completed" &&
-                  "border border-primary-brightOrange"
-                } p-5`}
+                  "border border-secondary-goldenPoppy !text-primary-blackRussian bg-secondary-goldenPoppy"
+                } p-5 bg-primary-midNight text-white rounded-lg`}
               >
                 <h3 className="text-xl font-semibold text-primary-brightOrange text-center mb-2 cursor-pointer">
                   {match?.teams?.requestedTeam?.name || "unknown"}

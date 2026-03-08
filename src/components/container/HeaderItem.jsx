@@ -1,21 +1,32 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
-const HeaderItem = ({ userState, navItem, classes, parentClass }) => {
+const getNavClass = (isActive) =>
+  `rounded-full px-4 py-2 text-sm font-semibold transition duration-300 ${
+    isActive
+      ? "bg-secondary-goldenPoppy text-slate-950"
+      : "text-slate-200 hover:bg-white/5 hover:text-white"
+  }`;
+
+const HeaderItem = ({
+  userState,
+  navItem,
+  parentClass = "",
+  classes = "",
+  onNavigate = () => {},
+  actionClassName = "",
+}) => {
   const location = useLocation();
+
   return (
-    <div className={`${parentClass} flex flex-row gap-6 items-center`}>
-      <ul className={`${classes} flex flex-row gap-6`}>
-        {navItem.map((item, index) => (
-          <li
-            className={` text-natural-white  font-semibold   ${
-              location.pathname === item.link && "text-secondary-goldenPoppy"
-            }`}
-            key={index}
-          >
+    <div className={`${parentClass}`}>
+      <ul className={`flex gap-2 ${classes}`}>
+        {navItem.map((item) => (
+          <li key={item.link}>
             <Link
-              className="hover:text-secondary-goldenPoppy transition-all duration-500"
               to={item.link}
+              onClick={onNavigate}
+              className={getNavClass(location.pathname === item.link)}
             >
               {item.name}
             </Link>
@@ -23,39 +34,13 @@ const HeaderItem = ({ userState, navItem, classes, parentClass }) => {
         ))}
       </ul>
 
-      {userState.userInfo ? (
-        <ul>
-          <li
-            className={` text-natural-white transition-all font-semibold duration-500  ${
-              location.pathname === "/profile" && "text-secondary-goldenPoppy"
-            }`}
-          >
-            <Link
-              className="hover:text-secondary-goldenPoppy transition-all duration-500"
-              to={"/profile"}
-            >
-              Profile
-            </Link>
-          </li>
-        </ul>
-      ) : (
-        <ul>
-          <li
-            className={` text-natural-white font-semibold transition-all duration-500  ${
-              (location.pathname === "/signup" ||
-                location.pathname === "/login") &&
-              "text-secondary-goldenPoppy"
-            }`}
-          >
-            <Link
-              className="hover:text-secondary-goldenPoppy transition-all duration-500"
-              to={"/login"}
-            >
-              Login
-            </Link>
-          </li>
-        </ul>
-      )}
+      <Link
+        to={userState.userInfo ? "/profile" : "/login"}
+        onClick={onNavigate}
+        className={`inline-flex items-center justify-center rounded-full border border-white/12 px-5 py-2.5 text-sm font-semibold text-white transition duration-300 hover:border-secondary-goldenPoppy hover:bg-white/5 ${actionClassName}`}
+      >
+        {userState.userInfo ? "Profile" : "Login"}
+      </Link>
     </div>
   );
 };

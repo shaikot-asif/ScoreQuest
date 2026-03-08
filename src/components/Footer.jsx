@@ -1,115 +1,111 @@
 import React from "react";
-import { FaFacebook, FaTwitter, FaLinkedin, FaGithub } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { FaFacebook } from "react-icons/fa";
 import images from "../constants/images";
+
+const quickLinks = [
+  { label: "Home", to: "/" },
+  { label: "Today's Match", to: "/today-match" },
+  { label: "Finished Matches", to: "/finished-match" },
+  { label: "Upcoming Matches", to: "/upcoming-match" },
+  { label: "Player Rank", to: "/player-rank" },
+];
+
+const socialLinks = [
+  {
+    label: "Facebook",
+    to: "https://www.facebook.com/shaikotahmed.22.asif/",
+    icon: <FaFacebook size={18} />,
+  },
+];
 
 const Footer = () => {
   return (
-    <footer className="bg-primary-darkNavy text-white py-8 mt-20">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row justify-between gap-8">
-          {/* About ScoreQuest */}
-          <div className="md:w-1/3 w-full">
-            <img src={images.ScoreQuest} width={150} alt="" />
-            <p className="text-secondary-coolGray mt-5">
-              ScoreQuest is the premier live cricket scoring app designed for
-              local matches. Keep track of your games and share them in
-              real-time with players and fans alike.
-            </p>
-          </div>
+    <footer className="px-4 pb-8 pt-10 md:px-6">
+      <div className="mx-auto max-w-7xl">
+        <div className="scorequest-glass rounded-[32px] px-6 py-8 sm:px-8 sm:py-10">
+          <div className="grid gap-8 lg:grid-cols-[1.15fr_0.7fr_0.85fr]">
+            <div>
+              <img
+                src={images.ScoreQuest}
+                width={170}
+                alt="ScoreQuest"
+                className="h-auto"
+              />
+              <p className="scorequest-section-copy mt-5 max-w-md text-sm leading-7 sm:text-base">
+                ScoreQuest is a live cricket scoring platform for local clubs,
+                academies, and community tournaments. Score every ball, keep
+                player records updated, and let viewers follow the match in
+                realtime.
+              </p>
+            </div>
 
-          {/* Essential Links */}
-          <div>
-            <h3 className="text-xl font-semibold mb-4">Essential Links</h3>
-            <ul className="text-gray-300 space-y-2">
-              <li>
-                <a href="#" className="hover:text-white">
-                  Home
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white">
-                  Today’s Match
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white">
-                  Finished Matches
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white">
-                  Upcoming Matches
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white">
-                  Statistics
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white">
-                  Contact Us
-                </a>
-              </li>
-            </ul>
-          </div>
+            <div>
+              <h3 className="text-lg font-semibold text-white">Quick Links</h3>
+              <div className="mt-4 space-y-3">
+                {quickLinks.map((item) => (
+                  <Link
+                    key={item.to}
+                    to={item.to}
+                    className="block text-sm text-slate-300 transition duration-300 hover:text-secondary-goldenPoppy"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
 
-          {/* Contact Information */}
-          <div>
-            <h3 className="text-xl font-semibold mb-4">Contact Information</h3>
-            <ul className="text-gray-300 space-y-2">
-              <li>
-                Email:{" "}
-                <a
-                  href="mailto:support@scorequest.com"
-                  className="hover:text-white"
-                >
-                  asif522666@gmail.com
-                </a>
-              </li>
-              <li>
-                Phone:{" "}
-                <a href="tel:+1234567890" className="hover:text-white">
-                  +8801857610902
-                </a>
-              </li>
-            </ul>
+            <div>
+              <h3 className="text-lg font-semibold text-white">Contact</h3>
+              <div className="mt-4 space-y-3 text-sm text-slate-300">
+                <p>
+                  Email:{" "}
+                  <a
+                    href="mailto:asif522666@gmail.com"
+                    className="transition duration-300 hover:text-secondary-goldenPoppy"
+                  >
+                    asif522666@gmail.com
+                  </a>
+                </p>
+                <p>
+                  Phone:{" "}
+                  <a
+                    href="tel:+8801857610902"
+                    className="transition duration-300 hover:text-secondary-goldenPoppy"
+                  >
+                    +8801857610902
+                  </a>
+                </p>
+              </div>
 
-            {/* Social Media Icons */}
-            <div className="mt-4">
-              <h3 className="text-xl font-semibold mb-2">Follow Us</h3>
-              <div className="flex space-x-4">
-                <a
-                  href="https://www.facebook.com/shaikotahmed.22.asif/"
-                  target="_blank"
-                  className="text-gray-300 hover:text-white"
-                >
-                  <FaFacebook size={24} />
-                </a>
-                <a href="#" className="text-gray-300 hover:text-white">
-                  <FaTwitter size={24} />
-                </a>
-                <a href="#" className="text-gray-300 hover:text-white">
-                  <FaGithub size={24} />
-                </a>
-                <a href="#" className="text-gray-300 hover:text-white">
-                  <FaLinkedin size={24} />
-                </a>
+              <div className="mt-6 flex flex-wrap gap-3">
+                {socialLinks.map((item) => (
+                  <a
+                    key={item.label}
+                    href={item.to}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={item.label}
+                    className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-300 transition duration-300 hover:border-secondary-goldenPoppy hover:text-secondary-goldenPoppy"
+                  >
+                    {item.icon}
+                  </a>
+                ))}
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Terms & Privacy */}
-        <div className="mt-8 border-t border-secondary-coolGray pt-4 text-center text-gray-400">
-          <span>Developed By: </span>{" "}
-          <a
-            href="https://www.facebook.com/shaikotahmed.22.asif/"
-            target="_blank"
-            className="hover:text-white"
-          >
-            Shaikot Ahmed Asif
-          </a>
+          <div className="mt-8 border-t border-white/10 pt-5 text-sm text-slate-400">
+            Developed by{" "}
+            <a
+              href="https://www.facebook.com/shaikotahmed.22.asif/"
+              target="_blank"
+              rel="noreferrer"
+              className="font-semibold text-slate-200 transition duration-300 hover:text-secondary-goldenPoppy"
+            >
+              Shaikot Ahmed Asif
+            </a>
+          </div>
         </div>
       </div>
     </footer>
